@@ -1608,24 +1608,6 @@
         "deprecated": false
       }
     },
-    "/merchant/offers/v1/test": {
-      "get": {
-        "tags": [
-          "Merchant API - Offers - Global"
-        ],
-        "summary": "Does nothing",
-        "description": "Returns a list of stuff",
-        "operationId": "TestDevOperation",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          },
-          "default": {
-            "$ref": "#/responses/GeneralError"
-          }
-        }
-      }
-    },
     "/merchant/offers/v1/{merchantCode}": {
       "post": {
         "tags": [
