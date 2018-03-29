@@ -4329,6 +4329,23 @@
       ],
       "example": "enabled"
     },
+    "merchantEvents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/merchantEvent"
+      }
+    },
+    "merchantEvent": {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "type": "string"
+        },
+        "eventContent": {
+          "type": "object"
+        }
+      }
+    },
     "batchMerchantMarketplaceOfferChanges": {
       "x-format": "Message",
       "type": "object",
@@ -4534,7 +4551,8 @@
             "price",
             "priceCurrency",
             "deliveryLeadTime",
-            "inventoryLevel"
+            "inventoryLevel",
+            "lastUpdateUtcDate"
           ],
           "properties": {
             "price": {
@@ -4560,6 +4578,11 @@
               "items": {
                 "$ref": "#/definitions/deliverySpecification"
               }
+            },
+            "lastUpdateUtcDate": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2018-02-24T14:24:35"
             }
           }
         }
@@ -4581,7 +4604,8 @@
             "price",
             "priceCurrency",
             "deliveryLeadTime",
-            "inventoryLevel"
+            "inventoryLevel",
+            "lastUpdateUtcDate"
           ],
           "properties": {
             "marketplaceCode": {
@@ -4654,8 +4678,8 @@
     "marketplaceCode": {
       "type": "string",
       "description": "The marketplace code identifier in IMN. \nFor now we have:\n- C1 for Cdiscount\n- E1 for ePrice\n- R1 for Real.DE\n- B1 for BOL\n",
-      "pattern": "^([A-Z][0-9]){1}$",
-      "x-pattern": "^([A-Z][0-9]){1}$",
+      "pattern": "^[A-Z][0-9]$",
+      "x-pattern": "^[A-Z][0-9]$",
       "example": "C1"
     },
     "marketplaceMerchantCode": {
@@ -5354,7 +5378,7 @@
           "type": "array",
           "uniqueItems": false,
           "items": {
-            "$ref": "#/definitions/errorResponseMessage"
+            "$ref": "#/definitions/userErrorMessage"
           }
         }
       }
