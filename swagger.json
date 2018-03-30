@@ -1642,7 +1642,7 @@
         }
       }
     },
-    "/": {
+    "/merchant/lov/v1/": {
       "get": {
         "summary": "Get all list names",
         "operationId": "GetUserLovIndex",
@@ -1693,7 +1693,7 @@
         }
       }
     },
-    "/{listName}": {
+    "/merchant/lov/v1/{listName}": {
       "get": {
         "tags": [
           "Merchant API - List of Values - LOV"
@@ -4077,7 +4077,7 @@
         "merchantCode",
         "userId",
         "sourceMarketplaceCode",
-        "targetMarketplacesSubcriptionRequested",
+        "targetMarketplacesSubscriptionRequested",
         "subscriptionRequestUtcDate"
       ],
       "properties": {
@@ -4090,7 +4090,7 @@
         "sourceMarketplaceCode": {
           "$ref": "#/definitions/marketplaceCode"
         },
-        "targetMarketplacesSubcriptionRequested": {
+        "targetMarketplacesSubscriptionRequested": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
