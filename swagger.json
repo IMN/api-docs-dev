@@ -4078,7 +4078,8 @@
         "userId",
         "sourceMarketplaceCode",
         "targetMarketplacesSubscriptionRequested",
-        "subscriptionRequestUtcDate"
+        "subscriptionRequestUtcDate",
+        "salesforceSubscriptionId"
       ],
       "properties": {
         "merchantCode": {
@@ -4102,6 +4103,11 @@
           "type": "string",
           "format": "date-time",
           "description": "The exact date time of the subscription request"
+        },
+        "salesforceSubscriptionId": {
+          "type": "string",
+          "description": "The Salesforce identifier of the subscription",
+          "example": "BLA0O00001v8aNuQAI"
         }
       }
     },
