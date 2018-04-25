@@ -994,20 +994,17 @@
         "deprecated": false
       }
     },
-    "/merchant/orders/v1/{merchantCode}/batches/changeOrders/{changeOrderType}": {
+    "/merchant/orders/v1/{merchantCode}/batches/ship": {
       "post": {
         "tags": [
           "Marketplaces - Orders - Batches"
         ],
-        "operationId": "ChangeOrderList",
-        "summary": "Send a batch of operations to change your marketplace Order information (accept, ship, etc.)",
+        "operationId": "ShipOrderList",
+        "summary": "Ship multiple marketplace orders in one operation",
         "description": "The purpose of this operation is to reduce the amount of request to the API.",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
-          },
-          {
-            "$ref": "#/parameters/changeOrderTypeParameter"
           },
           {
             "$ref": "#/parameters/userNameInQueryParameter"
@@ -1020,7 +1017,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/changeOrderListRequest"
+              "$ref": "#/definitions/shipOrderListRequest"
             }
           }
         ],
@@ -1284,13 +1281,13 @@
         "deprecated": false
       }
     },
-    "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/{changeOrderType}": {
+    "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/accept": {
       "post": {
         "tags": [
           "Marketplaces - Orders - Order"
         ],
-        "operationId": "ChangeOrder",
-        "summary": "Change your marketplace Order Information (accept, ship, etc.)",
+        "operationId": "AcceptOrder",
+        "summary": "Accept your marketplace order",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -1302,7 +1299,142 @@
             "$ref": "#/parameters/imnOrderIdParameter"
           },
           {
-            "$ref": "#/parameters/changeOrderTypeParameter"
+            "$ref": "#/parameters/userNameInQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/testModeInQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/ifMatchParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Order accept request accepted"
+          },
+          "400": {
+            "description": "Invalid order accept request, could not be send to the marketplace. Please check your request.",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "description": "Requested Order could not be found",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "409": {
+            "description": "Already processing a change request for this Order.\\\nPlease refresh your clients Order information and retry later.\n",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "Indicates the duration in seconds to wait to be able to make this request again"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "412": {
+            "$ref": "#/responses/412_PreConditionFailed"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/cancel": {
+      "post": {
+        "tags": [
+          "Marketplaces - Orders - Order"
+        ],
+        "operationId": "CancelOrder",
+        "summary": "Cancel your marketplace order",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/imnOrderIdParameter"
+          },
+          {
+            "$ref": "#/parameters/userNameInQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/testModeInQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/ifMatchParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/cancelOrderRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Order cancel request accepted"
+          },
+          "400": {
+            "description": "Invalid order cancel request, could not be send to the marketplace. Please check your request.",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "description": "Requested Order could not be found",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "409": {
+            "description": "Already processing a change request for this Order.\\\nPlease refresh your clients Order information and retry later.\n",
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "Indicates the duration in seconds to wait to be able to make this request again"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "412": {
+            "$ref": "#/responses/412_PreConditionFailed"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/ship": {
+      "post": {
+        "tags": [
+          "Marketplaces - Orders - Order"
+        ],
+        "operationId": "ShipOrder",
+        "summary": "Ship your marketplace order",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/imnOrderIdParameter"
           },
           {
             "$ref": "#/parameters/userNameInQueryParameter"
@@ -1313,9 +1445,9 @@
           {
             "name": "request",
             "in": "body",
-            "required": false,
+            "required": true,
             "schema": {
-              "$ref": "#/definitions/changeOrderRequest"
+              "$ref": "#/definitions/shipOrderRequest"
             }
           },
           {
@@ -2704,6 +2836,7 @@
         "marketplaceCode",
         "merchantCode",
         "imnOrderId",
+        "imnOrderUrl",
         "order_MarketplaceOrderId",
         "order_Status_IMNOrderStatus",
         "order_PurchaseUtcDate",
@@ -3016,6 +3149,12 @@
               "type": "number",
               "format": "decimal",
               "example": 0.0
+            },
+            "order_AdditionalFee": {
+              "description": "Additional fee related to this order",
+              "type": "number",
+              "format": "decimal",
+              "example": 10.0
             },
             "order_PaymentMethod": {
               "description": "The payment method of this order",
@@ -3705,18 +3844,18 @@
       ],
       "example": "Api"
     },
-    "executionUUID": {
-      "description": "The execution identifier",
-      "format": "uuid",
+    "correlationId": {
+      "description": "The correlation identifier. It's a guid.",
+      "format": "CorrelationId",
       "type": "string",
-      "example": "8D4176FA78D5A7Fffa91e9edc694ec5858be9a1b109507c"
+      "example": "b0d3faea-f881-439f-ba92-02b1168511ea"
     },
     "changeOrderReporting": {
       "description": "The reporting related to a change order operation",
       "type": "object",
       "properties": {
-        "executionUUID": {
-          "$ref": "#/definitions/executionUUID"
+        "correlationId": {
+          "$ref": "#/definitions/correlationId"
         },
         "changeOrderType": {
           "$ref": "#/definitions/businessOperationType"
@@ -3771,36 +3910,37 @@
         }
       }
     },
-    "changeOrderListRequest": {
+    "shipOrderListRequest": {
       "type": "object",
       "description": "Contains all change order operations you want to make",
       "required": [
-        "changeOrders"
+        "shipOrders"
       ],
       "properties": {
-        "changeOrders": {
+        "shipOrders": {
           "type": "array",
           "description": "The change order operations",
           "minLength": 1,
           "maxLength": 100,
           "items": {
-            "$ref": "#/definitions/changeOrderListRequestItem"
+            "$ref": "#/definitions/shipOrderListRequestItem"
           }
         }
       }
     },
-    "changeOrderListRequestItem": {
+    "shipOrderListRequestItem": {
       "type": "object",
       "description": "Contains the order identifier and the change order request",
       "required": [
-        "order"
+        "order",
+        "shipOrderRequest"
       ],
       "properties": {
         "order": {
           "$ref": "#/definitions/orderIdentifierWithETag"
         },
-        "changeOrderRequest": {
-          "$ref": "#/definitions/changeOrderRequest"
+        "shipOrderRequest": {
+          "$ref": "#/definitions/shipOrderRequest"
         }
       }
     },
@@ -3825,19 +3965,186 @@
         }
       ]
     },
-    "changeOrderRequest": {
+    "refundOrderRequest": {
       "type": "object",
-      "description": "All properties with the prefix order_ are translated in the list of values /user/lov#OrderMetaInfoPosted",
-      "additionalProperties": {
-        "type": "string"
+      "description": "The refund order parameters",
+      "required": [
+        "refundReason"
+      ],
+      "properties": {
+        "refundReason": {
+          "$ref": "#/definitions/refundReason"
+        }
+      }
+    },
+    "refundReason": {
+      "type": "string",
+      "description": "The reason why you refund the order",
+      "enum": [
+        "BuyerWarrantyOrRetractation",
+        "WrongPrice",
+        "LateDelivery",
+        "IncorrectDelivery",
+        "IncompleteDelivery",
+        "DamagedDelivery",
+        "BuyerFeedbackTimeout",
+        "BuyerAgreement",
+        "BuyerCancelled",
+        "NoInventory",
+        "ShippingAddressUndeliverable",
+        "Other"
+      ]
+    },
+    "cancelOrderRequest": {
+      "type": "object",
+      "description": "The cancel order parameters",
+      "required": [
+        "cancellationReason"
+      ],
+      "properties": {
+        "cancellationReason": {
+          "$ref": "#/definitions/cancellationReason"
+        }
+      }
+    },
+    "cancellationReason": {
+      "type": "string",
+      "description": "The reason why you cancel the order",
+      "enum": [
+        "WrongPrice",
+        "DelayedInventory",
+        "WrongProductInfo",
+        "BuyerFeedbackTimeout",
+        "BuyerAgreement",
+        "BuyerCancelled",
+        "NoInventory",
+        "ShippingAddressUndeliverable",
+        "Other"
+      ]
+    },
+    "shipOrderRequest": {
+      "type": "object",
+      "description": "The ship order parameters",
+      "required": [
+        "order_Shipping_ShipperTrackingNumber",
+        "order_Shipping_CarrierCode"
+      ],
+      "properties": {
+        "order_Shipping_ShipperTrackingNumber": {
+          "$ref": "#/definitions/order_Shipping_ShipperTrackingNumber"
+        },
+        "order_Shipping_CarrierCode": {
+          "$ref": "#/definitions/order_Shipping_CarrierCode"
+        }
       },
       "example": {
         "order_Shipping_ShipperTrackingNumber": "1H01845163783",
-        "order_Shipping_ShippingUrl": "https://trackingpackage.com?number=1H01845163783",
-        "order_Shipping_CarrierName": "La poste",
-        "order_Shipping_FulfillmentDate": "2014-09-23T09:58:00Z",
-        "order_Shipping_EstimatedDeliveryDate": "2014-09-24T09:58:00Z"
+        "order_Shipping_CarrierCode": "MondialRelay"
       }
+    },
+    "shipOrderWithOtherCarrierRequest": {
+      "type": "object",
+      "description": "The ship order parameters for an unidentified carrier in the order_Shipping_CarrierCode enum",
+      "required": [
+        "order_Shipping_CarrierName",
+        "order_Shipping_ShipperTrackingNumber",
+        "order_Shipping_ShippingUrl"
+      ],
+      "properties": {
+        "order_Shipping_CarrierName": {
+          "$ref": "#/definitions/order_Shipping_CarrierName"
+        },
+        "order_Shipping_ShipperTrackingNumber": {
+          "$ref": "#/definitions/order_Shipping_ShipperTrackingNumber"
+        },
+        "order_Shipping_ShippingUrl": {
+          "$ref": "#/definitions/order_Shipping_ShippingUrl"
+        }
+      },
+      "example": {
+        "order_Shipping_CarrierName": "My special carrier name",
+        "order_Shipping_ShipperTrackingNumber": "1H01845163783",
+        "order_Shipping_ShippingUrl": "https://trackingpackage.com?number=1H01845163783"
+      }
+    },
+    "order_Shipping_CarrierName": {
+      "type": "string",
+      "description": "The carrier name related to the shipping",
+      "example": "My special carrier name"
+    },
+    "order_Shipping_ShippingUrl": {
+      "type": "string",
+      "description": "The shipper url related to the shipping",
+      "example": "https://trackingpackage.com?number=1H01845163783"
+    },
+    "order_Shipping_ShipperTrackingNumber": {
+      "type": "string",
+      "description": "The shipper tracking number related to the shipping",
+      "example": "1H01845163783"
+    },
+    "order_Shipping_CarrierCode": {
+      "type": "string",
+      "example": "MondialRelay",
+      "description": "The carrier code related to the shipping\n- DeutschePost: DeutschePost\n- DHL: DHL\n- GLS: GLS\n- TNT: TNT\n- UPS: UPS\n- DPD: DPD\n- FEDEX: FEDEX\n- 4PX: 4PX\n- Bpost: Bpost\n- ChinaEMSePacket: China EMS (ePacket)\n- ChinaPost: China Post\n- Chronopost: Chronopost\n- CNEExpress: CNE Express\n- ColisPrive: Colis PrivÃ©\n- Colissimo: Colissimo\n- GEODIS: GEODIS\n- LaPosteCourrier: La Poste - Courrier\n- MalaysiaPost: Malaysia Post\n- MondialRelay: Mondial Relay\n- PostNL: PostNL\n- RelaisColis: Relais Colis\n- RoyalMail: Royal Mail\n- SFExpress: SF Express\n- SFCService: SFC Service\n- SingaporePost: Singapore Post\n- USPS: USPS\n- Yanwen: Yanwen\n- AMATI: AMATI\n- BRTID: BRTID\n- BRTRIFMIT: BRTRIFMIT\n- BRTSPED: BRTSPED\n- CORREOS: CORREOS\n- ENERGO: ENERGO\n- FERCAM: FERCAM\n- NEXIVE: NEXIVE\n- ItalianPost: Italian Post\n- SDA: SDA\n- SGTFlyer: SGT Flyer\n- TECNOTRANS: TECNOTRANS\n- Bursped: Bursped\n- Cargoline: Cargoline\n- Computeruniverse: Computeruniverse\n- Dachser: Dachser\n- DHLFreight: DHL Freight\n- dtl: dtl\n- Emons: Emons\n- GEL: GEL\n- Hellmann: Hellmann\n- Hermes: Hermes\n- Hermes2MH: Hermes 2 MH\n- IDSLogistik: IDS Logistik\n- Iloxx: Iloxx\n- KuehneNagel: Kuehne & Nagel\n- Marktanlieferung: Marktanlieferung\n- Rhenus: Rhenus\n- Schenker: Schenker\n- SpeditionGuettler: Spedition Guettler\n",
+      "enum": [
+        "DeutschePost",
+        "DHL",
+        "GLS",
+        "TNT",
+        "UPS",
+        "DPD",
+        "FEDEX",
+        "4PX",
+        "Bpost",
+        "ChinaEMSePacket",
+        "ChinaPost",
+        "Chronopost",
+        "CNEExpress",
+        "ColisPrivÃ©",
+        "Colissimo",
+        "GEODIS",
+        "LaPosteCourrier",
+        "MalaysiaPost",
+        "MondialRelay",
+        "PostNL",
+        "RelaisColis",
+        "RoyalMail",
+        "SFExpress",
+        "SFCService",
+        "SingaporePost",
+        "USPS",
+        "Yanwen",
+        "AMATI",
+        "BRTID",
+        "BRTRIFMIT",
+        "BRTSPED",
+        "CORREOS",
+        "ENERGO",
+        "FERCAM",
+        "NEXIVE",
+        "ItalianPost",
+        "SDA",
+        "SGTFlyer",
+        "TECNOTRANS",
+        "Bursped",
+        "Cargoline",
+        "Computeruniverse",
+        "Dachser",
+        "DHLFreight",
+        "dtl",
+        "Emons",
+        "GEL",
+        "Hellmann",
+        "Hermes",
+        "Hermes2MH",
+        "IDSLogistik",
+        "Iloxx",
+        "KuehneNagel",
+        "Marktanlieferung",
+        "Rhenus",
+        "Schenker",
+        "SpeditionGuettler"
+      ]
     },
     "batchOrderOperationResponse": {
       "description": "The response given by the batch operation",
