@@ -2542,7 +2542,7 @@
       "minimum": 1,
       "default": 1
     },
-    "order_Buyer_Name": {
+    "order_Billing_Name": {
       "description": "Buyer full name",
       "type": "string",
       "example": "Monroe"
@@ -2588,8 +2588,11 @@
           "type": "string",
           "example": "2017-04-01T13:10:01Z"
         },
-        "order_Buyer_Name": {
-          "$ref": "#/definitions/order_Buyer_Name"
+        "order_Billing_FirstName": {
+          "$ref": "#/definitions/order_Billing_Name"
+        },
+        "order_Billing_LastName": {
+          "$ref": "#/definitions/order_Billing_Name"
         },
         "marketplaceOrderIds": {
           "type": "array",
@@ -2895,8 +2898,11 @@
           "type": "string",
           "example": "2017-04-16T10:25:23Z"
         },
-        "order_Buyer_Name": {
-          "$ref": "#/definitions/order_Buyer_Name"
+        "order_Billing_FirstName": {
+          "$ref": "#/definitions/order_Billing_Name"
+        },
+        "order_Billing_LastName": {
+          "$ref": "#/definitions/order_Billing_Name"
         },
         "order_TotalPrice": {
           "description": "The total price of this order (corresponding to the amount paid by the customer)",
@@ -3182,10 +3188,20 @@
               "type": "string",
               "example": "My Company"
             },
-            "order_Shipping_AddressName": {
-              "description": "The name of the person in the shipping address for this order",
+            "order_Shipping_RelayId": {
+              "description": "The company name of the shipping address for this order",
               "type": "string",
-              "example": "Jacques BAUREGARD"
+              "example": "My Company"
+            },
+            "order_Shipping_AddressFirstName": {
+              "description": "The first name of the person in the shipping address for this order",
+              "type": "string",
+              "example": "Jacques"
+            },
+            "order_Shipping_AddressLastName": {
+              "description": "The last name of the person in the shipping address for this order",
+              "type": "string",
+              "example": "BAUREGARD"
             },
             "order_Shipping_Email": {
               "description": "The email of the person in the shipping address for this order",
@@ -3206,6 +3222,11 @@
               "description": "The shipping address line 3 of this order",
               "type": "string",
               "example": "RDC"
+            },
+            "order_Shipping_Comment": {
+              "description": "The shipping comment of this order",
+              "type": "string",
+              "example": "The instructions from the buyer"
             },
             "order_Shipping_AddressPostalCode": {
               "description": "The shipping address postal code of this order",
@@ -3253,6 +3274,11 @@
               "type": "string",
               "example": "DPD Domicile"
             },
+            "order_Shippping_FulfilledBy": {
+              "description": "The shipment is fulfilled by",
+              "type": "string",
+              "example": "Cdiscount Fulfillment"
+            },
             "order_Shipping_ShippingTax": {
               "description": "The shipping tax for this order",
               "type": "number",
@@ -3271,72 +3297,72 @@
               "format": "date-time",
               "example": "2017-04-30T21:30:00Z"
             },
-            "order_Buyer_Identifier": {
+            "order_Billing_Identifier": {
               "description": "The buyer identifier for this order",
               "type": "string",
               "example": "1234567890"
             },
-            "order_Buyer_Civility": {
+            "order_Billing_Civility": {
               "description": "The buyer civility for this order",
               "type": "string",
               "example": "Marseille"
             },
-            "order_Buyer_CompanyName": {
+            "order_Billing_CompanyName": {
               "description": "The buyer company name for this order",
               "type": "string",
               "example": "Marsillia"
             },
-            "order_Buyer_Email": {
+            "order_Billing_Email": {
               "description": "The email of the buyer for this order",
               "type": "string",
               "example": "client_000000@manomano.fr"
             },
-            "order_Buyer_AddressLine1": {
+            "order_Billing_AddressLine1": {
               "description": "The Buyer address line 1 of this order",
               "type": "string",
               "example": "5 rue amÃ©lie"
             },
-            "order_Buyer_AddressLine2": {
+            "order_Billing_AddressLine2": {
               "description": "The Buyer address line 2 of this order",
               "type": "string",
               "example": "BDR"
             },
-            "order_Buyer_AddressLine3": {
+            "order_Billing_AddressLine3": {
               "description": "The Buyer address line 3 of this order",
               "type": "string",
               "example": "RDC"
             },
-            "order_Buyer_AddressPostalCode": {
+            "order_Billing_AddressPostalCode": {
               "description": "The Buyer address postal code of this order",
               "type": "string",
               "example": "13014"
             },
-            "order_Buyer_AddressCity": {
+            "order_Billing_AddressCity": {
               "description": "The Buyer address city of this order",
               "type": "string",
               "example": "Marseille"
             },
-            "order_Buyer_AddressStateOrRegion": {
+            "order_Billing_AddressStateOrRegion": {
               "description": "The Buyer address state or region of this order",
               "type": "string",
               "example": "BDR"
             },
-            "order_Buyer_AddressCountryName": {
+            "order_Billing_AddressCountryName": {
               "description": "The Buyer address country name",
               "type": "string",
               "example": "France"
             },
-            "order_Buyer_AddressCountryIsoCodeAlpha2": {
+            "order_Billing_AddressCountryIsoCodeAlpha2": {
               "description": "The Buyer address country iso code alpha 2 (see http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#/decoding_table for more details)",
               "type": "string",
               "example": "FR"
             },
-            "order_Buyer_Phone": {
+            "order_Billing_Phone": {
               "description": "The phone number of the buyer for this order",
               "type": "string",
               "example": "+33000000101"
             },
-            "order_Buyer_MobilePhone": {
+            "order_Billing_MobilePhone": {
               "description": "The mobile phone number of the buyer for this order",
               "type": "string",
               "example": "+33000000042"
