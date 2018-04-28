@@ -502,6 +502,9 @@
           "403": {
             "$ref": "#/responses/subscriptionNotAcceptedByMarketplace"
           },
+          "412": {
+            "$ref": "#/responses/credentialNotConfigured"
+          },
           "default": {
             "$ref": "#/responses/GeneralError"
           }
@@ -792,8 +795,8 @@
         "tags": [
           "Marketplaces - Orders - Global"
         ],
-        "x-tagGroups": "Martketplaces Orders",
-        "operationId": "GetOrderIndex",
+        "x-tagGroups": "Marketplaces Orders",
+        "operationId": "GetOrderApiIndex",
         "summary": "Get all actions you can do on the order API",
         "parameters": [
           {
@@ -805,9 +808,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Order index",
+            "description": "Order API index",
             "schema": {
-              "$ref": "#/definitions/orderIndex"
+              "$ref": "#/definitions/orderApiIndex"
             }
           },
           "304": {
@@ -2708,65 +2711,6 @@
         }
       ]
     },
-    "imnOrderId": {
-      "description": "The IMN Order identifier",
-      "type": "string",
-      "example": "A0CD3FG",
-      "pattern": "^([A-Z|0-9]){7}$",
-      "x-pattern": "^([A-Z|0-9]){7}$"
-    },
-    "order_MerchantOrderId": {
-      "description": "The order merchant identifier",
-      "type": "string",
-      "example": "MyOrderMerchantId"
-    },
-    "order_MerchantECommerceSoftwareName": {
-      "description": "The e-commerce software name of the merchant",
-      "type": "string",
-      "example": "Prestashop"
-    },
-    "order_MerchantECommerceSoftwareVersion": {
-      "description": "The e-commece software version of the merchant",
-      "type": "string",
-      "example": "123.0.1"
-    },
-    "dateSearchType": {
-      "description": "Indicates on which date you want to make the filter",
-      "type": "string",
-      "enum": [
-        "Modification",
-        "Purchase",
-        "MarketPlaceModification"
-      ],
-      "default": "Modification"
-    },
-    "pageSize": {
-      "description": "Indicate the order count per page",
-      "type": "integer",
-      "format": "int32",
-      "default": 100,
-      "minimum": 25,
-      "maximum": 100,
-      "example": 100
-    },
-    "pageNumber": {
-      "description": "Indicates the page number",
-      "format": "int32",
-      "type": "integer",
-      "example": 1,
-      "minimum": 1,
-      "default": 1
-    },
-    "order_Billing_FirstName": {
-      "description": "Buyer first name",
-      "type": "string",
-      "example": "Marilyn"
-    },
-    "order_Billing_LastName": {
-      "description": "Buyer last name",
-      "type": "string",
-      "example": "Monroe"
-    },
     "orderListRequestWithoutPagination": {
       "type": "object",
       "required": [
@@ -2794,7 +2738,7 @@
           ]
         },
         "dateSearchType": {
-          "$ref": "#/definitions/dateSearchType"
+          "$ref": "#/definitions/orderDateSearchType"
         },
         "beginPeriodUtcDate": {
           "description": "The begin period you want to make the search. \\\nThe period MUST not be greater than 30 days.\nThe begin period MUST be lower than the end period.\n",
@@ -2808,11 +2752,11 @@
           "type": "string",
           "example": "2017-04-01T13:10:01Z"
         },
-        "order_Billing_FirstName": {
-          "$ref": "#/definitions/order_Billing_FirstName"
+        "buyerFirstName": {
+          "$ref": "#/definitions/firstName"
         },
-        "order_Billing_LastName": {
-          "$ref": "#/definitions/order_Billing_LastName"
+        "buyerLastName": {
+          "$ref": "#/definitions/lastName"
         },
         "marketplaceOrderIds": {
           "type": "array",
@@ -2820,14 +2764,14 @@
             "$ref": "#/definitions/marketplaceOrderId"
           },
           "example": [
-            "AmazonOrderId1234"
+            "CdiscountOrderId1234"
           ]
         },
-        "order_MerchantOrderIds": {
+        "merchantOrderIds": {
           "description": "Merchant order id list",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/order_MerchantOrderId"
+            "$ref": "#/definitions/merchantOrderId"
           },
           "example": [
             "MyOrderId1234"
@@ -2865,25 +2809,6 @@
       "x-lov": "OrderChangeBusinessOperationType",
       "example": "ShipOrder"
     },
-    "orderIdentifier": {
-      "type": "object",
-      "required": [
-        "marketplaceCode",
-        "merchantCode",
-        "imnOrderId"
-      ],
-      "properties": {
-        "marketplaceCode": {
-          "$ref": "#/definitions/marketplaceCode"
-        },
-        "merchantCode": {
-          "$ref": "#/definitions/merchantCode"
-        },
-        "imnOrderId": {
-          "$ref": "#/definitions/imnOrderId"
-        }
-      }
-    },
     "clearMerchantOrderInfoListRequest": {
       "type": "object",
       "required": [
@@ -2900,19 +2825,19 @@
           "minItems": 1,
           "example": [
             {
-              "marketplaceCode": "Amazon",
-              "merchantCode": 1234,
-              "imnOrderId": "00000000000000000000000000000000000000000000000"
+              "marketplaceCode": "C1",
+              "merchantCode": "MLT01",
+              "imnOrderId": "X0CD8FG"
             },
             {
-              "marketplaceCode": "Amazon",
-              "merchantCode": 5678,
-              "imnOrderId": "00000000000000000000000000000000000000000000000"
+              "marketplaceCode": "C1",
+              "merchantCode": "MLT01",
+              "imnOrderId": "Y0CD9FG"
             },
             {
-              "marketplaceCode": "Ebay",
-              "merchantCode": 9876,
-              "imnOrderId": "00000000000000000000000000000000000000000000000"
+              "marketplaceCode": "E1",
+              "merchantCode": "MLT01",
+              "imnOrderId": "Z0CD4FG"
             }
           ]
         }
@@ -2921,16 +2846,16 @@
     "setMerchantOrderInfoListRequest": {
       "type": "object",
       "required": [
-        "order_MerchantECommerceSoftwareName",
-        "order_MerchantECommerceSoftwareVersion",
+        "merchantECommerceSoftwareName",
+        "merchantECommerceSoftwareVersion",
         "orders"
       ],
       "properties": {
-        "order_MerchantECommerceSoftwareName": {
-          "$ref": "#/definitions/order_MerchantECommerceSoftwareName"
+        "merchantECommerceSoftwareName": {
+          "$ref": "#/definitions/merchantECommerceSoftwareName"
         },
-        "order_MerchantECommerceSoftwareVersion": {
-          "$ref": "#/definitions/order_MerchantECommerceSoftwareVersion"
+        "merchantECommerceSoftwareVersion": {
+          "$ref": "#/definitions/merchantECommerceSoftwareVersion"
         },
         "orders": {
           "type": "array",
@@ -2942,22 +2867,22 @@
           "minItems": 1,
           "example": [
             {
-              "marketplaceCode": "Amazon",
-              "merchantCode": 1234,
-              "imnOrderId": "8D47FF1427A26B064ca98e95f644361ada5a5be0bbb3b53",
-              "order_MerchantOrderId": "BX1234"
+              "marketplaceCode": "C1",
+              "merchantCode": "MLT01",
+              "imnOrderId": "Z0CD4FG",
+              "merchantOrderId": "BX1234"
             },
             {
-              "marketplaceCode": "Amazon",
-              "merchantCode": 5678,
-              "imnOrderId": "8D47FF149F213D055f26e3c413e4c9ba5c5cfda460547a4",
-              "order_MerchantOrderId": "BX5678"
+              "marketplaceCode": "C1",
+              "merchantCode": "MLT01",
+              "imnOrderId": "Y0CD9FG",
+              "merchantOrderId": "BX5678"
             },
             {
-              "marketplaceCode": "Ebay",
-              "merchantCode": 9876,
-              "imnOrderId": "8D47FF150217B60bdec05ab61c445d1a59e3da050b52823",
-              "order_MerchantOrderId": "BX9876"
+              "marketplaceCode": "E1",
+              "merchantCode": "MLT01",
+              "imnOrderId": "Z0CD4FG",
+              "merchantOrderId": "BX9876"
             }
           ]
         }
@@ -2974,11 +2899,11 @@
             "marketplaceCode",
             "merchantCode",
             "imnOrderId",
-            "order_MerchantOrderId"
+            "merchantOrderId"
           ],
           "properties": {
-            "order_MerchantOrderId": {
-              "$ref": "#/definitions/order_MerchantOrderId"
+            "merchantOrderId": {
+              "$ref": "#/definitions/merchantOrderId"
             }
           }
         }
@@ -2987,19 +2912,19 @@
     "setMerchantOrderInfoRequest": {
       "type": "object",
       "required": [
-        "order_MerchantOrderId",
-        "order_MerchantECommerceSoftwareName",
-        "order_MerchantECommerceSoftwareVersion"
+        "merchantOrderId",
+        "merchantECommerceSoftwareName",
+        "merchantECommerceSoftwareVersion"
       ],
       "properties": {
-        "order_MerchantOrderId": {
-          "$ref": "#/definitions/order_MerchantOrderId"
+        "merchantOrderId": {
+          "$ref": "#/definitions/merchantOrderId"
         },
-        "order_MerchantECommerceSoftwareName": {
-          "$ref": "#/definitions/order_MerchantECommerceSoftwareName"
+        "merchantECommerceSoftwareName": {
+          "$ref": "#/definitions/merchantECommerceSoftwareName"
         },
-        "order_MerchantECommerceSoftwareVersion": {
-          "$ref": "#/definitions/order_MerchantECommerceSoftwareVersion"
+        "merchantECommerceSoftwareVersion": {
+          "$ref": "#/definitions/merchantECommerceSoftwareVersion"
         }
       }
     },
@@ -3022,11 +2947,6 @@
           "type": "string"
         }
       }
-    },
-    "processing": {
-      "description": "If true, there is currently a harvest or an order change in progress. Otherwise false.",
-      "type": "boolean",
-      "example": false
     },
     "links.GetOrderLink": {
       "allOf": [
@@ -3053,18 +2973,18 @@
       }
     },
     "orderHeader": {
-      "description": "Describe the basic information related to an order. All properties with the prefix order_ are translated in the list of values /user/lov/OrderMetaInfoOrderDetails",
+      "description": "Describe the basic information related to an order.",
       "type": "object",
       "required": [
         "marketplaceCode",
         "merchantCode",
         "imnOrderId",
         "imnOrderUrl",
-        "order_MarketplaceOrderId",
-        "order_Status_IMNOrderStatus",
-        "order_PurchaseUtcDate",
-        "order_LastModificationUtcDate",
-        "order_MarketplaceLastModificationUtcDate",
+        "marketplaceOrderId",
+        "imnOrderStatus",
+        "purchaseUtcDate",
+        "imnLastModificationUtcDate",
+        "marketplaceLastModificationUtcDate",
         "processing",
         "etag",
         "links"
@@ -3082,144 +3002,65 @@
         "imnOrderUrl": {
           "$ref": "#/definitions/httpUrl"
         },
-        "order_MarketplaceOrderId": {
+        "marketplaceOrderId": {
           "$ref": "#/definitions/marketplaceOrderId"
         },
-        "order_Status_IMNOrderStatus": {
+        "imnOrderStatus": {
           "$ref": "#/definitions/imnOrderStatus"
         },
-        "order_Status_MarketplaceOrderStatus": {
+        "marketplaceOrderStatus": {
           "$ref": "#/definitions/marketplaceOrderStatus"
         },
-        "order_MerchantOrderId": {
-          "$ref": "#/definitions/order_MerchantOrderId"
+        "merchantOrderId": {
+          "$ref": "#/definitions/merchantOrderId"
         },
-        "order_MerchantECommerceSoftwareName": {
-          "$ref": "#/definitions/order_MerchantECommerceSoftwareName"
+        "merchantECommerceSoftwareName": {
+          "$ref": "#/definitions/merchantECommerceSoftwareName"
         },
-        "order_MerchantECommerceSoftwareVersion": {
-          "$ref": "#/definitions/order_MerchantECommerceSoftwareVersion"
+        "merchantECommerceSoftwareVersion": {
+          "$ref": "#/definitions/merchantECommerceSoftwareVersion"
         },
-        "order_PurchaseUtcDate": {
+        "purchaseUtcDate": {
           "description": "The purchase date of this order",
           "format": "date-time",
           "type": "string",
           "example": "2017-03-31T21:30:23Z"
         },
-        "order_LastModificationUtcDate": {
+        "imnLastModificationUtcDate": {
           "description": "The last modification UTC date done by IMN of this order",
           "format": "date-time",
           "type": "string",
           "example": "2017-04-16T10:30:23Z"
         },
-        "order_MarketplaceLastModificationUtcDate": {
+        "marketplaceLastModificationUtcDate": {
           "description": "The last modification UTC date done by the marketplace on this order",
           "format": "date-time",
           "type": "string",
           "example": "2017-04-16T10:25:23Z"
         },
-        "order_Billing_FirstName": {
-          "$ref": "#/definitions/order_Billing_FirstName"
+        "customerFirstName": {
+          "$ref": "#/definitions/firstName"
         },
-        "order_Billing_LastName": {
-          "$ref": "#/definitions/order_Billing_LastName"
+        "customerLastName": {
+          "$ref": "#/definitions/lastName"
         },
-        "order_TotalPrice": {
+        "totalPrice": {
           "description": "The total price of this order (corresponding to the amount paid by the customer)",
           "format": "decimal",
           "type": "number",
           "example": 101.42
         },
-        "order_CurrencyCode": {
+        "currencyCode": {
           "$ref": "#/definitions/currencyCode"
         },
         "processing": {
-          "$ref": "#/definitions/processing"
+          "$ref": "#/definitions/orderProcessing"
         },
         "etag": {
-          "$ref": "#/definitions/etag"
+          "$ref": "#/definitions/orderEtag"
         },
         "links": {
           "$ref": "#/definitions/orderHeaderLinks"
-        }
-      }
-    },
-    "etag": {
-      "description": "ETag value to identify the order.\\\nThis information is required for the operation GetOrder and ChangeOrder.\\\nFor more details go to this link: http://tools.ietf.org/html/rfc7232#section-2.3\n",
-      "type": "string",
-      "example": "\"ca071a4580129f932a03971968ffef69\""
-    },
-    "orderItem": {
-      "description": "Describe an order item. All properties with the prefix orderItem_ are translated in the list of values /user/lov/OrderMetaInfoOrderItems",
-      "type": "object",
-      "required": [
-        "imnOrderItemId",
-        "orderItem_OrderItemType"
-      ],
-      "properties": {
-        "imnOrderItemId": {
-          "description": "The IMN identifier of the order Item",
-          "type": "string",
-          "example": "1"
-        },
-        "orderItem_Title": {
-          "description": "The title of the order item",
-          "example": "bLA acide-plomb 6v-4.5ah 70x48x106mm",
-          "type": "string"
-        },
-        "orderItem_Condition": {
-          "description": "The condition of the order item",
-          "example": "new",
-          "type": "string"
-        },
-        "orderItem_ImageUrl": {
-          "description": "The URL of the image of the order item",
-          "example": "http://blabla.com//das6-45.jpg",
-          "type": "string"
-        },
-        "orderItem_MerchantOfferSku": {
-          "$ref": "#/definitions/sku"
-        },
-        "orderItem_GTIN": {
-          "$ref": "#/definitions/gtin"
-        },
-        "orderItem_MarketPlaceProductId": {
-          "description": "The marketplace product identifier of the order item",
-          "example": "MarketplaceProductId",
-          "type": "string"
-        },
-        "orderItem_ItemPrice": {
-          "description": "The price of the order item",
-          "example": 6.86,
-          "type": "number",
-          "format": "decimal"
-        },
-        "orderItem_ItemTax": {
-          "description": "The tax of the order item",
-          "type": "number",
-          "format": "decimal",
-          "example": 0.0
-        },
-        "orderItem_Quantity": {
-          "description": "The quantity of the order item",
-          "example": 1,
-          "type": "number",
-          "format": "decimal"
-        },
-        "orderItem_Shipping_Price": {
-          "description": "The shipping price of the order item",
-          "type": "number",
-          "example": 0.0,
-          "format": "decimal"
-        },
-        "orderItem_TotalPrice": {
-          "description": "The total price of the order item",
-          "example": 6.86,
-          "type": "number",
-          "format": "decimal"
-        },
-        "orderItem_MarketplaceProductUrl": {
-          "$ref": "#/definitions/httpUrl"
         }
       }
     },
@@ -3316,17 +3157,17 @@
         },
         {
           "type": "object",
-          "description": "Describe in details all informations related to an order. All properties with the prefix order_ are translated in the list of values /user/lov/OrderMetaInfoOrderDetails.",
+          "description": "Describe in details all informations related to an order.",
           "required": [
             "marketplaceCode",
             "merchantCode",
             "imnOrderId",
             "marketplaceBusinessCode",
-            "order_MarketplaceOrderId",
-            "order_Status_IMNOrderStatus",
-            "order_PurchaseUtcDate",
-            "order_LastModificationUtcDate",
-            "order_MarketplaceLastModificationUtcDate",
+            "marketplaceOrderId",
+            "imnOrderStatus",
+            "purchaseUtcDate",
+            "imnLastModificationUtcDate",
+            "marketplaceLastModificationUtcDate",
             "processing",
             "etag",
             "links",
@@ -3337,233 +3178,50 @@
             "links": {
               "$ref": "#/definitions/orderLinks"
             },
-            "order_MarketPlaceChannel": {
-              "description": "Useful to identify the origin of the order. For example in Amazon.",
+            "marketPlaceChannel": {
+              "description": "Useful to identify the origin of the order. For example in Cdiscount.",
               "type": "string",
-              "example": "Amazon France"
+              "example": "Cdiscount France"
             },
-            "order_TotalTax": {
+            "totalTax": {
               "description": "The total tax of this order",
               "type": "number",
               "format": "decimal",
               "example": 0.0
             },
-            "order_TotalCommission": {
+            "totalCommission": {
               "description": "The total commission of this order",
               "type": "number",
               "format": "decimal",
               "example": 0.0
             },
-            "order_AdditionalFee": {
+            "additionalFee": {
               "description": "Additional fee related to this order",
               "type": "number",
               "format": "decimal",
               "example": 10.0
             },
-            "order_PaymentMethod": {
+            "paymentMethod": {
               "description": "The payment method of this order",
               "type": "string",
               "example": "1 / 1X"
             },
-            "order_PayingUtcDate": {
+            "payingUtcDate": {
               "description": "The UTC date of the payment of this order",
               "type": "string",
               "format": "date-time",
               "example": "2017-04-01T13:22:01Z"
             },
-            "order_Comment": {
+            "comment": {
               "description": "The comment associated to this order",
               "type": "string",
               "example": "This is a comment"
             },
-            "order_Shipping_Civility": {
-              "description": "The civility of the person in the shipping address for this order",
-              "type": "string",
-              "example": "MRS"
+            "billing": {
+              "$ref": "#/definitions/orderBillingInfo"
             },
-            "order_Shipping_CompanyName": {
-              "description": "The company name of the shipping address for this order",
-              "type": "string",
-              "example": "My Company"
-            },
-            "order_Shipping_RelayId": {
-              "description": "The company name of the shipping address for this order",
-              "type": "string",
-              "example": "My Company"
-            },
-            "order_Shipping_AddressFirstName": {
-              "description": "The first name of the person in the shipping address for this order",
-              "type": "string",
-              "example": "Jacques"
-            },
-            "order_Shipping_AddressLastName": {
-              "description": "The last name of the person in the shipping address for this order",
-              "type": "string",
-              "example": "BAUREGARD"
-            },
-            "order_Shipping_Email": {
-              "description": "The email of the person in the shipping address for this order",
-              "type": "string",
-              "example": "client_000000@manomano.fr"
-            },
-            "order_Shipping_AddressLine1": {
-              "description": "The shipping address line 1 of this order",
-              "type": "string",
-              "example": "5 rue amÃ©lie"
-            },
-            "order_Shipping_AddressLine2": {
-              "description": "The shipping address line 2 of this order",
-              "type": "string",
-              "example": "BDR"
-            },
-            "order_Shipping_AddressLine3": {
-              "description": "The shipping address line 3 of this order",
-              "type": "string",
-              "example": "RDC"
-            },
-            "order_Shipping_Comment": {
-              "description": "The shipping comment of this order",
-              "type": "string",
-              "example": "The instructions from the buyer"
-            },
-            "order_Shipping_AddressPostalCode": {
-              "description": "The shipping address postal code of this order",
-              "type": "string",
-              "example": "13014"
-            },
-            "order_Shipping_AddressCity": {
-              "description": "The shipping address city of this order",
-              "type": "string",
-              "example": "Marseille"
-            },
-            "order_Shipping_AddressStateOrRegion": {
-              "description": "The shipping address state or region of this order",
-              "type": "string",
-              "example": "BDR"
-            },
-            "order_Shipping_AddressCountryName": {
-              "description": "The shipping address country name",
-              "type": "string",
-              "example": "France"
-            },
-            "order_Shipping_AddressCountryIsoCodeAlpha2": {
-              "description": "The shipping address country iso code alpha 2 (see http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#/decoding_table for more details)",
-              "type": "string",
-              "example": "FR"
-            },
-            "order_Shipping_Phone": {
-              "description": "The phone number of the person in the shipping address for this order",
-              "type": "string",
-              "example": "+33000000041"
-            },
-            "order_Shipping_MobilePhone": {
-              "description": "The mobile phone number of the person in the shipping address for this order",
-              "type": "string",
-              "example": "+33000000042"
-            },
-            "order_Shipping_Price": {
-              "description": "The shipping price of this order",
-              "type": "number",
-              "format": "decimal",
-              "example": 6.9
-            },
-            "order_Shipping_Method": {
-              "description": "The shipping method of this order",
-              "type": "string",
-              "example": "DPD Domicile"
-            },
-            "order_Shippping_FulfilledBy": {
-              "description": "The shipment is fulfilled by",
-              "type": "string",
-              "example": "Cdiscount Fulfillment"
-            },
-            "order_Shipping_ShippingTax": {
-              "description": "The shipping tax for this order",
-              "type": "number",
-              "format": "decimal",
-              "example": 0.0
-            },
-            "order_Shipping_EarliestShipUtcDate": {
-              "description": "The UTC date of the earliest ship for this order",
-              "type": "string",
-              "example": "2017-04-02T21:30:00Z",
-              "format": "date-time"
-            },
-            "order_Shipping_LatestShipUtcDate": {
-              "description": "The UTC date of the latest ship for this order",
-              "type": "string",
-              "format": "date-time",
-              "example": "2017-04-30T21:30:00Z"
-            },
-            "order_Billing_Identifier": {
-              "description": "The buyer identifier for this order",
-              "type": "string",
-              "example": "1234567890"
-            },
-            "order_Billing_Civility": {
-              "description": "The buyer civility for this order",
-              "type": "string",
-              "example": "Marseille"
-            },
-            "order_Billing_CompanyName": {
-              "description": "The buyer company name for this order",
-              "type": "string",
-              "example": "Marsillia"
-            },
-            "order_Billing_Email": {
-              "description": "The email of the buyer for this order",
-              "type": "string",
-              "example": "client_000000@manomano.fr"
-            },
-            "order_Billing_AddressLine1": {
-              "description": "The Buyer address line 1 of this order",
-              "type": "string",
-              "example": "5 rue amÃ©lie"
-            },
-            "order_Billing_AddressLine2": {
-              "description": "The Buyer address line 2 of this order",
-              "type": "string",
-              "example": "BDR"
-            },
-            "order_Billing_AddressLine3": {
-              "description": "The Buyer address line 3 of this order",
-              "type": "string",
-              "example": "RDC"
-            },
-            "order_Billing_AddressPostalCode": {
-              "description": "The Buyer address postal code of this order",
-              "type": "string",
-              "example": "13014"
-            },
-            "order_Billing_AddressCity": {
-              "description": "The Buyer address city of this order",
-              "type": "string",
-              "example": "Marseille"
-            },
-            "order_Billing_AddressStateOrRegion": {
-              "description": "The Buyer address state or region of this order",
-              "type": "string",
-              "example": "BDR"
-            },
-            "order_Billing_AddressCountryName": {
-              "description": "The Buyer address country name",
-              "type": "string",
-              "example": "France"
-            },
-            "order_Billing_AddressCountryIsoCodeAlpha2": {
-              "description": "The Buyer address country iso code alpha 2 (see http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#/decoding_table for more details)",
-              "type": "string",
-              "example": "FR"
-            },
-            "order_Billing_Phone": {
-              "description": "The phone number of the buyer for this order",
-              "type": "string",
-              "example": "+33000000101"
-            },
-            "order_Billing_MobilePhone": {
-              "description": "The mobile phone number of the buyer for this order",
-              "type": "string",
-              "example": "+33000000042"
+            "shipping": {
+              "$ref": "#/definitions/orderShippingInfo"
             },
             "orderItems": {
               "type": "array",
@@ -3624,7 +3282,7 @@
         }
       }
     },
-    "orderIndex": {
+    "orderApiIndex": {
       "type": "object",
       "required": [
         "links",
@@ -3632,27 +3290,27 @@
       ],
       "properties": {
         "links": {
-          "$ref": "#/definitions/orderIndexLinks"
+          "$ref": "#/definitions/orderApiIndexLinks"
         },
         "lovLinks": {
-          "$ref": "#/definitions/orderIndexLovLinks"
+          "$ref": "#/definitions/orderApiIndexLovLinks"
         }
       }
     },
-    "links.GetOrderIndexLink": {
+    "links.GetOrderApiIndexLink": {
       "allOf": [
         {
           "$ref": "#/definitions/link3"
         },
         {
           "example": {
-            "href": "/merchant/orders/v1",
+            "href": "/merchant/orders/v1/MLT01",
             "method": "GET"
           }
         }
       ]
     },
-    "orderIndexLinks": {
+    "orderApiIndexLinks": {
       "description": "Gives you all entry point operations you can do on this API",
       "type": "object",
       "required": [
@@ -3667,7 +3325,7 @@
       ],
       "properties": {
         "self": {
-          "$ref": "#/definitions/links.GetOrderIndexLink"
+          "$ref": "#/definitions/links.GetOrderApiIndexLink"
         },
         "setMerchantInfos": {
           "$ref": "#/definitions/links.SetMerchantOrderInfoListLink"
@@ -3683,7 +3341,7 @@
         }
       }
     },
-    "orderIndexLovLinks": {
+    "orderApiIndexLovLinks": {
       "description": "Gives you all the LOV to get the translations realated to operation name, codes, property names and statuses.",
       "type": "object",
       "required": [
@@ -3895,22 +3553,6 @@
         }
       }
     },
-    "imnOrderStatus": {
-      "type": "string",
-      "description": "IMN order status. Unified for all marketplaces.",
-      "example": "Shipped",
-      "x-lov": "IMNOrderState"
-    },
-    "marketplaceOrderStatus": {
-      "description": "The marketplace order state",
-      "type": "string",
-      "example": "In_progress_3"
-    },
-    "marketplaceOrderId": {
-      "description": "The order marketplace identifier",
-      "type": "string",
-      "example": "AMAZON12345"
-    },
     "orderHistory": {
       "description": "Describe the history related to an order",
       "type": "object",
@@ -3936,12 +3578,6 @@
         "Go"
       ],
       "example": "Api"
-    },
-    "correlationId": {
-      "description": "The correlation identifier. It's a guid.",
-      "format": "CorrelationId",
-      "type": "string",
-      "example": "b0d3faea-f881-439f-ba92-02b1168511ea"
     },
     "changeOrderReporting": {
       "description": "The reporting related to a change order operation",
@@ -4150,7 +3786,7 @@
           ],
           "properties": {
             "etag": {
-              "$ref": "#/definitions/etag"
+              "$ref": "#/definitions/orderEtag"
             }
           }
         }
@@ -4168,24 +3804,6 @@
         }
       }
     },
-    "refundReason": {
-      "type": "string",
-      "description": "The reason why you refund the order",
-      "enum": [
-        "BuyerWarrantyOrRetractation",
-        "WrongPrice",
-        "LateDelivery",
-        "IncorrectDelivery",
-        "IncompleteDelivery",
-        "DamagedDelivery",
-        "BuyerFeedbackTimeout",
-        "BuyerAgreement",
-        "BuyerCancelled",
-        "NoInventory",
-        "ShippingAddressUndeliverable",
-        "Other"
-      ]
-    },
     "cancelOrderRequest": {
       "type": "object",
       "description": "The cancel order parameters",
@@ -4198,144 +3816,50 @@
         }
       }
     },
-    "cancellationReason": {
-      "type": "string",
-      "description": "The reason why you cancel the order",
-      "enum": [
-        "WrongPrice",
-        "DelayedInventory",
-        "WrongProductInfo",
-        "BuyerFeedbackTimeout",
-        "BuyerAgreement",
-        "BuyerCancelled",
-        "NoInventory",
-        "ShippingAddressUndeliverable",
-        "Other"
-      ]
-    },
     "shipOrderRequest": {
       "type": "object",
       "description": "The ship order parameters",
       "required": [
-        "order_Shipping_ShipperTrackingNumber",
-        "order_Shipping_CarrierCode"
+        "trackingNumber",
+        "carrierCode"
       ],
       "properties": {
-        "order_Shipping_ShipperTrackingNumber": {
-          "$ref": "#/definitions/order_Shipping_ShipperTrackingNumber"
+        "trackingNumber": {
+          "$ref": "#/definitions/trackingNumber"
         },
-        "order_Shipping_CarrierCode": {
-          "$ref": "#/definitions/order_Shipping_CarrierCode"
+        "carrierCode": {
+          "$ref": "#/definitions/carrierCode"
         }
       },
       "example": {
-        "order_Shipping_ShipperTrackingNumber": "1H01845163783",
-        "order_Shipping_CarrierCode": "MondialRelay"
+        "trackingNumber": "1H01845163783",
+        "carrierCode": "MondialRelay"
       }
     },
     "shipOrderWithOtherCarrierRequest": {
       "type": "object",
-      "description": "The ship order parameters for an unidentified carrier in the order_Shipping_CarrierCode enum",
+      "description": "The ship order parameters for an unidentified carrier in the carrierCode enum",
       "required": [
-        "order_Shipping_CarrierName",
-        "order_Shipping_ShipperTrackingNumber",
-        "order_Shipping_ShippingUrl"
+        "carrierName",
+        "trackingNumber",
+        "trackingUrl"
       ],
       "properties": {
-        "order_Shipping_CarrierName": {
-          "$ref": "#/definitions/order_Shipping_CarrierName"
+        "carrierName": {
+          "$ref": "#/definitions/carrierName"
         },
-        "order_Shipping_ShipperTrackingNumber": {
-          "$ref": "#/definitions/order_Shipping_ShipperTrackingNumber"
+        "trackingNumber": {
+          "$ref": "#/definitions/trackingNumber"
         },
-        "order_Shipping_ShippingUrl": {
-          "$ref": "#/definitions/order_Shipping_ShippingUrl"
+        "trackingUrl": {
+          "$ref": "#/definitions/trackingUrl"
         }
       },
       "example": {
-        "order_Shipping_CarrierName": "My special carrier name",
-        "order_Shipping_ShipperTrackingNumber": "1H01845163783",
-        "order_Shipping_ShippingUrl": "https://trackingpackage.com?number=1H01845163783"
+        "carrierName": "My special carrier name",
+        "trackingNumber": "1H01845163783",
+        "shippingUrl": "https://trackingpackage.com?number=1H01845163783"
       }
-    },
-    "order_Shipping_CarrierName": {
-      "type": "string",
-      "description": "The carrier name related to the shipping",
-      "example": "My special carrier name"
-    },
-    "order_Shipping_ShippingUrl": {
-      "type": "string",
-      "description": "The shipper url related to the shipping",
-      "example": "https://trackingpackage.com?number=1H01845163783"
-    },
-    "order_Shipping_ShipperTrackingNumber": {
-      "type": "string",
-      "description": "The shipper tracking number related to the shipping",
-      "example": "1H01845163783"
-    },
-    "order_Shipping_CarrierCode": {
-      "type": "string",
-      "example": "MondialRelay",
-      "description": "The carrier code related to the shipping\n- DeutschePost: DeutschePost\n- DHL: DHL\n- GLS: GLS\n- TNT: TNT\n- UPS: UPS\n- DPD: DPD\n- FEDEX: FEDEX\n- 4PX: 4PX\n- Bpost: Bpost\n- ChinaEMSePacket: China EMS (ePacket)\n- ChinaPost: China Post\n- Chronopost: Chronopost\n- CNEExpress: CNE Express\n- ColisPrive: Colis PrivÃ©\n- Colissimo: Colissimo\n- GEODIS: GEODIS\n- LaPosteCourrier: La Poste - Courrier\n- MalaysiaPost: Malaysia Post\n- MondialRelay: Mondial Relay\n- PostNL: PostNL\n- RelaisColis: Relais Colis\n- RoyalMail: Royal Mail\n- SFExpress: SF Express\n- SFCService: SFC Service\n- SingaporePost: Singapore Post\n- USPS: USPS\n- Yanwen: Yanwen\n- AMATI: AMATI\n- BRTID: BRTID\n- BRTRIFMIT: BRTRIFMIT\n- BRTSPED: BRTSPED\n- CORREOS: CORREOS\n- ENERGO: ENERGO\n- FERCAM: FERCAM\n- NEXIVE: NEXIVE\n- ItalianPost: Italian Post\n- SDA: SDA\n- SGTFlyer: SGT Flyer\n- TECNOTRANS: TECNOTRANS\n- Bursped: Bursped\n- Cargoline: Cargoline\n- Computeruniverse: Computeruniverse\n- Dachser: Dachser\n- DHLFreight: DHL Freight\n- dtl: dtl\n- Emons: Emons\n- GEL: GEL\n- Hellmann: Hellmann\n- Hermes: Hermes\n- Hermes2MH: Hermes 2 MH\n- IDSLogistik: IDS Logistik\n- Iloxx: Iloxx\n- KuehneNagel: Kuehne & Nagel\n- Marktanlieferung: Marktanlieferung\n- Rhenus: Rhenus\n- Schenker: Schenker\n- SpeditionGuettler: Spedition Guettler\n",
-      "enum": [
-        "DeutschePost",
-        "DHL",
-        "GLS",
-        "TNT",
-        "UPS",
-        "DPD",
-        "FEDEX",
-        "4PX",
-        "Bpost",
-        "ChinaEMSePacket",
-        "ChinaPost",
-        "Chronopost",
-        "CNEExpress",
-        "ColisPrivÃ©",
-        "Colissimo",
-        "GEODIS",
-        "LaPosteCourrier",
-        "MalaysiaPost",
-        "MondialRelay",
-        "PostNL",
-        "RelaisColis",
-        "RoyalMail",
-        "SFExpress",
-        "SFCService",
-        "SingaporePost",
-        "USPS",
-        "Yanwen",
-        "AMATI",
-        "BRTID",
-        "BRTRIFMIT",
-        "BRTSPED",
-        "CORREOS",
-        "ENERGO",
-        "FERCAM",
-        "NEXIVE",
-        "ItalianPost",
-        "SDA",
-        "SGTFlyer",
-        "TECNOTRANS",
-        "Bursped",
-        "Cargoline",
-        "Computeruniverse",
-        "Dachser",
-        "DHLFreight",
-        "dtl",
-        "Emons",
-        "GEL",
-        "Hellmann",
-        "Hermes",
-        "Hermes2MH",
-        "IDSLogistik",
-        "Iloxx",
-        "KuehneNagel",
-        "Marktanlieferung",
-        "Rhenus",
-        "Schenker",
-        "SpeditionGuettler"
-      ]
     },
     "batchOrderOperationResponse": {
       "description": "The response given by the batch operation",
@@ -5238,6 +4762,37 @@
         }
       }
     },
+    "firstName": {
+      "type": "string",
+      "description": "The first name of a person",
+      "example": "Marilyne"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "The last name of a person",
+      "example": "Monroe"
+    },
+    "correlationId": {
+      "x-exclude": true,
+      "description": "The correlation identifier. It's a guid.",
+      "format": "CorrelationId",
+      "type": "string",
+      "example": "b0d3faea-f881-439f-ba92-02b1168511ea"
+    },
+    "messageId": {
+      "x-exclude": true,
+      "description": "The message identifier. It's a guid.",
+      "format": "MessageId",
+      "type": "string",
+      "example": "b0d3faea-f881-439f-ba92-02b1168511ea"
+    },
+    "causeId": {
+      "x-exclude": true,
+      "description": "The cause identifier. It's a guid.",
+      "format": "CauseId",
+      "type": "string",
+      "example": "b0d3faea-f881-439f-ba92-02b1168511ea"
+    },
     "merchantCode": {
       "type": "string",
       "description": "The merchant code identifier in IMN",
@@ -5247,7 +4802,7 @@
     },
     "marketplaceCode": {
       "type": "string",
-      "description": "The marketplace code identifier in IMN. \nFor now we have:\n- C1 for Cdiscount\n- E1 for ePrice\n- R1 for Real.DE\n- B1 for BOL\n",
+      "description": "The marketplace code identifier in IMN. \nFor now we have:\n- C1 for Cdiscount\n- E1 for ePrice\n- R1 for Real.DE\n- B1 for BOL\n- E2 for eMAG\n",
       "pattern": "^[A-Z][0-9]$",
       "x-pattern": "^[A-Z][0-9]$",
       "example": "C1"
@@ -5267,6 +4822,26 @@
           "$ref": "#/definitions/pageNumber"
         }
       }
+    },
+    "pageSize": {
+      "description": "Indicate the item count per page",
+      "type": "integer",
+      "format": "int32",
+      "default": 100,
+      "minimum": 25,
+      "x-minimum": 25,
+      "maximum": 100,
+      "x-maximum": 100,
+      "example": 100
+    },
+    "pageNumber": {
+      "description": "Indicates the page number",
+      "format": "int32",
+      "type": "integer",
+      "example": 1,
+      "minimum": 1,
+      "x-minimum": 1,
+      "default": 1
     },
     "catalogCategoryFilter": {
       "type": "object",
@@ -6251,39 +5826,6 @@
     }
   ],
   "parameters": {
-    "imnOrderIdParameter": {
-      "description": "The IMN Order identifier",
-      "name": "imnOrderId",
-      "in": "path",
-      "required": true,
-      "type": "string",
-      "format": "uuid",
-      "x-example": "00000000000000000000000000000000000000000000000"
-    },
-    "changeOrderTypeParameter": {
-      "description": "The Order change type",
-      "name": "changeOrderType",
-      "in": "path",
-      "required": true,
-      "type": "string",
-      "x-lov": "OrderChangeBusinessOperationType"
-    },
-    "userNameInQueryParameter": {
-      "name": "userName",
-      "description": "Sometimes the user in the e-commerce application is not the same as user associated with the current subscription key. We recommend providing your application's user login.",
-      "in": "query",
-      "required": true,
-      "type": "string"
-    },
-    "testModeInQueryParameter": {
-      "name": "testMode",
-      "description": "If true, the operation will be not be sent to marketplace. But the validation will be taken in account.",
-      "in": "query",
-      "required": false,
-      "type": "boolean",
-      "default": false,
-      "x-example": false
-    },
     "storeIdOnlyGeneralParameters": {
       "name": "storeId",
       "in": "path",
@@ -6481,10 +6023,19 @@
         "$ref": "#/definitions/errorResponseMessage"
       }
     },
-    "subscriptionNotAcceptedByMarketplace": {
-      "description": "The subscription is not accepted by marketplace",
+    "subscriptionNotAccepted": {
+      "description": "The subscription is not accepted by the marketplace",
       "x-exceptions": [
-        "SubscriptionNotAcceptedByMarketplaceException"
+        "SubscriptionNotAcceptedException"
+      ],
+      "schema": {
+        "$ref": "#/definitions/userErrorMessage"
+      }
+    },
+    "credentialNotConfigured": {
+      "description": "The credential is not configured for the marketplace",
+      "x-exceptions": [
+        "CredentialNotConfiguredException"
       ],
       "schema": {
         "$ref": "#/definitions/userErrorMessage"
