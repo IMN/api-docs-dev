@@ -500,7 +500,7 @@
             "$ref": "#/responses/invalidMerchantCode"
           },
           "403": {
-            "$ref": "#/responses/subscriptionNotAcceptedByMarketplace"
+            "$ref": "#/responses/subscriptionNotAccepted"
           },
           "412": {
             "$ref": "#/responses/credentialNotConfigured"
@@ -599,7 +599,10 @@
             "$ref": "#/responses/invalidMerchantCode"
           },
           "403": {
-            "$ref": "#/responses/subscriptionNotAcceptedByMarketplace"
+            "$ref": "#/responses/subscriptionNotAccepted"
+          },
+          "412": {
+            "$ref": "#/responses/credentialNotConfigured"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -2263,42 +2266,14 @@
         }
       ]
     },
-    "externalLinks.MarketplacePricingRuleTypeLOVLink": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/LOVLink3"
-        },
-        {
-          "type": "object",
-          "example": {
-            "href": "/v1/user/lov/MarketplacePricingRuleType",
-            "method": "GET"
-          }
-        }
-      ]
-    },
-    "externalLinks.ShippingTypeStandardLOVLink": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/LOVLink3"
-        },
-        {
-          "type": "object",
-          "example": {
-            "href": "/v1/user/lov/ShippingTypeStandard",
-            "method": "GET"
-          }
-        }
-      ]
-    },
     "marketplacesIndexLinks": {
       "type": "object",
       "properties": {
         "pricingRuleTypeLOV": {
-          "$ref": "#/definitions/externalLinks.MarketplacePricingRuleTypeLOVLink"
+          "$ref": "#/definitions/LOVLink3"
         },
         "shippingTypeStandardLOV": {
-          "$ref": "#/definitions/externalLinks.ShippingTypeStandardLOVLink"
+          "$ref": "#/definitions/LOVLink3"
         }
       }
     },
@@ -4460,7 +4435,7 @@
         "deleted": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/merchantOfferIdentifier"
+            "$ref": "#/definitions/merchantMarketplaceOfferIdentifier"
           }
         }
       }
@@ -4489,16 +4464,6 @@
           }
         }
       }
-    },
-    "sku": {
-      "type": "string",
-      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
-      "maxLength": 50
-    },
-    "gtin": {
-      "type": "string",
-      "description": "Global Trade Item Number (GTIN) of the item. \nSupported values:\n\n- UPC (in North America / GTIN-12) \n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
-      "maxLength": 50
     },
     "price": {
       "x-exclude": true,
@@ -4802,7 +4767,7 @@
     },
     "marketplaceCode": {
       "type": "string",
-      "description": "The marketplace code identifier in IMN. \nFor now we have:\n- C1 for Cdiscount\n- E1 for ePrice\n- R1 for Real.DE\n- B1 for BOL\n- E2 for eMAG\n",
+      "description": "The marketplace code identifier in IMN.\nFor now we have:\n- C1 for Cdiscount\n- E1 for ePrice\n- R1 for Real.DE\n- B1 for BOL\n- E2 for eMAG\n",
       "pattern": "^[A-Z][0-9]$",
       "x-pattern": "^[A-Z][0-9]$",
       "example": "C1"
@@ -4900,7 +4865,7 @@
           "$ref": "#/definitions/productFilterOperatorName"
         },
         "values": {
-          "description": "Must be null if the operator is \"IsNull\" or \"IsNotNull\". \nCan contains multiple value in case of \"InList\" operator. Otherwise a single value is expected.\n",
+          "description": "Must be null if the operator is \"IsNull\" or \"IsNotNull\".\nCan contains multiple value in case of \"InList\" operator. Otherwise a single value is expected.\n",
           "type": "array",
           "items": {
             "type": "string"
@@ -4938,6 +4903,16 @@
         "IsNull",
         "IsNotNull"
       ]
+    },
+    "sku": {
+      "type": "string",
+      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
+      "maxLength": 50
+    },
+    "gtin": {
+      "type": "string",
+      "description": "Global Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
+      "maxLength": 50
     },
     "productBasicInfo": {
       "description": "The basic information related to a product",
