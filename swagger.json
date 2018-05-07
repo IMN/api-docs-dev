@@ -2978,51 +2978,6 @@
         }
       ]
     },
-    "orderInfo": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/orderMarketplaceInfo"
-        },
-        {
-          "type": "object",
-          "description": "Describe in details all informations related to an order.",
-          "required": [
-            "marketplaceCode",
-            "merchantCode",
-            "imnOrderId",
-            "marketplaceOrderId",
-            "imnOrderStatus",
-            "purchaseUtcDate",
-            "marketplaceLastModificationUtcDate",
-            "paymentInfo",
-            "billingInfo",
-            "shippingInfo",
-            "etag",
-            "orderItems",
-            "imnOrderUrl",
-            "imnLastModificationUtcDate",
-            "processing"
-          ]
-        }
-      ],
-      "properties": {
-        "orderMerchantInfo": {
-          "$ref": "#/definitions/orderMerchantInfo"
-        },
-        "imnOrderUrl": {
-          "$ref": "#/definitions/httpUrl"
-        },
-        "imnLastModificationUtcDate": {
-          "description": "The last modification UTC date done by IMN of this order",
-          "format": "date-time",
-          "type": "string",
-          "example": "2017-04-16T10:30:23Z"
-        },
-        "processing": {
-          "$ref": "#/definitions/orderProcessing"
-        }
-      }
-    },
     "orderIndex": {
       "type": "object",
       "description": "Describe in details all informations related to an order.",
