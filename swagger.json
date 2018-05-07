@@ -4615,17 +4615,17 @@
             "orderItems",
             "merchantInfo",
             "imnInfo"
-          ]
+          ],
+          "properties": {
+            "merchantInfo": {
+              "$ref": "#/definitions/orderMerchantInfo"
+            },
+            "imnInfo": {
+              "$ref": "#/definitions/orderIMNInfo"
+            }
+          }
         }
-      ],
-      "properties": {
-        "merchantInfo": {
-          "$ref": "#/definitions/orderMerchantInfo"
-        },
-        "imnInfo": {
-          "$ref": "#/definitions/orderIMNInfo"
-        }
-      }
+      ]
     },
     "orderIMNInfo": {
       "type": "object",
