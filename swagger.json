@@ -826,7 +826,7 @@
         "deprecated": false
       }
     },
-    "/merchant/orders/v1/{merchantCode}/list/full": {
+    "/merchant/orders/v1/{merchantCode}/list": {
       "post": {
         "tags": [
           "Marketplaces - Orders - List"
@@ -863,46 +863,6 @@
             "description": "Successfully fetched the full list of Orders",
             "schema": {
               "$ref": "#/definitions/orderListFull"
-            }
-          },
-          "400": {
-            "description": "Could not process request for given parameters values. Please check error message for more details.",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
-          },
-          "default": {
-            "$ref": "#/responses/GeneralError"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/merchant/orders/v1/{merchantCode}/list/light": {
-      "post": {
-        "tags": [
-          "Marketplaces - Orders - List"
-        ],
-        "operationId": "GetOrderListLight",
-        "summary": "Get a paginated list of all Orders without details",
-        "parameters": [
-          {
-            "$ref": "#/parameters/merchantCodeParameter"
-          },
-          {
-            "name": "request",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/orderListRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully fetched the list of Orders",
-            "schema": {
-              "$ref": "#/definitions/orderListLight"
             }
           },
           "400": {
@@ -1275,7 +1235,7 @@
               }
             },
             "schema": {
-              "$ref": "#/definitions/order"
+              "$ref": "#/definitions/orderIndex"
             }
           },
           "304": {
@@ -2936,135 +2896,28 @@
         }
       ]
     },
-    "orderHeaderLinks": {
+    "orderLinks": {
       "type": "object",
       "required": [
-        "self"
+        "self",
+        "history",
+        "setMerchantInfo",
+        "clearMerchantInfo"
       ],
       "properties": {
         "self": {
           "$ref": "#/definitions/links.GetOrderLink"
+        },
+        "history": {
+          "$ref": "#/definitions/links.GetOrderHistoryLink"
+        },
+        "setMerchantInfo": {
+          "$ref": "#/definitions/links.SetMerchantOrderInfoLink"
+        },
+        "clearMerchantInfo": {
+          "$ref": "#/definitions/links.ClearMerchantOrderInfoLink"
         }
       }
-    },
-    "orderHeader": {
-      "description": "Describe the basic information related to an order.",
-      "type": "object",
-      "required": [
-        "marketplaceCode",
-        "merchantCode",
-        "imnOrderId",
-        "imnOrderUrl",
-        "marketplaceOrderId",
-        "imnOrderStatus",
-        "purchaseUtcDate",
-        "imnLastModificationUtcDate",
-        "marketplaceLastModificationUtcDate",
-        "processing",
-        "etag",
-        "links"
-      ],
-      "properties": {
-        "marketplaceCode": {
-          "$ref": "#/definitions/marketplaceCode"
-        },
-        "merchantCode": {
-          "$ref": "#/definitions/merchantCode"
-        },
-        "imnOrderId": {
-          "$ref": "#/definitions/imnOrderId"
-        },
-        "imnOrderUrl": {
-          "$ref": "#/definitions/httpUrl"
-        },
-        "marketplaceOrderId": {
-          "$ref": "#/definitions/marketplaceOrderId"
-        },
-        "imnOrderStatus": {
-          "$ref": "#/definitions/imnOrderStatus"
-        },
-        "marketplaceOrderStatus": {
-          "$ref": "#/definitions/marketplaceOrderStatus"
-        },
-        "merchantOrderId": {
-          "$ref": "#/definitions/merchantOrderId"
-        },
-        "merchantECommerceSoftwareName": {
-          "$ref": "#/definitions/merchantECommerceSoftwareName"
-        },
-        "merchantECommerceSoftwareVersion": {
-          "$ref": "#/definitions/merchantECommerceSoftwareVersion"
-        },
-        "purchaseUtcDate": {
-          "description": "The purchase date of this order",
-          "format": "date-time",
-          "type": "string",
-          "example": "2017-03-31T21:30:23Z"
-        },
-        "imnLastModificationUtcDate": {
-          "description": "The last modification UTC date done by IMN of this order",
-          "format": "date-time",
-          "type": "string",
-          "example": "2017-04-16T10:30:23Z"
-        },
-        "marketplaceLastModificationUtcDate": {
-          "description": "The last modification UTC date done by the marketplace on this order",
-          "format": "date-time",
-          "type": "string",
-          "example": "2017-04-16T10:25:23Z"
-        },
-        "customerFirstName": {
-          "$ref": "#/definitions/firstName"
-        },
-        "customerLastName": {
-          "$ref": "#/definitions/lastName"
-        },
-        "totalPrice": {
-          "description": "The total price of this order (corresponding to the amount paid by the customer)",
-          "format": "decimal",
-          "type": "number",
-          "example": 101.42
-        },
-        "currencyCode": {
-          "$ref": "#/definitions/currencyCode"
-        },
-        "processing": {
-          "$ref": "#/definitions/orderProcessing"
-        },
-        "etag": {
-          "$ref": "#/definitions/orderEtag"
-        },
-        "links": {
-          "$ref": "#/definitions/orderHeaderLinks"
-        }
-      }
-    },
-    "orderLinks": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/orderHeaderLinks"
-        },
-        {
-          "type": "object",
-          "required": [
-            "self",
-            "history",
-            "setMerchantInfo",
-            "clearMerchantInfo"
-          ],
-          "properties": {
-            "history": {
-              "$ref": "#/definitions/links.GetOrderHistoryLink"
-            },
-            "setMerchantInfo": {
-              "$ref": "#/definitions/links.SetMerchantOrderInfoLink"
-            },
-            "clearMerchantInfo": {
-              "$ref": "#/definitions/links.ClearMerchantOrderInfoLink"
-            }
-          }
-        }
-      ]
     },
     "links.GetOrderHistoryLink": {
       "allOf": [
@@ -3125,10 +2978,10 @@
         }
       ]
     },
-    "order": {
+    "orderInfo": {
       "allOf": [
         {
-          "$ref": "#/definitions/orderHeader"
+          "$ref": "#/definitions/orderMarketplaceInfo"
         },
         {
           "type": "object",
@@ -3137,79 +2990,58 @@
             "marketplaceCode",
             "merchantCode",
             "imnOrderId",
-            "marketplaceBusinessCode",
             "marketplaceOrderId",
             "imnOrderStatus",
             "purchaseUtcDate",
-            "imnLastModificationUtcDate",
             "marketplaceLastModificationUtcDate",
-            "processing",
+            "paymentInfo",
+            "billingInfo",
+            "shippingInfo",
             "etag",
-            "links",
             "orderItems",
-            "transitionLinks"
-          ],
-          "properties": {
-            "links": {
-              "$ref": "#/definitions/orderLinks"
-            },
-            "marketPlaceChannel": {
-              "description": "Useful to identify the origin of the order. For example in Cdiscount.",
-              "type": "string",
-              "example": "Cdiscount France"
-            },
-            "totalTax": {
-              "description": "The total tax of this order",
-              "type": "number",
-              "format": "decimal",
-              "example": 0.0
-            },
-            "totalCommission": {
-              "description": "The total commission of this order",
-              "type": "number",
-              "format": "decimal",
-              "example": 0.0
-            },
-            "additionalFee": {
-              "description": "Additional fee related to this order",
-              "type": "number",
-              "format": "decimal",
-              "example": 10.0
-            },
-            "paymentMethod": {
-              "description": "The payment method of this order",
-              "type": "string",
-              "example": "1 / 1X"
-            },
-            "payingUtcDate": {
-              "description": "The UTC date of the payment of this order",
-              "type": "string",
-              "format": "date-time",
-              "example": "2017-04-01T13:22:01Z"
-            },
-            "comment": {
-              "description": "The comment associated to this order",
-              "type": "string",
-              "example": "This is a comment"
-            },
-            "billing": {
-              "$ref": "#/definitions/orderBillingInfo"
-            },
-            "shipping": {
-              "$ref": "#/definitions/orderShippingInfo"
-            },
-            "orderItems": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/orderItem"
-              }
-            },
-            "transitionLinks": {
-              "$ref": "#/definitions/orderTransitionLinks"
-            }
-          }
+            "imnOrderUrl",
+            "imnLastModificationUtcDate",
+            "processing"
+          ]
         }
-      ]
+      ],
+      "properties": {
+        "orderMerchantInfo": {
+          "$ref": "#/definitions/orderMerchantInfo"
+        },
+        "imnOrderUrl": {
+          "$ref": "#/definitions/httpUrl"
+        },
+        "imnLastModificationUtcDate": {
+          "description": "The last modification UTC date done by IMN of this order",
+          "format": "date-time",
+          "type": "string",
+          "example": "2017-04-16T10:30:23Z"
+        },
+        "processing": {
+          "$ref": "#/definitions/orderProcessing"
+        }
+      }
+    },
+    "orderIndex": {
+      "type": "object",
+      "description": "Describe in details all informations related to an order.",
+      "required": [
+        "info",
+        "links",
+        "transitionLinks"
+      ],
+      "properties": {
+        "info": {
+          "$ref": "#/definitions/orderInfo"
+        },
+        "links": {
+          "$ref": "#/definitions/orderLinks"
+        },
+        "transitionLinks": {
+          "$ref": "#/definitions/orderTransitionLinks"
+        }
+      }
     },
     "links.ShipOrderLink": {
       "allOf": [
@@ -3484,28 +3316,6 @@
         }
       ]
     },
-    "orderListLight": {
-      "description": "The order list with minimum information we have from the orders.\\\nThe paginationResult properties can be null if the list is empty.\n",
-      "type": "object",
-      "required": [
-        "orders",
-        "links"
-      ],
-      "properties": {
-        "paginationResult": {
-          "$ref": "#/definitions/paginationResult"
-        },
-        "orders": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/orderHeader"
-          }
-        },
-        "links": {
-          "$ref": "#/definitions/orderListLightLinks"
-        }
-      }
-    },
     "orderListFull": {
       "description": "The order list with all information we have from the orders and its items.\\\nThe paginationResult properties can be null if the list is empty.\n",
       "type": "object",
@@ -3520,7 +3330,7 @@
         "orders": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/order"
+            "$ref": "#/definitions/orderIndex"
           }
         },
         "links": {
