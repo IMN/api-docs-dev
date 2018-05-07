@@ -4501,7 +4501,6 @@
         "pricingInfo",
         "billingInfo",
         "shippingInfo",
-        "etag",
         "orderItems"
       ],
       "properties": {
@@ -4613,7 +4612,6 @@
             "pricingInfo",
             "billingInfo",
             "shippingInfo",
-            "etag",
             "orderItems",
             "merchantInfo",
             "imnInfo"
