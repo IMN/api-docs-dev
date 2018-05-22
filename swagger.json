@@ -3924,6 +3924,22 @@
         }
       }
     },
+    "orderCreated": {
+      "x-format": "Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderMarketplaceInfo"
+        }
+      ]
+    },
+    "orderUpdated": {
+      "x-format": "Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderMarketplaceInfo"
+        }
+      ]
+    },
     "orderChangeEventBase": {
       "x-exclude": true,
       "type": "object",
@@ -4071,8 +4087,17 @@
     "imnOrderStatus": {
       "type": "string",
       "description": "IMN order status. Unified for all marketplaces.",
-      "example": "Shipped",
-      "x-lov": "IMNOrderState"
+      "example": "shipped",
+      "x-lov": "imnOrderStatus",
+      "enum": [
+        "new",
+        "pending",
+        "accepted",
+        "refused",
+        "shipped",
+        "cancelled",
+        "refunded"
+      ]
     },
     "marketplaceOrderStatus": {
       "description": "The marketplace order state",
@@ -6789,6 +6814,7 @@
       "example": "FRA"
     },
     "currencyCode": {
+      "x-exclude": true,
       "description": "The currency code <a href=\"https://en.wikipedia.org/wiki/ISO_4217\">(ISO 4217)</a>\n",
       "type": "string",
       "pattern": "^[A-Z]{3}$",
