@@ -79,27 +79,27 @@
       "x-displayName": "Api Token"
     },
     {
-      "name": "Marketplaces - Orders - Global",
+      "name": "Merchant - Orders - Global",
       "description": "All global operations (cross marketplace)",
       "x-displayName": "Global"
     },
     {
-      "name": "Marketplaces - Orders - List",
+      "name": "Merchant - Orders - List",
       "description": "All Order list operations",
       "x-displayName": "List"
     },
     {
-      "name": "Marketplaces - Orders - Order",
+      "name": "Merchant - Orders - Order",
       "description": "All operations related to a single Order",
       "x-displayName": "Order"
     },
     {
-      "name": "Marketplaces - Orders - Batches",
+      "name": "Merchant - Orders - Batches",
       "description": "All batch operations on Orders to reduce call rate",
       "x-displayName": "Batches"
     },
     {
-      "name": "Marketplaces - Orders - Subscriptions - DRAFT",
+      "name": "Merchant - Orders - Subscriptions - DRAFT",
       "description": "All orders subscription operations - DRAFT",
       "x-displayName": "Subscriptions - DRAFT"
     },
@@ -796,7 +796,7 @@
     "/merchant/orders/v1/{merchantCode}": {
       "get": {
         "tags": [
-          "Marketplaces - Orders - Global"
+          "Merchant - Orders - Global"
         ],
         "x-tagGroups": "Marketplaces Orders",
         "operationId": "GetOrderApiIndex",
@@ -829,7 +829,7 @@
     "/merchant/orders/v1/{merchantCode}/list": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - List"
+          "Merchant - Orders - List"
         ],
         "operationId": "GetOrderListFull",
         "summary": "Get a paginated list of all Orders with all Order and Order Item(s) properties",
@@ -881,7 +881,7 @@
     "/merchant/orders/v1/{merchantCode}/batches/setMerchantOrderInfos": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Batches"
+          "Merchant - Orders - Batches"
         ],
         "operationId": "SetMerchantOrderInfoList",
         "summary": "Send a batch of operations to set an Order's merchant information  (max 100 items per call)",
@@ -922,7 +922,7 @@
     "/merchant/orders/v1/{merchantCode}/batches/clearMerchantOrderInfos": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Batches"
+          "Merchant - Orders - Batches"
         ],
         "operationId": "ClearMerchantOrderInfoList",
         "summary": "Send a batch of operations to clear an Order's merchant information (max 100 items per call)",
@@ -963,7 +963,7 @@
     "/merchant/orders/v1/{merchantCode}/batches/ship": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Batches"
+          "Merchant - Orders - Batches"
         ],
         "operationId": "ShipOrderList",
         "summary": "Ship multiple marketplace orders in one operation",
@@ -1010,7 +1010,7 @@
     "/merchant/orders/v1/{merchantCode}/batches/refund": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Batches"
+          "Merchant - Orders - Batches"
         ],
         "operationId": "RefundOrderList",
         "summary": "Refund multiple marketplace orders in one operation",
@@ -1057,7 +1057,7 @@
     "/merchant/orders/v1/{merchantCode}/batches/accept": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Batches"
+          "Merchant - Orders - Batches"
         ],
         "operationId": "AcceptOrderList",
         "summary": "Accept multiple marketplace orders in one operation",
@@ -1104,7 +1104,7 @@
     "/merchant/orders/v1/{merchantCode}/batches/cancel": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Batches"
+          "Merchant - Orders - Batches"
         ],
         "operationId": "CancelOrderList",
         "summary": "Cancel multiple marketplace orders in one operation",
@@ -1151,7 +1151,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}": {
       "head": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "HeadOrder",
         "summary": "Get the meta information about the order (ETag, Last-Modified)",
@@ -1189,10 +1189,7 @@
             "$ref": "#/responses/304_NotModified"
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -1202,7 +1199,7 @@
       },
       "get": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "GetOrder",
         "summary": "Get full Order and Order Item(s) properties",
@@ -1242,10 +1239,7 @@
             "$ref": "#/responses/304_NotModified"
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -1257,7 +1251,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/history": {
       "get": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "GetOrderHistory",
         "summary": "Get an Order's harvest and change history",
@@ -1286,10 +1280,7 @@
             "$ref": "#/responses/304_NotModified"
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -1301,7 +1292,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/setMerchantOrderInfo": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "SetMerchantOrderInfo",
         "summary": "Set an Order's merchant information",
@@ -1335,10 +1326,7 @@
             }
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -1350,7 +1338,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/clearMerchantOrderInfo": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "ClearMerchantOrderInfo",
         "summary": "Clear an Order's merchant information",
@@ -1376,10 +1364,7 @@
             }
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -1391,7 +1376,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/accept": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "AcceptOrder",
         "summary": "Accept your marketplace order",
@@ -1426,22 +1411,10 @@
             }
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "description": "Already processing a change request for this Order.\\\nPlease refresh your clients Order information and retry later.\n",
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "description": "Indicates the duration in seconds to wait to be able to make this request again"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderChangeProcessing"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1456,7 +1429,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/refuse": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "RefuseOrder",
         "summary": "Refuse your marketplace order",
@@ -1491,22 +1464,10 @@
             }
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "description": "Already processing a change request for this Order.\\\nPlease refresh your clients Order information and retry later.\n",
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "description": "Indicates the duration in seconds to wait to be able to make this request again"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderChangeProcessing"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1521,7 +1482,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/cancel": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "CancelOrder",
         "summary": "Cancel your marketplace order",
@@ -1564,22 +1525,10 @@
             }
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "description": "Already processing a change request for this Order.\\\nPlease refresh your clients Order information and retry later.\n",
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "description": "Indicates the duration in seconds to wait to be able to make this request again"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderChangeProcessing"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1594,7 +1543,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/ship": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "ShipOrder",
         "summary": "Ship your marketplace order",
@@ -1637,22 +1586,10 @@
             }
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "description": "Already processing a change request for this Order.\\\nPlease refresh your clients Order information and retry later.\n",
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "description": "Indicates the duration in seconds to wait to be able to make this request again"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderChangeProcessing"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1667,7 +1604,7 @@
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{imnOrderId}/refund": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Order"
+          "Merchant - Orders - Order"
         ],
         "operationId": "RefundOrder",
         "summary": "Refund your marketplace order",
@@ -1710,22 +1647,10 @@
             }
           },
           "404": {
-            "description": "Requested Order could not be found",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "description": "Already processing a change request for this Order.\\\nPlease refresh your clients Order information and retry later.\n",
-            "headers": {
-              "Retry-After": {
-                "type": "integer",
-                "description": "Indicates the duration in seconds to wait to be able to make this request again"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
+            "$ref": "#/responses/orderChangeProcessing"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1740,7 +1665,7 @@
     "/merchant/orders/v1/{merchantCode}/subscriptions": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Subscriptions - DRAFT"
+          "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "CreateSubscription",
         "summary": "Creates a subscription to the orders",
@@ -1784,7 +1709,7 @@
       },
       "get": {
         "tags": [
-          "Marketplaces - Orders - Subscriptions - DRAFT"
+          "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "GetSubscriptionList",
         "summary": "Get the subscription list",
@@ -1825,7 +1750,7 @@
     "/merchant/orders/v1/{merchantCode}/subscriptions/{id}": {
       "get": {
         "tags": [
-          "Marketplaces - Orders - Subscriptions - DRAFT"
+          "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "GetSubscription",
         "summary": "Get a subscription to the orders",
@@ -1864,7 +1789,7 @@
       },
       "delete": {
         "tags": [
-          "Marketplaces - Orders - Subscriptions - DRAFT"
+          "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "DeleteSubscription",
         "summary": "Delete a subscription to the orders",
@@ -1906,7 +1831,7 @@
     "/merchant/orders/v1/{merchantCode}/subscriptions/{id}/activate": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Subscriptions - DRAFT"
+          "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "ActivateSubscription",
         "summary": "Activate a subscription to the orders",
@@ -1947,7 +1872,7 @@
     "/merchant/orders/v1/{merchantCode}/subscriptions/{id}/deactivate": {
       "post": {
         "tags": [
-          "Marketplaces - Orders - Subscriptions - DRAFT"
+          "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "DeactivateSubscription",
         "summary": "Deactivate a subscription to the orders",
@@ -2170,6 +2095,12 @@
         "responses": {
           "204": {
             "description": "Subscriptions's request have been integrated"
+          },
+          "400": {
+            "description": "The subscription request utc date is in future",
+            "schema": {
+              "$ref": "#/definitions/userErrorMessage"
+            }
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -2790,11 +2721,6 @@
         }
       ]
     },
-    "businessOperationType": {
-      "type": "string",
-      "x-lov": "OrderChangeBusinessOperationType",
-      "example": "ShipOrder"
-    },
     "clearMerchantOrderInfoListRequest": {
       "type": "object",
       "required": [
@@ -3148,9 +3074,6 @@
         },
         "orders": {
           "$ref": "#/definitions/links.GetOrderListFullLink"
-        },
-        "lightOrders": {
-          "$ref": "#/definitions/links.GetOrderListLightLink"
         }
       }
     },
@@ -3205,27 +3128,6 @@
         }
       ]
     },
-    "links.GetOrderListLightLink": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/link3"
-        },
-        {
-          "example": {
-            "href": "/merchant/orders/v1/list/light",
-            "method": "POST",
-            "properties": {
-              "request": {
-                "in": "body",
-                "required": false,
-                "type": "object",
-                "schema": "orderListRequest"
-              }
-            }
-          }
-        }
-      ]
-    },
     "orderListLinks": {
       "description": "The list of actions you can do from the order list response",
       "type": "object",
@@ -3241,29 +3143,6 @@
           "$ref": "#/definitions/links.ClearMerchantOrderInfoListLink"
         }
       }
-    },
-    "orderListLightLinks": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/orderListLinks"
-        },
-        {
-          "type": "object",
-          "required": [
-            "self",
-            "harvest",
-            "setMerchantInfos",
-            "clearMerchantInfos",
-            "export",
-            "status"
-          ],
-          "properties": {
-            "self": {
-              "$ref": "#/definitions/links.GetOrderListLightLink"
-            }
-          }
-        }
-      ]
     },
     "orderListFullLinks": {
       "allOf": [
@@ -3361,15 +3240,6 @@
         }
       }
     },
-    "sourceType": {
-      "description": "Indicates the origin of the operation",
-      "type": "string",
-      "enum": [
-        "Api",
-        "Go"
-      ],
-      "example": "Api"
-    },
     "changeOrderReporting": {
       "description": "The reporting related to a change order operation",
       "type": "object",
@@ -3377,11 +3247,11 @@
         "correlationId": {
           "$ref": "#/definitions/correlationId"
         },
-        "changeOrderType": {
-          "$ref": "#/definitions/businessOperationType"
+        "changeType": {
+          "$ref": "#/definitions/orderChangeType"
         },
         "sourceType": {
-          "$ref": "#/definitions/sourceType"
+          "$ref": "#/definitions/operationSourceType"
         },
         "sourceUserId": {
           "$ref": "#/definitions/userId"
@@ -3397,9 +3267,7 @@
           "example": "2017-04-01T13:10:03Z"
         },
         "processingStatus": {
-          "description": "The processing status of the execution",
-          "type": "string",
-          "example": "Done"
+          "$ref": "#/definitions/processingStatus"
         },
         "lastUpdateUtcDate": {
           "description": "The last update UTC date of the execution",
@@ -3477,7 +3345,7 @@
           "minLength": 1,
           "maxLength": 100,
           "items": {
-            "$ref": "#/definitions/shipOrderListRequestItem"
+            "$ref": "#/definitions/refundOrderListRequestItem"
           }
         }
       }
@@ -3940,6 +3808,34 @@
         }
       ]
     },
+    "orderMerchantInfoConfigured": {
+      "x-format": "Event",
+      "type": "object",
+      "required": [
+        "order",
+        "merchantInfo"
+      ],
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/orderIdentifier"
+        },
+        "merchantInfo": {
+          "$ref": "#/definitions/orderMerchantInfo"
+        }
+      }
+    },
+    "orderMerchantInfoCleared": {
+      "x-format": "Event",
+      "type": "object",
+      "required": [
+        "order"
+      ],
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/orderIdentifier"
+        }
+      }
+    },
     "orderChangeEventBase": {
       "x-exclude": true,
       "type": "object",
@@ -3948,7 +3844,10 @@
         "order",
         "userId",
         "userName",
-        "eventType"
+        "eventType",
+        "ipAddress",
+        "testMode",
+        "sourceType"
       ],
       "properties": {
         "order": {
@@ -3962,6 +3861,19 @@
         },
         "eventType": {
           "type": "string"
+        },
+        "ipAddress": {
+          "description": "The IP address who request this operation",
+          "type": "string",
+          "example": "127.0.0.1"
+        },
+        "testMode": {
+          "description": "This operation was a test",
+          "type": "boolean",
+          "example": false
+        },
+        "sourceType": {
+          "$ref": "#/definitions/operationSourceType"
         }
       }
     },
@@ -3994,7 +3906,10 @@
             "userId",
             "userName",
             "carrierCode",
-            "trackingNumber"
+            "trackingNumber",
+            "ipAddress",
+            "testMode",
+            "sourceType"
           ],
           "properties": {
             "carrierCode": {
@@ -4021,7 +3936,10 @@
             "userName",
             "carrierName",
             "trackingNumber",
-            "trackingUrl"
+            "trackingUrl",
+            "ipAddress",
+            "testMode",
+            "sourceType"
           ],
           "properties": {
             "carrierName": {
@@ -4049,12 +3967,12 @@
             "order",
             "userId",
             "userName",
-            "refundReason"
+            "refundReason",
+            "ipAddress",
+            "testMode",
+            "sourceType"
           ],
           "properties": {
-            "order": {
-              "$ref": "#/definitions/orderIdentifier"
-            },
             "refundReason": {
               "$ref": "#/definitions/refundReason"
             }
@@ -4074,7 +3992,10 @@
             "order",
             "userId",
             "userName",
-            "cancellationReason"
+            "cancellationReason",
+            "ipAddress",
+            "testMode",
+            "sourceType"
           ],
           "properties": {
             "cancellationReason": {
@@ -4092,11 +4013,12 @@
       "enum": [
         "new",
         "pending",
-        "accepted",
-        "refused",
+        "inProgress",
+        "received",
         "shipped",
         "cancelled",
-        "refunded"
+        "closed",
+        "availableOnStore"
       ]
     },
     "marketplaceOrderStatus": {
@@ -4729,6 +4651,21 @@
         }
       }
     },
+    "orderChangeType": {
+      "type": "string",
+      "x-lov": "OrderChangeBusinessOperationType",
+      "example": "ship",
+      "enum": [
+        "accept",
+        "refuse",
+        "ship",
+        "shipWithTrackingUrl",
+        "refund",
+        "cancel",
+        "pickUp",
+        "restock"
+      ]
+    },
     "merchantCreated": {
       "x-format": "Event",
       "type": "object",
@@ -4804,10 +4741,7 @@
           "$ref": "#/definitions/merchantCode"
         },
         "marketplaceCode": {
-          "$ref": "#/definitions/merchantCode"
-        },
-        "eventType": {
-          "type": "string"
+          "$ref": "#/definitions/marketplaceCode"
         }
       }
     },
@@ -5111,7 +5045,6 @@
       "required": [
         "merchantCode",
         "userId",
-        "sourceMarketplaceCode",
         "targetMarketplacesSubscriptionRequested",
         "subscriptionRequestUtcDate",
         "salesforceSubscriptionId"
@@ -5122,9 +5055,6 @@
         },
         "userId": {
           "$ref": "#/definitions/userId"
-        },
-        "sourceMarketplaceCode": {
-          "$ref": "#/definitions/marketplaceCode"
         },
         "targetMarketplacesSubscriptionRequested": {
           "type": "array",
@@ -6255,20 +6185,20 @@
       "type": "object",
       "description": "Contains all changes for one marketplace for one merchant",
       "properties": {
-        "created": {
+        "offers": {
           "type": "array",
-          "items": {
-            "$ref": "#/definitions/merchantMarketplaceOffer"
-          }
-        },
-        "updated": {
-          "type": "array",
+          "description": "Offers that need to be created or replaced",
+          "minItems": 1,
+          "maxItems": 1000,
           "items": {
             "$ref": "#/definitions/merchantMarketplaceOffer"
           }
         },
         "deleted": {
           "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Deleted offers",
           "items": {
             "$ref": "#/definitions/merchantMarketplaceOfferIdentifier"
           }
@@ -6278,22 +6208,22 @@
     "batchMerchantOfferChanges": {
       "x-format": "Message",
       "type": "object",
-      "description": "Contains all changes",
+      "description": "Contains all changes for a merchant",
       "properties": {
-        "created": {
+        "offers": {
           "type": "array",
-          "items": {
-            "$ref": "#/definitions/merchantOffer"
-          }
-        },
-        "updated": {
-          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Offers that need to be created or replaced",
           "items": {
             "$ref": "#/definitions/merchantOffer"
           }
         },
         "deleted": {
           "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Deleted offers",
           "items": {
             "$ref": "#/definitions/merchantOfferIdentifier"
           }
@@ -6416,9 +6346,6 @@
       "allOf": [
         {
           "type": "object",
-          "required": [
-            "merchantOffers"
-          ],
           "properties": {
             "merchantOffers": {
               "type": "array",
@@ -6640,6 +6567,7 @@
       }
     },
     "pageSize": {
+      "x-exclude": true,
       "description": "Indicate the item count per page",
       "type": "integer",
       "format": "int32",
@@ -6651,6 +6579,7 @@
       "example": 100
     },
     "pageNumber": {
+      "x-exclude": true,
       "description": "Indicates the page number",
       "format": "int32",
       "type": "integer",
@@ -7057,10 +6986,7 @@
           "$ref": "#/definitions/httpMethod"
         },
         "parameters": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/linkParameter3"
-          }
+          "$ref": "#/definitions/linkParameter3Types"
         },
         "urlTemplated": {
           "type": "boolean",
@@ -7077,6 +7003,22 @@
         "info": {
           "$ref": "#/definitions/infoSummaries"
         }
+      }
+    },
+    "linkParameter3Types": {
+      "x-exclude": true,
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/linkParameter3"
+      }
+    },
+    "linkParameter2Types": {
+      "x-exclude": true,
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 0,
+      "items": {
+        "$ref": "#/definitions/linkParameter2"
       }
     },
     "link2": {
@@ -7102,12 +7044,7 @@
           "$ref": "#/definitions/httpMethod"
         },
         "parameters": {
-          "type": "array",
-          "uniqueItems": true,
-          "minItems": 0,
-          "items": {
-            "$ref": "#/definitions/linkParameter2"
-          }
+          "$ref": "#/definitions/linkParameter2Types"
         },
         "info": {
           "$ref": "#/definitions/infoSummaries"
@@ -7597,6 +7534,27 @@
         "ascending",
         "descending"
       ]
+    },
+    "operationSourceType": {
+      "description": "Indicates the origin of the operation:\n* api: the operation has been done using our api directly.\n* ui: the operation has been done using our user interface. \n",
+      "type": "string",
+      "enum": [
+        "api",
+        "ui"
+      ],
+      "example": "api"
+    },
+    "processingStatus": {
+      "x-exclude": true,
+      "description": "The processing status of an operation",
+      "type": "string",
+      "enum": [
+        "none",
+        "inProgress",
+        "done",
+        "failed",
+        "aborted"
+      ]
     }
   },
   "externalDocs": {
@@ -7624,13 +7582,13 @@
       ]
     },
     {
-      "name": "Marketplaces - Orders",
+      "name": "Merchant - Orders",
       "tags": [
-        "Marketplaces - Orders - Global",
-        "Marketplaces - Orders - List",
-        "Marketplaces - Orders - Order",
-        "Marketplaces - Orders - Batches",
-        "Marketplaces - Orders - Subscriptions - DRAFT"
+        "Merchant - Orders - Global",
+        "Merchant - Orders - List",
+        "Merchant - Orders - Order",
+        "Merchant - Orders - Batches",
+        "Merchant - Orders - Subscriptions - DRAFT"
       ]
     },
     {
