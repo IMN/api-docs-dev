@@ -23,12 +23,21 @@
     "appRoot": "IMN.MER.MKP.WebService",
     "apiName": "MerchantMarketplacesV1",
     "namespace": "IMN.MER.MKP.WebService",
+    "applicationShortName": "MER.MKP.WS",
     "useBeezUPFrameworkVersion2": true,
     "comment": "No change. Just server side generation.\n",
     "using": [
       "IMN.Schemas",
+      "IMN.Exceptions",
       "IMN.MER.Schemas",
-      "IMN.MER.Exceptions"
+      "IMN.MER.Exceptions",
+      "IMN.MKP.Schemas"
+    ],
+    "references": [
+      "IMN.Exceptions",
+      "IMN.MER.Schemas",
+      "IMN.MER.Exceptions",
+      "IMN.MKP.Schemas"
     ]
   },
   "x-basePath": "/merchant/marketplaces/v1",
@@ -773,7 +782,35 @@
         }
       }
     },
-    "/merchant/account/v1/{merchantCode}/resetApiToken": {
+    "/merchant/account/v1/{merchantCode}/apiToken": {
+      "get": {
+        "tags": [
+          "Merchant - Account API - Api Token"
+        ],
+        "summary": "Get merchant api token",
+        "operationId": "GetMerchantApiToken",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Merchant api token reset",
+            "schema": {
+              "$ref": "#/definitions/apiToken"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/account/v1/{merchantCode}/apiToken/reset": {
       "post": {
         "tags": [
           "Merchant - Account API - Api Token"
@@ -848,11 +885,7 @@
             "description": "Allows the client to indicate wether it accepts a compressed encoding to reduce traffic size",
             "in": "header",
             "required": true,
-            "type": "array",
-            "collectionFormat": "csv",
-            "items": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "request",
@@ -1465,7 +1498,7 @@
             "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "$ref": "#/responses/orderChangeNotFound"
+            "$ref": "#/responses/orderChangeAlreadyInProgress"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1518,7 +1551,7 @@
             "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "$ref": "#/responses/orderChangeNotFound"
+            "$ref": "#/responses/orderChangeAlreadyInProgress"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1579,7 +1612,7 @@
             "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "$ref": "#/responses/orderChangeNotFound"
+            "$ref": "#/responses/orderChangeAlreadyInProgress"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1640,7 +1673,7 @@
             "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "$ref": "#/responses/orderChangeNotFound"
+            "$ref": "#/responses/orderChangeAlreadyInProgress"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1701,7 +1734,7 @@
             "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "$ref": "#/responses/orderChangeNotFound"
+            "$ref": "#/responses/orderChangeAlreadyInProgress"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -1765,7 +1798,7 @@
             "$ref": "#/responses/orderNotFound"
           },
           "409": {
-            "$ref": "#/responses/orderChangeNotFound"
+            "$ref": "#/responses/orderChangeAlreadyInProgress"
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
@@ -2678,6 +2711,11 @@
         }
       }
     },
+    "apiToken": {
+      "type": "string",
+      "description": "The api token that you will have to use to connect to our API",
+      "example": "2b1ff3a068054433ac09224bbb1ff3a068054433ac09224bb0c9d7ea=="
+    },
     "merchantAccountInfo": {
       "type": "object",
       "required": [
@@ -2688,7 +2726,6 @@
         "country",
         "companyName",
         "phoneNumber",
-        "apiToken",
         "currencyCode",
         "links"
       ],
@@ -2723,18 +2760,14 @@
         "currencyCode": {
           "$ref": "#/definitions/currencyCode"
         },
-        "apiToken": {
-          "type": "string",
-          "description": "The api token that you will have to use to connect to our API",
-          "example": "2b1ff3a068054433ac09224bbb1ff3a068054433ac09224bb0c9d7ea=="
-        },
         "ecommerceSoftwareName": {
           "$ref": "#/definitions/ecommerceSoftwareName"
         },
         "importedOfferCount": {
           "type": "integer",
           "format": "int32",
-          "description": "Imported offer count from the source marketplace or from his shop system source"
+          "description": "Imported offer count from the source marketplace or from his shop system source",
+          "example": 4242
         },
         "links": {
           "$ref": "#/definitions/merchantAccountInfoLinks"
@@ -2755,6 +2788,9 @@
         },
         "update": {
           "$ref": "#/definitions/links.UpdateMerchantAcountInfoLink"
+        },
+        "getApiToken": {
+          "$ref": "#/definitions/links.GetMerchantApiTokenLink"
         },
         "resetApiToken": {
           "$ref": "#/definitions/links.ResetMerchantApiTokenLink"
@@ -2806,6 +2842,20 @@
         }
       ]
     },
+    "links.GetMerchantApiTokenLink": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/link3"
+        },
+        {
+          "type": "object",
+          "example": {
+            "href": "/merchant/account/v1/MLT01/apiToken",
+            "method": "GET"
+          }
+        }
+      ]
+    },
     "links.ResetMerchantApiTokenLink": {
       "allOf": [
         {
@@ -2814,7 +2864,7 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/account/v1/MLT01/resetApiToken",
+            "href": "/merchant/account/v1/MLT01/apiToken/reset",
             "method": "POST"
           }
         }
@@ -3298,7 +3348,7 @@
               "Accept-Encoding": {
                 "in": "header",
                 "required": true,
-                "type": "â€‹array",
+                "type": "â€‹string",
                 "schema": "string"
               },
               "request": {
@@ -3312,10 +3362,11 @@
         }
       ]
     },
-    "orderListLinks": {
-      "description": "The list of actions you can do from the order list response",
+    "orderListFullLinks": {
       "type": "object",
+      "description": "The list of actions you can do from the order list response",
       "required": [
+        "self",
         "setMerchantInfos",
         "clearMerchantInfos"
       ],
@@ -3325,31 +3376,11 @@
         },
         "clearMerchantInfos": {
           "$ref": "#/definitions/links.ClearMerchantOrderInfoListLink"
+        },
+        "self": {
+          "$ref": "#/definitions/links.GetOrderListFullLink"
         }
       }
-    },
-    "orderListFullLinks": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/orderListLinks"
-        },
-        {
-          "type": "object",
-          "required": [
-            "self",
-            "harvest",
-            "setMerchantInfos",
-            "clearMerchantInfos",
-            "export",
-            "status"
-          ],
-          "properties": {
-            "self": {
-              "$ref": "#/definitions/links.GetOrderListFullLink"
-            }
-          }
-        }
-      ]
     },
     "links.SetMerchantOrderInfoListLink": {
       "allOf": [
@@ -3389,8 +3420,8 @@
       "description": "The order list with all information we have from the orders and its items.\\\nThe paginationResult properties can be null if the list is empty.\n",
       "type": "object",
       "required": [
-        "orders",
-        "links"
+        "links",
+        "orders"
       ],
       "properties": {
         "paginationResult": {
@@ -3398,6 +3429,8 @@
         },
         "orders": {
           "type": "array",
+          "description": "The order index list, this list can be empty if there is no result",
+          "minimum": 0,
           "items": {
             "$ref": "#/definitions/orderIndex"
           }
@@ -3410,6 +3443,9 @@
     "orderHistory": {
       "description": "Describe the history related to an order",
       "type": "object",
+      "required": [
+        "changeOrderReportings"
+      ],
       "properties": {
         "changeOrderReportings": {
           "description": "The list of change order operation",
@@ -3427,6 +3463,18 @@
     "changeOrderReporting": {
       "description": "The reporting related to a change order operation",
       "type": "object",
+      "required": [
+        "correlationId",
+        "changeType",
+        "sourceType",
+        "sourceUserId",
+        "sourceUserName",
+        "creationUtcDate",
+        "processingStatus",
+        "lastUpdateUtcDate",
+        "ipAddress",
+        "testMode"
+      ],
       "properties": {
         "correlationId": {
           "$ref": "#/definitions/correlationId"
@@ -4099,8 +4147,95 @@
         }
       }
     },
-    "orderReceived": {
+    "beezUPOrderId": {
+      "description": "The BeezUP Order identifier",
+      "type": "string"
+    },
+    "beezUPOrderIdentifier": {
+      "description": "The BeezUP order identifier",
+      "type": "object",
+      "required": [
+        "marketplaceTechnicalCode",
+        "accountId",
+        "beezUPOrderId"
+      ],
+      "properties": {
+        "marketplaceTechnicalCode": {
+          "$ref": "#/definitions/beezUPMarketplaceTechnicalCode"
+        },
+        "accountId": {
+          "$ref": "#/definitions/beezUPMarketplaceAccountId"
+        },
+        "beezUPOrderId": {
+          "$ref": "#/definitions/beezUPOrderId"
+        }
+      }
+    },
+    "beezUPOrderChangeExecution": {
       "x-exclude": true,
+      "allOf": [
+        {
+          "$ref": "#/definitions/beezUPOrderIdentifier"
+        },
+        {
+          "type": "object",
+          "description": "The BeezUP order change execution",
+          "required": [
+            "executionId",
+            "processingStatus"
+          ],
+          "properties": {
+            "executionId": {
+              "$ref": "#/definitions/beezUPExecutionId"
+            },
+            "processingStatus": {
+              "$ref": "#/definitions/processingStatus"
+            },
+            "errorCode": {
+              "type": "string"
+            },
+            "errorMessage": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "beezUPOrderChangeExecutionSummary": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/beezUPOrderChangeExecution"
+        },
+        {
+          "type": "object",
+          "description": "The BeezUP order change execution summary",
+          "required": [
+            "correlationId",
+            "merchantCode",
+            "marketplaceCode",
+            "marketplaceOrderId"
+          ],
+          "properties": {
+            "executionId": {
+              "$ref": "#/definitions/beezUPExecutionId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/correlationId"
+            },
+            "merchantCode": {
+              "$ref": "#/definitions/merchantCode"
+            },
+            "marketplaceCode": {
+              "$ref": "#/definitions/marketplaceCode"
+            },
+            "marketplaceOrderId": {
+              "$ref": "#/definitions/marketplaceOrderId"
+            }
+          }
+        }
+      ]
+    },
+    "orderReceived": {
       "x-format": "Event",
       "description": "This event his a technical one. It is stored in the event hub before it's processed by the OrderActor.\nThe order actor will create business event like order created or updated.\nOrderReceived will be not be stored in the Event Store.\n",
       "allOf": [
@@ -4142,13 +4277,15 @@
       "allOf": [
         {
           "type": "object",
+          "discriminator": "eventName",
           "required": [
             "order",
             "userId",
             "userName",
             "ipAddress",
             "testMode",
-            "sourceType"
+            "sourceType",
+            "eventType"
           ],
           "properties": {
             "order": {
@@ -4172,6 +4309,10 @@
             },
             "sourceType": {
               "$ref": "#/definitions/operationSourceType"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "The event type occured on the order"
             }
           }
         }
@@ -4324,6 +4465,271 @@
         }
       }
     },
+    "batchMerchantMarketplaceOrders": {
+      "x-format": "Message",
+      "type": "object",
+      "description": "Create or replace orders for one marketplace for one merchant",
+      "required": [
+        "orders"
+      ],
+      "properties": {
+        "orders": {
+          "type": "array",
+          "description": "Orders that need to be created or replaced",
+          "minItems": 1,
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/definitions/orderMarketplaceInfo"
+          }
+        }
+      }
+    },
+    "configureOrderMerchantInfo": {
+      "x-format": "Command",
+      "type": "object",
+      "required": [
+        "order",
+        "merchantInfo"
+      ],
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/orderIdentifier"
+        },
+        "merchantInfo": {
+          "$ref": "#/definitions/orderMerchantInfo"
+        }
+      }
+    },
+    "clearOrderMerchantInfo": {
+      "x-format": "Command",
+      "type": "object",
+      "required": [
+        "order"
+      ],
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/orderIdentifier"
+        }
+      }
+    },
+    "orderChangeCommandBase": {
+      "x-exclude": true,
+      "type": "object",
+      "required": [
+        "order",
+        "userId",
+        "userName",
+        "ipAddress",
+        "testMode",
+        "sourceType",
+        "etag"
+      ],
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/orderIdentifier"
+        },
+        "userId": {
+          "$ref": "#/definitions/userId"
+        },
+        "userName": {
+          "$ref": "#/definitions/orderChangeUserName"
+        },
+        "ipAddress": {
+          "description": "The IP address who request this operation",
+          "type": "string",
+          "example": "127.0.0.1"
+        },
+        "testMode": {
+          "description": "This operation was a test",
+          "type": "boolean",
+          "example": false
+        },
+        "sourceType": {
+          "$ref": "#/definitions/operationSourceType"
+        },
+        "etag": {
+          "$ref": "#/definitions/orderEtag"
+        }
+      }
+    },
+    "acceptOrder": {
+      "x-format": "Command",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderChangeCommandBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "order",
+            "userId",
+            "userName",
+            "ipAddress",
+            "testMode",
+            "sourceType",
+            "etag"
+          ],
+          "properties": {
+            "etag": {
+              "$ref": "#/definitions/orderEtag"
+            }
+          }
+        }
+      ]
+    },
+    "refuseOrder": {
+      "x-format": "Command",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderChangeCommandBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "order",
+            "userId",
+            "userName",
+            "ipAddress",
+            "testMode",
+            "sourceType",
+            "etag"
+          ],
+          "properties": {
+            "etag": {
+              "$ref": "#/definitions/orderEtag"
+            }
+          }
+        }
+      ]
+    },
+    "shipOrder": {
+      "x-format": "Command",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderChangeCommandBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "order",
+            "userId",
+            "userName",
+            "carrierCode",
+            "trackingNumber",
+            "ipAddress",
+            "testMode",
+            "sourceType",
+            "etag"
+          ],
+          "properties": {
+            "carrierCode": {
+              "$ref": "#/definitions/carrierCode"
+            },
+            "trackingNumber": {
+              "$ref": "#/definitions/trackingNumber"
+            },
+            "etag": {
+              "$ref": "#/definitions/orderEtag"
+            }
+          }
+        }
+      ]
+    },
+    "shipOrderWithTrackingUrl": {
+      "x-format": "Command",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderChangeCommandBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "order",
+            "userId",
+            "userName",
+            "carrierName",
+            "trackingNumber",
+            "trackingUrl",
+            "ipAddress",
+            "testMode",
+            "sourceType",
+            "etag"
+          ],
+          "properties": {
+            "carrierName": {
+              "$ref": "#/definitions/carrierName"
+            },
+            "trackingNumber": {
+              "$ref": "#/definitions/trackingNumber"
+            },
+            "trackingUrl": {
+              "$ref": "#/definitions/trackingUrl"
+            },
+            "etag": {
+              "$ref": "#/definitions/orderEtag"
+            }
+          }
+        }
+      ]
+    },
+    "refundOrder": {
+      "x-format": "Command",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderChangeCommandBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "order",
+            "userId",
+            "userName",
+            "refundReason",
+            "ipAddress",
+            "testMode",
+            "sourceType",
+            "etag"
+          ],
+          "properties": {
+            "refundReason": {
+              "$ref": "#/definitions/refundReason"
+            },
+            "etag": {
+              "$ref": "#/definitions/orderEtag"
+            }
+          }
+        }
+      ]
+    },
+    "cancelOrder": {
+      "x-format": "Command",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderChangeCommandBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "order",
+            "userId",
+            "userName",
+            "cancellationReason",
+            "ipAddress",
+            "testMode",
+            "sourceType",
+            "etag"
+          ],
+          "properties": {
+            "cancellationReason": {
+              "$ref": "#/definitions/cancellationReason"
+            },
+            "etag": {
+              "$ref": "#/definitions/orderEtag"
+            }
+          }
+        }
+      ]
+    },
     "orderManagementDisabledException": {
       "x-format": "Exception",
       "x-transient": false,
@@ -4401,7 +4807,7 @@
       "x-format": "Exception",
       "x-transient": false,
       "x-technical": false,
-      "description": "The order change cannot be applied because the '{etag}' does not match the expetected one '{expectedETag}'.\nPlease reload your order and send the latest etag to change the order.\nIf the problem persist please contact our support team.\nMarkeplaceOrderId: '{marketplaceOrderId}'\nMarketplace: '{marketplaceCode}'\nMerchant: '{merchantCode}'\n",
+      "description": "The order change cannot be applied because the '{invalidETag}' does not match the expetected one '{expectedETag}'.\nPlease reload your order and send the latest etag to change the order.\nIf the problem persist please contact our support team.\nMarkeplaceOrderId: '{marketplaceOrderId}'\nMarketplace: '{marketplaceCode}'\nMerchant: '{merchantCode}'\n",
       "allOf": [
         {
           "$ref": "#/definitions/orderExceptionsBase"
@@ -4696,18 +5102,17 @@
         "Other"
       ]
     },
+    "orderItems": {
+      "type": "object",
+      "description": "The key correspond to the order item identifier. Must be unique.",
+      "additionalProperties": {
+        "$ref": "#/definitions/orderItem"
+      }
+    },
     "orderItem": {
       "description": "Describe an order item.",
       "type": "object",
-      "required": [
-        "imnOrderItemId"
-      ],
       "properties": {
-        "imnOrderItemId": {
-          "description": "The IMN identifier of the order Item. Must be unique in the order.",
-          "type": "string",
-          "example": "1"
-        },
         "title": {
           "description": "The title of the order item",
           "example": "bLA acide-plomb 6v-4.5ah 70x48x106mm",
@@ -4719,9 +5124,8 @@
           "type": "string"
         },
         "imageUrl": {
-          "description": "The URL of the image of the order item",
-          "example": "http://blabla.com//das6-45.jpg",
-          "type": "string"
+          "$ref": "#/definitions/httpUrl",
+          "example": "http://blabla.com//das6-45.jpg"
         },
         "merchantOfferSku": {
           "$ref": "#/definitions/sku"
@@ -4859,14 +5263,10 @@
           "example": "MRS"
         },
         "firstName": {
-          "description": "The first name of the person",
-          "type": "string",
-          "example": "Jacques"
+          "$ref": "#/definitions/firstName"
         },
         "lastName": {
-          "description": "The last name of the person",
-          "type": "string",
-          "example": "BAUREGARD"
+          "$ref": "#/definitions/lastName"
         },
         "companyName": {
           "type": "string",
@@ -4983,7 +5383,6 @@
       "type": "object",
       "required": [
         "identifier",
-        "etag",
         "generalInfo",
         "pricingInfo",
         "billingInfo",
@@ -4993,9 +5392,6 @@
       "properties": {
         "identifier": {
           "$ref": "#/definitions/orderIdentifier"
-        },
-        "etag": {
-          "$ref": "#/definitions/orderEtag"
         },
         "generalInfo": {
           "$ref": "#/definitions/orderGeneralInfo"
@@ -5010,10 +5406,7 @@
           "$ref": "#/definitions/orderShippingInfo"
         },
         "orderItems": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/orderItem"
-          }
+          "$ref": "#/definitions/orderItems"
         }
       }
     },
@@ -5094,7 +5487,6 @@
           "description": "Describe in details all informations related to an order.",
           "required": [
             "identifier",
-            "etag",
             "generalInfo",
             "pricingInfo",
             "billingInfo",
@@ -5117,9 +5509,13 @@
       "type": "object",
       "description": "The current order change correlation identifier indicates you if there is a pending order change on the marketplace side.",
       "required": [
+        "etag",
         "imnLastModificationUtcDate"
       ],
       "properties": {
+        "etag": {
+          "$ref": "#/definitions/orderEtag"
+        },
         "imnLastModificationUtcDate": {
           "description": "The last modification UTC date done by IMN of this order",
           "format": "date-time",
@@ -5146,13 +5542,413 @@
         "Restock"
       ]
     },
+    "beezUPMerchantOffer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOffer"
+        },
+        {
+          "$ref": "#/definitions/beezUPMarketplaceAccountIdentifier"
+        }
+      ]
+    },
+    "beezUPMerchantOfferIdentifier": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferIdentifier"
+        },
+        {
+          "$ref": "#/definitions/beezUPMarketplaceAccountIdentifier"
+        }
+      ]
+    },
+    "merchantOfferEventBase": {
+      "x-exclude": true,
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOffer"
+        }
+      ]
+    },
+    "merchantOfferReceived": {
+      "x-format": "Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferEventBase"
+        }
+      ]
+    },
+    "merchantOfferDeleted": {
+      "x-format": "Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferIdentifier"
+        }
+      ]
+    },
+    "merchantOfferNotImported": {
+      "x-format": "Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferIdentifier"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "reasons": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/merchantOfferNoneImportationReason"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "MerchantOfferPushQueueReminded": {
+      "x-format": "Event",
+      "description": "The merchant offer pusher is reminded",
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "merchantCode",
+            "senderMessageId"
+          ],
+          "properties": {
+            "merchantCode": {
+              "$ref": "#/definitions/merchantCode"
+            },
+            "senderMessageId": {
+              "type": "string",
+              "format": "MessageId",
+              "description": "The sender message Id"
+            }
+          }
+        }
+      ]
+    },
+    "duplicateMerchantOfferOperationException": {
+      "x-format": "Exception",
+      "x-transient": false,
+      "x-technical": false,
+      "description": "Duplicate operation on an offer has been {duplicateCount} times for the merchant '{merchantCode}':\n- sku: '{sku}' \n- gtin: '{gtin}'\n- itemCondition: '{itemCondition}' \n- fulfilledBy: '{fulfilledBy}'\n",
+      "type": "object",
+      "required": [
+        "merchantCode",
+        "sku",
+        "gtin",
+        "itemCondition",
+        "fulfilledBy",
+        "duplicateCount"
+      ],
+      "properties": {
+        "merchantCode": {
+          "$ref": "#/definitions/merchantCode"
+        },
+        "sku": {
+          "$ref": "#/definitions/sku"
+        },
+        "gtin": {
+          "$ref": "#/definitions/gtin"
+        },
+        "itemCondition": {
+          "$ref": "#/definitions/itemCondition"
+        },
+        "fulfilledBy": {
+          "$ref": "#/definitions/fulfilledBy"
+        },
+        "duplicateCount": {
+          "type": "integer",
+          "minimum": 2
+        }
+      }
+    },
+    "duplicateMerchantMarketplaceOfferOperationException": {
+      "x-format": "Exception",
+      "x-transient": false,
+      "x-technical": false,
+      "description": "Duplicate operation on an offer has been {duplicateCount} times for the marketplace '{marketplaceCode}' and the merchant '{merchantCode}':\n- sku: '{sku}' \n- gtin: '{gtin}'\n- itemCondition: '{itemCondition}' \n- fulfilledBy: '{fulfilledBy}'\n",
+      "type": "object",
+      "required": [
+        "marketplaceCode",
+        "merchantCode",
+        "sku",
+        "gtin",
+        "itemCondition",
+        "fulfilledBy",
+        "duplicateCount"
+      ],
+      "properties": {
+        "marketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
+        },
+        "merchantCode": {
+          "$ref": "#/definitions/merchantCode"
+        },
+        "sku": {
+          "$ref": "#/definitions/sku"
+        },
+        "gtin": {
+          "$ref": "#/definitions/gtin"
+        },
+        "itemCondition": {
+          "$ref": "#/definitions/itemCondition"
+        },
+        "fulfilledBy": {
+          "$ref": "#/definitions/fulfilledBy"
+        },
+        "duplicateCount": {
+          "type": "integer",
+          "minimum": 2
+        }
+      }
+    },
+    "batchMerchantOfferChanges": {
+      "x-format": "Message",
+      "type": "object",
+      "description": "Contains all changes for a merchant",
+      "properties": {
+        "offers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Offers that need to be created or replaced",
+          "items": {
+            "$ref": "#/definitions/merchantOffer"
+          }
+        },
+        "deleted": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Deleted offers",
+          "items": {
+            "$ref": "#/definitions/merchantOfferIdentifier"
+          }
+        }
+      }
+    },
+    "price": {
+      "x-exclude": true,
+      "type": "number",
+      "format": "decimal",
+      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. http://schema.org/price"
+    },
+    "priceCurrency": {
+      "type": "string",
+      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.\nUsage guidelines:\nUse the priceCurrency property (with ISO 4217 codes e.g. USD) instead of including ambiguous symbols such as $ in the value. http://schema.org/priceCurrency\n"
+    },
+    "validFrom": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date when the item becomes valid. http://schema.org/validFrom"
+    },
+    "validThrough": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours. http://schema.org/validThrough"
+    },
+    "priceSpecification": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "validFrom": {
+          "$ref": "#/definitions/validFrom"
+        },
+        "validThrough": {
+          "$ref": "#/definitions/validThrough"
+        }
+      }
+    },
+    "minPrice": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The lowest price if the price is a range. http://schema.org/minPrice"
+    },
+    "deliveryLeadTime": {
+      "type": "number",
+      "format": "int16",
+      "description": "The typical delay between the receipt of the order and the goods either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup. http://schema.org/deliveryLeadTime"
+    },
+    "inventoryLevel": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The current approximate inventory level for the item or items. http://schema.org/inventoryLevel"
+    },
+    "fulfilledBy": {
+      "type": "string",
+      "description": "The marketplace in charge of the delivery on this offer."
+    },
+    "itemCondition": {
+      "type": "string",
+      "enum": [
+        "NewCondition",
+        "RefurbishedCondition",
+        "UsedAsNewCondition",
+        "UsedVeryGoodCondition",
+        "UsedGoodCondition",
+        "UsedAcceptableCondition"
+      ]
+    },
+    "merchantOfferIdentifier": {
+      "type": "object",
+      "required": [
+        "merchantCode",
+        "sku",
+        "gtin",
+        "itemCondition"
+      ],
+      "properties": {
+        "merchantCode": {
+          "$ref": "#/definitions/merchantCode"
+        },
+        "sku": {
+          "$ref": "#/definitions/sku"
+        },
+        "gtin": {
+          "$ref": "#/definitions/gtin"
+        },
+        "itemCondition": {
+          "$ref": "#/definitions/itemCondition"
+        },
+        "fulfilledBy": {
+          "$ref": "#/definitions/fulfilledBy"
+        }
+      }
+    },
+    "merchantOfferList": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "merchantOffers": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/merchantOffer"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "merchantOffer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferIdentifier"
+        },
+        {
+          "type": "object",
+          "description": "The defaultDeliveryMethod is required if the deliverySpecifications is fulfilled",
+          "required": [
+            "merchantCode",
+            "sku",
+            "gtin",
+            "itemCondition",
+            "price",
+            "priceCurrency",
+            "deliveryLeadTime",
+            "inventoryLevel",
+            "lastUpdateUtcDate"
+          ],
+          "properties": {
+            "price": {
+              "$ref": "#/definitions/price"
+            },
+            "priceCurrency": {
+              "$ref": "#/definitions/priceCurrency"
+            },
+            "minPrice": {
+              "$ref": "#/definitions/minPrice"
+            },
+            "discount": {
+              "$ref": "#/definitions/priceSpecification"
+            },
+            "deliveryLeadTime": {
+              "$ref": "#/definitions/deliveryLeadTime"
+            },
+            "inventoryLevel": {
+              "$ref": "#/definitions/inventoryLevel"
+            },
+            "defaultDeliveryMethod": {
+              "$ref": "#/definitions/deliveryMethod"
+            },
+            "deliverySpecifications": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/deliverySpecification"
+              }
+            },
+            "lastUpdateUtcDate": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2018-02-24T14:24:35"
+            },
+            "sourceMarketplaceCode": {
+              "$ref": "#/definitions/marketplaceCode"
+            }
+          }
+        }
+      ]
+    },
+    "transportTime": {
+      "type": "number",
+      "format": "int16",
+      "description": "To compute the shipping time, we sometimes ask for the typical delay from the moment the goods are either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup. http://schema.org/deliveryLeadTime\n"
+    },
+    "deliverySpecification": {
+      "type": "object",
+      "required": [
+        "deliveryMethod",
+        "price"
+      ],
+      "properties": {
+        "deliveryMethod": {
+          "$ref": "#/definitions/deliveryMethod"
+        },
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "additionalPrice": {
+          "$ref": "#/definitions/price"
+        }
+      }
+    },
+    "merchantOfferNoneImportationReasonCode": {
+      "type": "string",
+      "description": "A reason code related",
+      "enum": [
+        "InvalidEAN",
+        "InvariantNotAppliable"
+      ]
+    },
+    "merchantOfferNoneImportationReason": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "$ref": "#/definitions/merchantOfferNoneImportationReasonCode"
+        },
+        "error": {
+          "$ref": "#/definitions/userErrorMessage"
+        },
+        "propertyName": {
+          "type": "string",
+          "description": "The related property name causing the none importation of the offer"
+        },
+        "actualValue": {
+          "type": "string",
+          "description": "The actual value causing the none importation of the offer"
+        }
+      }
+    },
     "merchantEventPushed": {
       "x-exclude": true,
       "type": "object",
       "discriminator": "eventType",
       "required": [
-        "merchantCode",
-        "eventType"
+        "merchantCode"
       ],
       "properties": {
         "merchantCode": {
@@ -5590,6 +6386,7 @@
       "required": [
         "merchantCode",
         "userId",
+        "sourceMarketplaceCode",
         "targetMarketplacesSubscriptionRequested",
         "subscriptionRequestUtcDate",
         "salesforceSubscriptionId"
@@ -5600,6 +6397,9 @@
         },
         "userId": {
           "$ref": "#/definitions/userId"
+        },
+        "sourceMarketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
         },
         "targetMarketplacesSubscriptionRequested": {
           "type": "array",
@@ -5652,7 +6452,7 @@
         }
       ]
     },
-    "merchantMarketplaceShippingPreprationSettingConfigured": {
+    "merchantMarketplaceShippingPreparationSettingConfigured": {
       "x-format": "Event",
       "allOf": [
         {
@@ -5667,17 +6467,17 @@
             "merchantCode",
             "userId",
             "marketplaceCode",
-            "preparationRuleType"
+            "ruleType"
           ],
           "properties": {
             "userId": {
               "$ref": "#/definitions/userId"
             },
-            "preparationRuleType": {
+            "ruleType": {
               "$ref": "#/definitions/marketplacePreparationRuleType"
             },
-            "preparationDelay": {
-              "type": "number",
+            "delay": {
+              "type": "integer",
               "format": "int32",
               "description": "The delay considering the rule"
             }
@@ -5700,15 +6500,15 @@
             "merchantCode",
             "userId",
             "marketplaceCode",
-            "deliveryMode",
+            "deliveryMethod",
             "ruleType"
           ],
           "properties": {
             "userId": {
               "$ref": "#/definitions/userId"
             },
-            "deliveryMode": {
-              "$ref": "#/definitions/deliveryMode"
+            "deliveryMethod": {
+              "$ref": "#/definitions/deliveryMethod"
             },
             "ruleType": {
               "$ref": "#/definitions/marketplaceShippingChargeRuleType"
@@ -5764,12 +6564,16 @@
           "type": "object",
           "required": [
             "merchantCode",
+            "marketplaceCode",
             "userId",
-            "marketplaceCode"
+            "deliveryMethod"
           ],
           "properties": {
             "userId": {
               "$ref": "#/definitions/userId"
+            },
+            "deliveryMethod": {
+              "$ref": "#/definitions/deliveryMethod"
             }
           }
         }
@@ -6204,6 +7008,58 @@
         }
       ]
     },
+    "disableMarketplaceShippingDeliverySettings": {
+      "x-format": "Command",
+      "description": "Not for the MVP",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantMarketplaceBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "merchantCode",
+            "marketplaceCode",
+            "userId",
+            "deliveryMethod"
+          ],
+          "properties": {
+            "userId": {
+              "$ref": "#/definitions/userId"
+            },
+            "deliveryMethod": {
+              "$ref": "#/definitions/deliveryMethod"
+            }
+          }
+        }
+      ]
+    },
+    "reenableMarketplaceShippingDeliverySettings": {
+      "x-format": "Command",
+      "description": "Not for the MVP",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantMarketplaceBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "merchantCode",
+            "marketplaceCode",
+            "userId",
+            "deliveryMethod"
+          ],
+          "properties": {
+            "userId": {
+              "$ref": "#/definitions/userId"
+            },
+            "deliveryMethod": {
+              "$ref": "#/definitions/deliveryMethod"
+            }
+          }
+        }
+      ]
+    },
     "configureMarketplaceMerchantCode": {
       "x-format": "Command",
       "allOf": [
@@ -6374,6 +7230,29 @@
         }
       }
     },
+    "invalidOperationOnDeclaredMerchantOffersSourceMarketplaceException": {
+      "x-format": "Exception",
+      "x-transient": false,
+      "x-technical": false,
+      "type": "object",
+      "required": [
+        "merchantCode",
+        "sourceMarketplaceCode",
+        "operationName"
+      ],
+      "description": "The operation '{operationName}' is invalid on a offers source marketplace.\n",
+      "properties": {
+        "merchantCode": {
+          "$ref": "#/definitions/merchantCode"
+        },
+        "sourceMarketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
+        },
+        "operationName": {
+          "type": "string"
+        }
+      }
+    },
     "marketplaceSubscriptionStatus": {
       "description": "The subscription status",
       "type": "string",
@@ -6425,7 +7304,8 @@
       "enum": [
         "Increase",
         "Decrease",
-        "Same"
+        "Same",
+        "Fixed"
       ],
       "default": "Same",
       "example": "Same"
@@ -6433,14 +7313,14 @@
     "marketplacePreparationSetting": {
       "type": "object",
       "required": [
-        "preparationRuleType"
+        "ruleType"
       ],
       "properties": {
-        "preparationRuleType": {
+        "ruleType": {
           "$ref": "#/definitions/marketplacePreparationRuleType"
         },
-        "preparationDelay": {
-          "type": "number",
+        "delay": {
+          "type": "integer",
           "format": "int32",
           "description": "The delay considering the rule"
         }
@@ -6461,11 +7341,6 @@
         }
       }
     },
-    "deliveryMode": {
-      "type": "string",
-      "example": "Standard",
-      "x-lov": "DeliveryMode"
-    },
     "marketplaceDeliverySettingList": {
       "type": "array",
       "items": {
@@ -6475,12 +7350,12 @@
     "marketplaceDeliverySetting": {
       "type": "object",
       "required": [
-        "deliveryMode",
+        "deliveryMethod",
         "ruleType"
       ],
       "properties": {
-        "deliveryMode": {
-          "$ref": "#/definitions/deliveryMode"
+        "deliveryMethod": {
+          "$ref": "#/definitions/deliveryMethod"
         },
         "ruleType": {
           "$ref": "#/definitions/marketplaceShippingChargeRuleType"
@@ -6546,14 +7421,14 @@
     },
     "marketplaceShippingChargeRuleType": {
       "type": "string",
-      "default": "SamePricing",
+      "default": "Same",
       "enum": [
         "PercentIncrease",
         "PercentDecrease",
         "AmountIncrease",
         "AmountDecrease",
         "Same",
-        "FixedAmount"
+        "Fixed"
       ]
     },
     "marketplaceInfo": {
@@ -6681,519 +7556,12 @@
         }
       }
     },
-    "merchantOfferEventBase": {
-      "x-exclude": true,
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOffer"
-        }
-      ]
-    },
-    "merchantOfferReceived": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferEventBase"
-        }
-      ]
-    },
-    "merchantOfferCreated": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferEventBase"
-        }
-      ]
-    },
-    "merchantOfferUpdated": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferEventBase"
-        }
-      ]
-    },
-    "merchantOfferDeleted": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferIdentifier"
-        }
-      ]
-    },
-    "merchantMarketplaceOfferEventBase": {
-      "x-exclude": true,
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantMarketplaceOffer"
-        }
-      ]
-    },
-    "merchantMarketplaceOfferReceived": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantMarketplaceOfferEventBase"
-        }
-      ]
-    },
-    "merchantMarketplaceOfferCreated": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantMarketplaceOfferEventBase"
-        }
-      ]
-    },
-    "merchantMarketplaceOfferUpdated": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantMarketplaceOfferEventBase"
-        }
-      ]
-    },
-    "merchantMarketplaceOfferDeleted": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantMarketplaceOfferIdentifier"
-        }
-      ]
-    },
-    "merchantOfferNotImported": {
-      "x-format": "Event",
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferIdentifier"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "reasons": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/merchantOfferNoneImportationReason"
-              }
-            }
-          }
-        }
-      ]
-    },
-    "MerchantOfferPushQueueReminded": {
-      "x-format": "Event",
-      "description": "The merchant offer pusher is reminded",
-      "allOf": [
-        {
-          "type": "object",
-          "required": [
-            "merchantCode",
-            "senderMessageId"
-          ],
-          "properties": {
-            "merchantCode": {
-              "$ref": "#/definitions/merchantCode"
-            },
-            "senderMessageId": {
-              "type": "string",
-              "format": "MessageId",
-              "description": "The sender message Id"
-            }
-          }
-        }
-      ]
-    },
-    "duplicateMerchantOfferOperationException": {
-      "x-format": "Exception",
-      "x-transient": false,
-      "x-technical": false,
-      "description": "Duplicate operation on an offer has been {duplicateCount} times for the merchant '{merchantCode}':\n- sku: '{sku}' \n- gtin: '{gtin}'\n- itemCondition: '{itemCondition}' \n- fulfilledBy: '{fulfilledBy}'\n",
-      "type": "object",
-      "required": [
-        "merchantCode",
-        "sku",
-        "gtin",
-        "itemCondition",
-        "fulfilledBy",
-        "duplicateCount"
-      ],
-      "properties": {
-        "merchantCode": {
-          "$ref": "#/definitions/merchantCode"
-        },
-        "sku": {
-          "$ref": "#/definitions/sku"
-        },
-        "gtin": {
-          "$ref": "#/definitions/gtin"
-        },
-        "itemCondition": {
-          "$ref": "#/definitions/itemCondition"
-        },
-        "fulfilledBy": {
-          "$ref": "#/definitions/fulfilledBy"
-        },
-        "duplicateCount": {
-          "type": "integer",
-          "minimum": 2
-        }
-      }
-    },
-    "duplicateMerchantMarketplaceOfferOperationException": {
-      "x-format": "Exception",
-      "x-transient": false,
-      "x-technical": false,
-      "description": "Duplicate operation on an offer has been {duplicateCount} times for the marketplace '{marketplaceCode}' and the merchant '{merchantCode}':\n- sku: '{sku}' \n- gtin: '{gtin}'\n- itemCondition: '{itemCondition}' \n- fulfilledBy: '{fulfilledBy}'\n",
-      "type": "object",
-      "required": [
-        "marketplaceCode",
-        "merchantCode",
-        "sku",
-        "gtin",
-        "itemCondition",
-        "fulfilledBy",
-        "duplicateCount"
-      ],
-      "properties": {
-        "marketplaceCode": {
-          "$ref": "#/definitions/marketplaceCode"
-        },
-        "merchantCode": {
-          "$ref": "#/definitions/merchantCode"
-        },
-        "sku": {
-          "$ref": "#/definitions/sku"
-        },
-        "gtin": {
-          "$ref": "#/definitions/gtin"
-        },
-        "itemCondition": {
-          "$ref": "#/definitions/itemCondition"
-        },
-        "fulfilledBy": {
-          "$ref": "#/definitions/fulfilledBy"
-        },
-        "duplicateCount": {
-          "type": "integer",
-          "minimum": 2
-        }
-      }
-    },
-    "batchMerchantMarketplaceOfferChanges": {
-      "x-format": "Message",
-      "type": "object",
-      "description": "Contains all changes for one marketplace for one merchant",
-      "properties": {
-        "offers": {
-          "type": "array",
-          "description": "Offers that need to be created or replaced",
-          "minItems": 1,
-          "maxItems": 1000,
-          "items": {
-            "$ref": "#/definitions/merchantMarketplaceOffer"
-          }
-        },
-        "deleted": {
-          "type": "array",
-          "minItems": 1,
-          "maxItems": 1000,
-          "description": "Deleted offers",
-          "items": {
-            "$ref": "#/definitions/merchantMarketplaceOfferIdentifier"
-          }
-        }
-      }
-    },
-    "batchMerchantOfferChanges": {
-      "x-format": "Message",
-      "type": "object",
-      "description": "Contains all changes for a merchant",
-      "properties": {
-        "offers": {
-          "type": "array",
-          "minItems": 1,
-          "maxItems": 1000,
-          "description": "Offers that need to be created or replaced",
-          "items": {
-            "$ref": "#/definitions/merchantOffer"
-          }
-        },
-        "deleted": {
-          "type": "array",
-          "minItems": 1,
-          "maxItems": 1000,
-          "description": "Deleted offers",
-          "items": {
-            "$ref": "#/definitions/merchantOfferIdentifier"
-          }
-        }
-      }
-    },
-    "price": {
-      "x-exclude": true,
-      "type": "number",
-      "format": "decimal",
-      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. http://schema.org/price"
-    },
-    "priceCurrency": {
-      "type": "string",
-      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.\nUsage guidelines:\nUse the priceCurrency property (with ISO 4217 codes e.g. USD) instead of including ambiguous symbols such as $ in the value. http://schema.org/priceCurrency\n"
-    },
-    "validFrom": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date when the item becomes valid. http://schema.org/validFrom"
-    },
-    "validThrough": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours. http://schema.org/validThrough"
-    },
-    "priceSpecification": {
-      "type": "object",
-      "properties": {
-        "price": {
-          "$ref": "#/definitions/price"
-        },
-        "validFrom": {
-          "$ref": "#/definitions/validFrom"
-        },
-        "validThrough": {
-          "$ref": "#/definitions/validThrough"
-        }
-      }
-    },
-    "minPrice": {
-      "type": "number",
-      "format": "decimal",
-      "description": "The lowest price if the price is a range. http://schema.org/minPrice"
-    },
-    "deliveryLeadTime": {
-      "type": "number",
-      "format": "int16",
-      "description": "The typical delay between the receipt of the order and the goods either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup. http://schema.org/deliveryLeadTime"
-    },
-    "inventoryLevel": {
-      "type": "number",
-      "format": "decimal",
-      "description": "The current approximate inventory level for the item or items. http://schema.org/inventoryLevel"
-    },
-    "fulfilledBy": {
-      "type": "string",
-      "description": "The marketplace in charge of the delivery on this offer."
-    },
-    "itemCondition": {
-      "type": "string",
-      "enum": [
-        "NewCondition",
-        "RefurbishedCondition",
-        "UsedAsNewCondition",
-        "UsedVeryGoodCondition",
-        "UsedGoodCondition",
-        "UsedAcceptableCondition"
-      ]
-    },
-    "merchantOfferIdentifier": {
-      "type": "object",
-      "required": [
-        "merchantCode",
-        "sku",
-        "gtin",
-        "itemCondition"
-      ],
-      "properties": {
-        "merchantCode": {
-          "$ref": "#/definitions/merchantCode"
-        },
-        "sku": {
-          "$ref": "#/definitions/sku"
-        },
-        "gtin": {
-          "$ref": "#/definitions/gtin"
-        },
-        "itemCondition": {
-          "$ref": "#/definitions/itemCondition"
-        },
-        "fulfilledBy": {
-          "$ref": "#/definitions/fulfilledBy"
-        }
-      }
-    },
-    "merchantMarketplaceOfferIdentifier": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferIdentifier"
-        },
-        {
-          "type": "object",
-          "required": [
-            "merchantCode",
-            "marketplaceCode",
-            "sku",
-            "gtin",
-            "itemCondition"
-          ],
-          "properties": {
-            "marketplaceCode": {
-              "$ref": "#/definitions/marketplaceCode"
-            }
-          }
-        }
-      ]
-    },
-    "merchantOfferList": {
-      "allOf": [
-        {
-          "type": "object",
-          "properties": {
-            "merchantOffers": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/merchantOffer"
-              }
-            }
-          }
-        }
-      ]
-    },
-    "merchantOffer": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferIdentifier"
-        },
-        {
-          "type": "object",
-          "required": [
-            "merchantCode",
-            "sku",
-            "gtin",
-            "itemCondition",
-            "price",
-            "priceCurrency",
-            "deliveryLeadTime",
-            "inventoryLevel",
-            "lastUpdateUtcDate"
-          ],
-          "properties": {
-            "price": {
-              "$ref": "#/definitions/price"
-            },
-            "priceCurrency": {
-              "$ref": "#/definitions/priceCurrency"
-            },
-            "minPrice": {
-              "$ref": "#/definitions/minPrice"
-            },
-            "discount": {
-              "$ref": "#/definitions/priceSpecification"
-            },
-            "deliveryLeadTime": {
-              "$ref": "#/definitions/deliveryLeadTime"
-            },
-            "inventoryLevel": {
-              "$ref": "#/definitions/inventoryLevel"
-            },
-            "deliverySpecifications": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/deliverySpecification"
-              }
-            },
-            "lastUpdateUtcDate": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2018-02-24T14:24:35"
-            }
-          }
-        }
-      ]
-    },
-    "merchantMarketplaceOffer": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOffer"
-        },
-        {
-          "type": "object",
-          "required": [
-            "merchantCode",
-            "marketplaceCode",
-            "sku",
-            "gtin",
-            "itemCondition",
-            "price",
-            "priceCurrency",
-            "deliveryLeadTime",
-            "inventoryLevel",
-            "lastUpdateUtcDate"
-          ],
-          "properties": {
-            "marketplaceCode": {
-              "$ref": "#/definitions/marketplaceCode"
-            }
-          }
-        }
-      ]
-    },
-    "deliveryMethod": {
-      "type": "string",
-      "description": "A delivery method is a standardized procedure for transferring the product or service to the destination of fulfillment chosen by the customer. Delivery methods are characterized by the means of transportation used, and by the organization or group that is the contracting party for the sending organization or person."
-    },
-    "transportTime": {
-      "type": "number",
-      "format": "int16",
-      "description": "To compute the shipping time, we sometimes ask for the typical delay from the moment the goods are either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup. http://schema.org/deliveryLeadTime\n"
-    },
-    "deliverySpecification": {
-      "type": "object",
-      "properties": {
-        "deliveryMethod": {
-          "$ref": "#/definitions/deliveryMethod"
-        },
-        "price": {
-          "$ref": "#/definitions/price"
-        },
-        "additionalPrice": {
-          "$ref": "#/definitions/price"
-        },
-        "transportTime": {
-          "$ref": "#/definitions/transportTime"
-        }
-      }
-    },
-    "merchantOfferNoneImportationReasonCode": {
-      "type": "string",
-      "description": "A reason code related",
-      "enum": [
-        "InvalidEAN",
-        "InvariantNotAppliable"
-      ]
-    },
-    "merchantOfferNoneImportationReason": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "$ref": "#/definitions/merchantOfferNoneImportationReasonCode"
-        },
-        "error": {
-          "$ref": "#/definitions/userErrorMessage"
-        },
-        "propertyName": {
-          "type": "string",
-          "description": "The related property name causing the none importation of the offer"
-        },
-        "actualValue": {
-          "type": "string",
-          "description": "The actual value causing the none importation of the offer"
-        }
-      }
-    },
     "marketplaceApiIntegrationStatus": {
       "type": "string",
       "enum": [
-        "up",
-        "down",
-        "paused"
+        "Up",
+        "Down",
+        "Paused"
       ]
     },
     "marketplaceStatus": {
@@ -7203,6 +7571,117 @@
         "PROD",
         "TEST"
       ]
+    },
+    "beezUPExecutionId": {
+      "description": "The execution identifier",
+      "type": "string"
+    },
+    "beezUPChannelId": {
+      "type": "string",
+      "format": "guid",
+      "description": "The channel identifier",
+      "example": "2dc136a7-0d3d-4cc9-a825-a28a42c53e28"
+    },
+    "beezUPChannelCatalogId": {
+      "type": "string",
+      "format": "guid",
+      "description": "The channel catalog identifier",
+      "example": "6d6b04de-406b-4539-8e7e-bf3e8da5dfb0"
+    },
+    "beezUPMarketplaceTechnicalCode": {
+      "description": "The technical code of the marketplace",
+      "type": "string",
+      "example": "CDiscount",
+      "x-lov": "OMMarketplaceTechnicalCode"
+    },
+    "beezUPMarketplaceAccountId": {
+      "description": "The marketplace account identifier in BeezUP. This account identifier is based on your api settings.",
+      "type": "integer",
+      "format": "int32",
+      "example": 1234
+    },
+    "beezUPMarketplaceAccountIdentifier": {
+      "type": "object",
+      "required": [
+        "channelId",
+        "channelCatalogId",
+        "accountId"
+      ],
+      "properties": {
+        "channelId": {
+          "$ref": "#/definitions/beezUPChannelId"
+        },
+        "channelCatalogId": {
+          "$ref": "#/definitions/beezUPChannelCatalogId"
+        },
+        "accountId": {
+          "$ref": "#/definitions/beezUPMarketplaceAccountId"
+        }
+      }
+    },
+    "marketplaceCodeNotFoundException": {
+      "x-format": "Exception",
+      "x-transient": false,
+      "x-technical": false,
+      "type": "object",
+      "required": [
+        "marketplaceCode"
+      ],
+      "description": "The marketplace code '{marketplaceCode}' does not exist\n",
+      "properties": {
+        "marketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
+        }
+      }
+    },
+    "merchantCodeNotFoundException": {
+      "x-format": "Exception",
+      "x-transient": false,
+      "x-technical": false,
+      "type": "object",
+      "required": [
+        "merchantCode"
+      ],
+      "description": "The merchant code '{merchantCode}' does not exist\n",
+      "properties": {
+        "merchantCode": {
+          "$ref": "#/definitions/merchantCode"
+        }
+      }
+    },
+    "invalidMarketplaceCodeException": {
+      "x-format": "Exception",
+      "x-transient": false,
+      "x-technical": false,
+      "type": "object",
+      "required": [
+        "marketplaceCode"
+      ],
+      "description": "The merketplace code '{marketplaceCode}' is different from the state\n",
+      "properties": {
+        "marketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
+        }
+      }
+    },
+    "invalidMerchantCodeException": {
+      "x-format": "Exception",
+      "x-transient": false,
+      "x-technical": false,
+      "type": "object",
+      "required": [
+        "merchantCode"
+      ],
+      "description": "The merchant code '{merchantCode}' is different from the state\n",
+      "properties": {
+        "merchantCode": {
+          "$ref": "#/definitions/merchantCode"
+        }
+      }
+    },
+    "deliveryMethod": {
+      "type": "string",
+      "description": "A delivery method is a standardized procedure for transferring the product or service to the destination of fulfillment chosen by the customer. Delivery methods are characterized by the means of transportation used, and by the organization or group that is the contracting party for the sending organization or person."
     },
     "ecommerceSoftwareName": {
       "description": "The e-commerce software name of the merchant",
@@ -7291,89 +7770,6 @@
       "minimum": 1,
       "x-minimum": 1,
       "default": 1
-    },
-    "catalogCategoryFilter": {
-      "type": "object",
-      "properties": {
-        "categoryPath": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Indicates on which catalog category path you want to make the filter",
-          "example": [
-            "Maison",
-            "Chambre"
-          ]
-        }
-      }
-    },
-    "channelCategoryFilter": {
-      "type": "object",
-      "properties": {
-        "categoryPath": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Indicates on which channel category path you want to make the filter",
-          "example": [
-            "Home",
-            "Bedroom"
-          ]
-        }
-      }
-    },
-    "productFilters": {
-      "type": "object",
-      "properties": {
-        "sku": {
-          "type": "string",
-          "description": "The product sku filter",
-          "example": "M1234"
-        },
-        "title": {
-          "type": "string",
-          "description": "The product title filter",
-          "example": "RefrigÃ©rateur"
-        },
-        "additionalProductFilters": {
-          "$ref": "#/definitions/additionalProductFilters"
-        }
-      }
-    },
-    "additionalProductFiltersValue": {
-      "type": "object",
-      "properties": {
-        "operatorName": {
-          "$ref": "#/definitions/productFilterOperatorName"
-        },
-        "values": {
-          "description": "Must be null if the operator is \"IsNull\" or \"IsNotNull\".\nCan contains multiple value in case of \"InList\" operator. Otherwise a single value is expected.\n",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "example": [
-            "My value"
-          ]
-        }
-      },
-      "example": {
-        "672644c7-5bd0-4e25-88c1-1f732bda5e4c": {
-          "operatorName": "GreaterTo",
-          "values": [
-            100
-          ]
-        }
-      }
-    },
-    "additionalProductFilters": {
-      "type": "object",
-      "description": "Describe a filter on a product's column.\nThe key is the column identifier of your catalog or a custom column.\n",
-      "additionalProperties": {
-        "$ref": "#/definitions/additionalProductFiltersValue"
-      }
     },
     "productFilterOperatorName": {
       "type": "string",
@@ -8039,6 +8435,23 @@
         "type": "object"
       }
     },
+    "exceptionDetail": {
+      "type": "object",
+      "properties": {
+        "helpLink": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
     "infoSummaries": {
       "type": "object",
       "properties": {
@@ -8183,23 +8596,6 @@
         }
       }
     },
-    "exceptionDetail": {
-      "type": "object",
-      "properties": {
-        "helpLink": {
-          "type": "string"
-        },
-        "message": {
-          "type": "string"
-        },
-        "stackTrace": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        }
-      }
-    },
     "marketplaceApiCredential": {
       "description": "The API credentials of the merchant on his marketplace.",
       "type": "object",
@@ -8316,9 +8712,9 @@
         }
       }
     },
-    "eventName": {
+    "eventType": {
       "x-exclude": true,
-      "description": "The event name",
+      "description": "The event type",
       "type": "string"
     },
     "eventBase": {
@@ -8331,11 +8727,11 @@
           "type": "object",
           "discriminator": "eventType",
           "required": [
-            "eventName"
+            "eventType"
           ],
           "properties": {
-            "eventName": {
-              "$ref": "#/definitions/eventName"
+            "eventType": {
+              "$ref": "#/definitions/eventType"
             }
           }
         }
