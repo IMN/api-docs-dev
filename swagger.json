@@ -20,27 +20,23 @@
   "x-IMN-api-ops": {
     "codeGenType": "webapi",
     "repo": "IMN",
-    "appRoot": "IMN.MER.MKP.WebService",
-    "apiName": "MerchantMarketplacesV1",
-    "namespace": "IMN.MER.MKP.WebService",
-    "applicationShortName": "MER.MKP.WS",
+    "product": "IMN-CORE",
+    "appRoot": "IMN.MER.BAM.WebService",
+    "apiName": "MerchantOperationsV1",
+    "namespace": "IMN.MER.BAM.WebService",
+    "applicationShortName": "MER.BAM.WS",
     "useBeezUPFrameworkVersion2": true,
     "comment": "No change. Just server side generation.\n",
     "using": [
       "IMN.Schemas",
-      "IMN.Exceptions",
-      "IMN.MER.Schemas",
-      "IMN.MER.Exceptions",
-      "IMN.MKP.Schemas"
+      "IMN.Exceptions"
     ],
     "references": [
-      "IMN.Exceptions",
-      "IMN.MER.Schemas",
-      "IMN.MER.Exceptions",
-      "IMN.MKP.Schemas"
+      "IMN.Schemas",
+      "IMN.Exceptions"
     ]
   },
-  "x-basePath": "/merchant/marketplaces/v1",
+  "x-basePath": "/merchant/operations/v1",
   "schemes": [
     "https"
   ],
@@ -51,6 +47,10 @@
     "application/json"
   ],
   "tags": [
+    {
+      "name": "Merchant API - Operations - Global",
+      "x-displayName": "Global"
+    },
     {
       "name": "Merchant API - Marketplaces - Global",
       "x-displayName": "Global"
@@ -132,6 +132,53 @@
     }
   ],
   "paths": {
+    "/merchant/operations/v1/{merchantCode}/{operationId}": {
+      "get": {
+        "tags": [
+          "Merchant API - Operations - Global"
+        ],
+        "summary": "Get the operation status",
+        "operationId": "GetOperationStatus",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "CorrelationId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation status",
+            "schema": {
+              "$ref": "#/definitions/operationStatusInfo"
+            }
+          },
+          "303": {
+            "description": "The operation is completed so the resource is up to date now! \nFor more information, please read this: https://www.adayinthelifeof.nl/2011/06/02/asynchronous-operations-in-rest/\n",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to the resource"
+              }
+            }
+          },
+          "404": {
+            "description": "The operation status not found",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/marketplaces/v1/{merchantCode}": {
       "get": {
         "tags": [
@@ -272,8 +319,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Marketplace API credentials saved"
+          "202": {
+            "description": "Marketplace API credentials saved",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -343,8 +396,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Shipping settings configured for this marketplace"
+          "202": {
+            "description": "Shipping settings configured for this marketplace",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -408,8 +467,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Pricing setting configured for this marketplace"
+          "202": {
+            "description": "Pricing setting configured for this marketplace",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantNotFound"
@@ -439,8 +504,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "The source marketplace has been declared"
+          "202": {
+            "description": "The source marketplace has been declared",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -470,8 +541,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "The source marketplace has been declared"
+          "202": {
+            "description": "The source marketplace has been declared",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -504,8 +581,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "The marketplace has been enabled"
+          "202": {
+            "description": "The marketplace has been enabled",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -541,8 +624,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "The marketplace has been disabled"
+          "202": {
+            "description": "The marketplace has been disabled",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -572,8 +661,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "The marketplace order importation has been disabled"
+          "202": {
+            "description": "The marketplace order importation has been disabled",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -603,8 +698,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "The marketplace order importation has been reenabled"
+          "202": {
+            "description": "The marketplace order importation has been reenabled",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -701,8 +802,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "The merchant code has been created"
+          "202": {
+            "description": "The merchant code has been created",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "The merchant code or some values are invalid. Please check the error message.",
@@ -751,7 +858,7 @@
           "Merchant - Account API - Account"
         ],
         "summary": "Save merchant account info",
-        "operationId": "UpdateMerchantAcountInfo",
+        "operationId": "UpdateMerchantAccountInfo",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -767,8 +874,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Merchant account info updated"
+          "202": {
+            "description": "Merchant account info updated",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "$ref": "#/responses/invalidMerchantCode"
@@ -938,7 +1051,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "202": {
             "$ref": "#/responses/orderMerchantInfoBatchOperationResponse"
           },
           "400": {
@@ -973,7 +1086,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "202": {
             "$ref": "#/responses/orderMerchantInfoBatchOperationResponse"
           },
           "400": {
@@ -1338,7 +1451,7 @@
           "Merchant - Orders - Order"
         ],
         "operationId": "GetOrderHistory",
-        "summary": "Get an Order's harvest and change history",
+        "summary": "Get order change history",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -1400,8 +1513,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Successfully set Order merchant order info set"
+          "202": {
+            "description": "Successfully set Order merchant order info set",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "Could not update Order merchant information. Please see body for more information.",
@@ -1438,8 +1557,14 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Successfully cleared Order merchant order info set"
+          "202": {
+            "description": "Successfully cleared Order merchant order info set",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "Could not update Order merchant information. Please see body for more information.",
@@ -1486,7 +1611,13 @@
         ],
         "responses": {
           "202": {
-            "description": "Order accept request accepted"
+            "description": "Order accept request accepted",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "Invalid order accept request, could not be send to the marketplace. Please check your request.",
@@ -1539,7 +1670,13 @@
         ],
         "responses": {
           "202": {
-            "description": "Order refuse request accepted"
+            "description": "Order refuse request accepted",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "Invalid order refuse request, could not be send to the marketplace. Please check your request.",
@@ -1600,7 +1737,13 @@
         ],
         "responses": {
           "202": {
-            "description": "Order cancel request accepted"
+            "description": "Order cancel request accepted",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "Invalid order cancel request, could not be send to the marketplace. Please check your request.",
@@ -1661,7 +1804,13 @@
         ],
         "responses": {
           "202": {
-            "description": "Order ship request accepted"
+            "description": "Order ship request accepted",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "Invalid order ship request, could not be send to the marketplace. Please check the body of this request.",
@@ -1722,7 +1871,13 @@
         ],
         "responses": {
           "202": {
-            "description": "Order ship with tracking url request accepted"
+            "description": "Order ship with tracking url request accepted",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "Invalid order ship request, could not be send to the marketplace. Please check the body of this request.",
@@ -1783,7 +1938,13 @@
         ],
         "responses": {
           "202": {
-            "description": "Order refund request accepted"
+            "description": "Order refund request accepted",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
           },
           "400": {
             "description": "Invalid order refund request, could not be send to the marketplace. Please check the body of this request.",
@@ -2063,7 +2224,7 @@
       }
     },
     "/merchant/orders/v1/{merchantCode}/reports/status": {
-      "post": {
+      "get": {
         "tags": [
           "Merchant - Orders - Statistics"
         ],
@@ -2336,6 +2497,73 @@
     }
   },
   "definitions": {
+    "operationStatusInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "started": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "projections": {
+          "$ref": "#/definitions/operationProjectionStatusInfoList"
+        }
+      }
+    },
+    "operationProjectionStatusInfoList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/operationProjectionStatusInfo"
+      }
+    },
+    "operationProjectionStatusInfo": {
+      "type": "object",
+      "required": [
+        "tenant",
+        "app",
+        "lastUpdateUtcDate",
+        "transactionInfo"
+      ],
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "app": {
+          "type": "string"
+        },
+        "lastUpdateUtcDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "transactionInfo": {
+          "$ref": "#/definitions/operationTransactionInfo"
+        },
+        "errorMessage": {
+          "type": "string"
+        }
+      }
+    },
+    "operationTransactionInfo": {
+      "type": "object",
+      "required": [
+        "id",
+        "messageNumber",
+        "messageCount"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "messageNumber": {
+          "type": "integer"
+        },
+        "messageCount": {
+          "type": "integer"
+        }
+      }
+    },
     "links.GetMarketplaceApiCredentialLink": {
       "allOf": [
         {
@@ -2787,7 +3015,7 @@
           "$ref": "#/definitions/links.GetMerchantAccountInfoLink"
         },
         "update": {
-          "$ref": "#/definitions/links.UpdateMerchantAcountInfoLink"
+          "$ref": "#/definitions/links.UpdateMerchantAccountInfoLink"
         },
         "getApiToken": {
           "$ref": "#/definitions/links.GetMerchantApiTokenLink"
@@ -2870,7 +3098,7 @@
         }
       ]
     },
-    "links.UpdateMerchantAcountInfoLink": {
+    "links.UpdateMerchantAccountInfoLink": {
       "allOf": [
         {
           "$ref": "#/definitions/link3"
@@ -3623,12 +3851,20 @@
       "type": "object",
       "required": [
         "order",
+        "operationId",
+        "operationMonitoringUrl",
         "success",
         "status"
       ],
       "properties": {
         "order": {
           "$ref": "#/definitions/orderIdentifier"
+        },
+        "operationId": {
+          "$ref": "#/definitions/correlationId"
+        },
+        "operationMonitoringHref": {
+          "$ref": "#/definitions/href"
         },
         "success": {
           "type": "boolean",
@@ -3638,7 +3874,7 @@
         "status": {
           "type": "integer",
           "description": "Indicates the http status corresponding to the individual operation",
-          "example": 204
+          "example": 202
         },
         "errors": {
           "description": "The error list",
@@ -4505,6 +4741,18 @@
         }
       }
     },
+    "orderShipmentOverdue": {
+      "x-format": "Event",
+      "type": "object",
+      "required": [
+        "order"
+      ],
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/orderIdentifier"
+        }
+      }
+    },
     "batchMerchantMarketplaceOrders": {
       "x-format": "Message",
       "type": "object",
@@ -5181,16 +5429,24 @@
       ]
     },
     "orderItems": {
-      "type": "object",
+      "type": "array",
       "description": "The key correspond to the order item identifier. Must be unique.",
-      "additionalProperties": {
+      "items": {
         "$ref": "#/definitions/orderItem"
       }
     },
     "orderItem": {
       "description": "Describe an order item.",
       "type": "object",
+      "required": [
+        "id"
+      ],
       "properties": {
+        "id": {
+          "type": "string",
+          "description": "The order item identifier. Must be unique in the order.",
+          "example": "1409211351GV25J-AUC2009994538238-0"
+        },
         "title": {
           "description": "The title of the order item",
           "example": "bLA acide-plomb 6v-4.5ah 70x48x106mm",
@@ -5664,6 +5920,25 @@
         }
       ]
     },
+    "merchantOfferUnpublished": {
+      "x-format": "Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferIdentifier"
+        },
+        {
+          "type": "object",
+          "required": [
+            "reason"
+          ],
+          "properties": {
+            "reason": {
+              "$ref": "#/definitions/merchantOfferUnpublicationReasonCode"
+            }
+          }
+        }
+      ]
+    },
     "merchantOfferNotImported": {
       "x-format": "Event",
       "allOf": [
@@ -5683,41 +5958,15 @@
         }
       ]
     },
-    "MerchantOfferPushQueueReminded": {
-      "x-format": "Event",
-      "description": "The merchant offer pusher is reminded",
-      "allOf": [
-        {
-          "type": "object",
-          "required": [
-            "merchantCode",
-            "senderMessageId"
-          ],
-          "properties": {
-            "merchantCode": {
-              "$ref": "#/definitions/merchantCode"
-            },
-            "senderMessageId": {
-              "type": "string",
-              "format": "MessageId",
-              "description": "The sender message Id"
-            }
-          }
-        }
-      ]
-    },
     "duplicateMerchantOfferOperationException": {
       "x-format": "Exception",
       "x-transient": false,
       "x-technical": false,
-      "description": "Duplicate operation on an offer has been {duplicateCount} times for the merchant '{merchantCode}':\n- sku: '{sku}' \n- gtin: '{gtin}'\n- itemCondition: '{itemCondition}' \n- fulfilledBy: '{fulfilledBy}'\n",
+      "description": "Duplicate operation on an offer has been {duplicateCount} times for the merchant '{merchantCode}':\n- sku: '{sku}' \n",
       "type": "object",
       "required": [
         "merchantCode",
         "sku",
-        "gtin",
-        "itemCondition",
-        "fulfilledBy",
         "duplicateCount"
       ],
       "properties": {
@@ -5726,15 +5975,6 @@
         },
         "sku": {
           "$ref": "#/definitions/sku"
-        },
-        "gtin": {
-          "$ref": "#/definitions/gtin"
-        },
-        "itemCondition": {
-          "$ref": "#/definitions/itemCondition"
-        },
-        "fulfilledBy": {
-          "$ref": "#/definitions/fulfilledBy"
         },
         "duplicateCount": {
           "type": "integer",
@@ -5752,9 +5992,6 @@
         "marketplaceCode",
         "merchantCode",
         "sku",
-        "gtin",
-        "itemCondition",
-        "fulfilledBy",
         "duplicateCount"
       ],
       "properties": {
@@ -5766,15 +6003,6 @@
         },
         "sku": {
           "$ref": "#/definitions/sku"
-        },
-        "gtin": {
-          "$ref": "#/definitions/gtin"
-        },
-        "itemCondition": {
-          "$ref": "#/definitions/itemCondition"
-        },
-        "fulfilledBy": {
-          "$ref": "#/definitions/fulfilledBy"
         },
         "duplicateCount": {
           "type": "integer",
@@ -5801,6 +6029,15 @@
           "minItems": 1,
           "maxItems": 1000,
           "description": "Deleted offers",
+          "items": {
+            "$ref": "#/definitions/merchantOfferIdentifier"
+          }
+        },
+        "unpublished": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Unpublished offers",
           "items": {
             "$ref": "#/definitions/merchantOfferIdentifier"
           }
@@ -5875,9 +6112,7 @@
       "type": "object",
       "required": [
         "merchantCode",
-        "sku",
-        "gtin",
-        "itemCondition"
+        "sku"
       ],
       "properties": {
         "merchantCode": {
@@ -5885,15 +6120,6 @@
         },
         "sku": {
           "$ref": "#/definitions/sku"
-        },
-        "gtin": {
-          "$ref": "#/definitions/gtin"
-        },
-        "itemCondition": {
-          "$ref": "#/definitions/itemCondition"
-        },
-        "fulfilledBy": {
-          "$ref": "#/definitions/fulfilledBy"
         }
       }
     },
@@ -5932,6 +6158,15 @@
             "lastUpdateUtcDate"
           ],
           "properties": {
+            "gtin": {
+              "$ref": "#/definitions/gtin"
+            },
+            "itemCondition": {
+              "$ref": "#/definitions/itemCondition"
+            },
+            "fulfilledBy": {
+              "$ref": "#/definitions/fulfilledBy"
+            },
             "price": {
               "$ref": "#/definitions/price"
             },
@@ -5996,7 +6231,7 @@
     },
     "merchantOfferNoneImportationReasonCode": {
       "type": "string",
-      "description": "A reason code related",
+      "description": "A reason code related to a none importation of the offer",
       "enum": [
         "InvalidEAN",
         "InvariantNotAppliable"
@@ -6020,6 +6255,15 @@
           "description": "The actual value causing the none importation of the offer"
         }
       }
+    },
+    "merchantOfferUnpublicationReasonCode": {
+      "type": "string",
+      "description": "The reason of the unpublication of an offer",
+      "enum": [
+        "MerchantMarketplaceOfferPublicationDisabled",
+        "Excluded",
+        "OfferDisabled"
+      ]
     },
     "merchantEventPushed": {
       "x-exclude": true,
@@ -6163,6 +6407,30 @@
             },
             "userIPAddress": {
               "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "merchantMarketplaceCredentialExpired": {
+      "x-format": "Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantEventPushed"
+        },
+        {
+          "$ref": "#/definitions/merchantMarketplaceEventBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "merchantCode",
+            "marketplaceCode",
+            "credential"
+          ],
+          "properties": {
+            "credential": {
+              "$ref": "#/definitions/marketplaceApiCredential"
             }
           }
         }
@@ -9123,6 +9391,12 @@
   },
   "x-tagGroups": [
     {
+      "name": "Merchant API - Operations",
+      "tags": [
+        "Merchant API - Operations - Global"
+      ]
+    },
+    {
       "name": "Merchant API - Marketplaces",
       "tags": [
         "Merchant API - Marketplaces - Global",
@@ -9176,12 +9450,24 @@
       "description": "Succesfully or partially processed operations.\nIn the response, you will see the status per operation.\n",
       "schema": {
         "$ref": "#/definitions/batchOrderOperationResponse"
+      },
+      "headers": {
+        "Location": {
+          "type": "string",
+          "description": "The location to monitor the progression of the operation in the IMN system"
+        }
       }
     },
     "orderChangeBatchOperationResponse": {
       "description": "Succesfully or partially processed operations.\nIn the response, you will see the status per operation.\n\nFor each operation succeed:\n- the operation will be fowarded to the marketplace\n- that does not mean that marketplace will validate your operation.\n",
       "schema": {
         "$ref": "#/definitions/batchOrderOperationResponse"
+      },
+      "headers": {
+        "Location": {
+          "type": "string",
+          "description": "The location to monitor the progression of the operation in the IMN system"
+        }
       }
     },
     "orderBatchBadRequest": {
@@ -9368,9 +9654,9 @@
     },
     "userNameInQueryParameter": {
       "name": "userName",
-      "description": "Sometimes the user in the e-commerce application is not the same as user associated with the current subscription key. We recommend providing your application's user login.",
+      "description": "Optional. Sometimes the user in the e-commerce application is not the same as user associated with the current subscription key. We recommend providing your application's user login.",
       "in": "query",
-      "required": true,
+      "required": false,
       "type": "string"
     },
     "testModeInQueryParameter": {
