@@ -64,6 +64,10 @@
       "x-displayName": "Api Credentials"
     },
     {
+      "name": "Merchant API - Marketplaces - Source Marketplace Activation",
+      "x-displayName": "Source Marketplace Activation"
+    },
+    {
       "name": "Merchant API - Marketplaces - Shipping Settings",
       "x-displayName": "Shipping Settings"
     },
@@ -72,8 +76,8 @@
       "x-displayName": "Pricing Settings"
     },
     {
-      "name": "Merchant API - Marketplaces - Activation",
-      "x-displayName": "Activation"
+      "name": "Merchant API - Marketplaces - Target Marketplace Activation",
+      "x-displayName": "Target Marketplace Activation"
     },
     {
       "name": "Merchant - Account API - Global",
@@ -155,7 +159,7 @@
           "200": {
             "description": "The operation status",
             "schema": {
-              "$ref": "#/definitions/operationStatusInfo"
+              "$ref": "#/definitions/operationStatusIndex"
             }
           },
           "303": {
@@ -491,10 +495,10 @@
     "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/declareOffersSource": {
       "post": {
         "tags": [
-          "Merchant API - Marketplaces - Activation"
+          "Merchant API - Marketplaces - Source Marketplace Activation"
         ],
         "summary": "Declare this marketplace as source of the offers",
-        "operationId": "DeclareSourceMarketplace",
+        "operationId": "DeclareOffersSourceMarketplace",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -505,7 +509,7 @@
         ],
         "responses": {
           "202": {
-            "description": "The source marketplace has been declared",
+            "description": "The offers source marketplace has been declared",
             "headers": {
               "Location": {
                 "type": "string",
@@ -528,10 +532,10 @@
     "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/undeclareOffersSource": {
       "post": {
         "tags": [
-          "Merchant API - Marketplaces - Activation"
+          "Merchant API - Marketplaces - Source Marketplace Activation"
         ],
         "summary": "Undeclare this marketplace as source of the offers",
-        "operationId": "UndeclareSourceMarketplace",
+        "operationId": "UndeclareOffersSourceMarketplace",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -542,7 +546,7 @@
         ],
         "responses": {
           "202": {
-            "description": "The source marketplace has been declared",
+            "description": "The offers source marketplace has been undeclared",
             "headers": {
               "Location": {
                 "type": "string",
@@ -565,10 +569,90 @@
         }
       }
     },
+    "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/disableOfferImportation": {
+      "post": {
+        "tags": [
+          "Merchant API - Marketplaces - Source Marketplace Activation"
+        ],
+        "summary": "Disable offer importation for this marketplace",
+        "operationId": "DisableOfferImportation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The marketplace offer importation has been disabled",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "400": {
+            "$ref": "#/responses/invalidMerchantCode"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/reenableOfferImportation": {
+      "post": {
+        "tags": [
+          "Merchant API - Marketplaces - Source Marketplace Activation"
+        ],
+        "summary": "Reenable offer importation for this marketplace",
+        "operationId": "ReenableOfferImportation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The marketplace offer importation has been reenabled",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "400": {
+            "$ref": "#/responses/invalidMerchantCode"
+          },
+          "403": {
+            "$ref": "#/responses/subscriptionNotAccepted"
+          },
+          "412": {
+            "$ref": "#/responses/credentialNotConfigured"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/enable": {
       "post": {
         "tags": [
-          "Merchant API - Marketplaces - Activation"
+          "Merchant API - Marketplaces - Target Marketplace Activation"
         ],
         "summary": "Enable offers publication & order management for this marketplace",
         "operationId": "EnableMarketplace",
@@ -611,7 +695,7 @@
     "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/disable": {
       "post": {
         "tags": [
-          "Merchant API - Marketplaces - Activation"
+          "Merchant API - Marketplaces - Target Marketplace Activation"
         ],
         "summary": "Disable offers publication & order management for this marketplace",
         "operationId": "DisableMarketplace",
@@ -648,7 +732,7 @@
     "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/disableOrderImportation": {
       "post": {
         "tags": [
-          "Merchant API - Marketplaces - Activation"
+          "Merchant API - Marketplaces - Target Marketplace Activation"
         ],
         "summary": "Disable order importation for this marketplace",
         "operationId": "DisableOrderImportation",
@@ -685,7 +769,7 @@
     "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/reenableOrderImportation": {
       "post": {
         "tags": [
-          "Merchant API - Marketplaces - Activation"
+          "Merchant API - Marketplaces - Target Marketplace Activation"
         ],
         "summary": "Reenable order importation for this marketplace",
         "operationId": "ReenableOrderImportation",
@@ -1971,6 +2055,53 @@
         "deprecated": false
       }
     },
+    "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{marketplaceOrderId}/changes/{correlationId}/abort": {
+      "post": {
+        "tags": [
+          "Merchant - Orders - Order"
+        ],
+        "operationId": "AbortOrderChange",
+        "summary": "Declare the abortion of the order change request.",
+        "description": "This operation will not cancel the marketplace order change but will unlock the order to allow order change.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceOrderIdParameter"
+          },
+          {
+            "$ref": "#/parameters/correlationIdParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The merchant order change abortion has been processed",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
+          },
+          "400": {
+            "description": "Something wrong in the request, please check the documentation.",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/orderChangeNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/orders/v1/{merchantCode}/subscriptions": {
       "post": {
         "tags": [
@@ -2497,34 +2628,73 @@
     }
   },
   "definitions": {
-    "operationStatusInfo": {
+    "operationStatusIndex": {
       "type": "object",
       "properties": {
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operationStatusInfo"
+          }
+        },
+        "apiGetDependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiGetDependenciesInfo"
+          }
+        },
+        "projections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operationProjectionStatusInfo"
+          }
+        }
+      }
+    },
+    "operationStatusInfo": {
+      "type": "object",
+      "required": [
+        "tenantApp",
+        "name",
+        "started"
+      ],
+      "properties": {
+        "tenantApp": {
+          "$ref": "#/definitions/tenantApp"
+        },
         "name": {
           "type": "string"
         },
         "started": {
           "type": "string",
           "format": "date-time"
-        },
-        "projections": {
-          "$ref": "#/definitions/operationProjectionStatusInfoList"
         }
       }
     },
-    "operationProjectionStatusInfoList": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/operationProjectionStatusInfo"
+    "apiGetDependenciesInfo": {
+      "type": "object",
+      "required": [
+        "uri",
+        "tenantApps"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "tenantApps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/tenantApp"
+          }
+        }
       }
     },
-    "operationProjectionStatusInfo": {
+    "tenantApp": {
       "type": "object",
       "required": [
         "tenant",
-        "app",
-        "lastUpdateUtcDate",
-        "transactionInfo"
+        "app"
       ],
       "properties": {
         "tenant": {
@@ -2532,10 +2702,28 @@
         },
         "app": {
           "type": "string"
+        }
+      }
+    },
+    "operationProjectionStatusInfo": {
+      "type": "object",
+      "required": [
+        "tenantApp",
+        "lastUpdateUtcDate"
+      ],
+      "properties": {
+        "tenantApp": {
+          "$ref": "#/definitions/tenantApp"
         },
         "lastUpdateUtcDate": {
           "type": "string",
           "format": "date-time"
+        },
+        "lastMessageId": {
+          "type": "string"
+        },
+        "lastMessageName": {
+          "type": "string"
         },
         "transactionInfo": {
           "$ref": "#/definitions/operationTransactionInfo"
@@ -2572,7 +2760,7 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/marketplace/v1/eprice/credential",
+            "href": "/merchant/marketplaces/v1/MLT01/E1/credential",
             "method": "GET"
           }
         }
@@ -2586,7 +2774,7 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/marketplace/v1/eprice/shippingSettings",
+            "href": "/merchant/marketplaces/v1/MLT01/E1/shippingSettings",
             "method": "GET"
           }
         }
@@ -2600,7 +2788,7 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/marketplace/v1/eprice/pricingSetting",
+            "href": "/merchant/marketplaces/v1/MLT01/E1/pricingSetting",
             "method": "GET"
           }
         }
@@ -2614,7 +2802,7 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/marketplace/v1/eprice/enable",
+            "href": "/merchant/marketplaces/v1/MLT01/E1/enable",
             "method": "POST"
           }
         }
@@ -2628,7 +2816,7 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/marketplace/v1/eprice/disable",
+            "href": "/merchant/marketplaces/v1/MLT01/E1/disable",
             "method": "POST"
           }
         }
@@ -2642,7 +2830,7 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/marketplace/v1/eprice/disableOrderImportation",
+            "href": "/merchant/marketplaces/v1/MLT01/E1/disableOrderImportation",
             "method": "POST"
           }
         }
@@ -2656,7 +2844,63 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/marketplace/v1/eprice/reenableOrderImportation",
+            "href": "/merchant/marketplaces/v1/MLT01/E1/reenableOrderImportation",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    "links.DisableOfferImportationLink": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/link3"
+        },
+        {
+          "type": "object",
+          "example": {
+            "href": "/merchant/marketplaces/v1/MLT01/E1/disableOfferImportation",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    "links.ReenableOfferImportationLink": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/link3"
+        },
+        {
+          "type": "object",
+          "example": {
+            "href": "/merchant/marketplaces/v1/MLT01/E1/reenableOfferImportation",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    "links.DeclareOffersSourceMarketplaceLink": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/link3"
+        },
+        {
+          "type": "object",
+          "example": {
+            "href": "/merchant/marketplaces/v1/MLT01/E1/declareOffersSource",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    "links.UndeclareOffersSourceMarketplaceLink": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/link3"
+        },
+        {
+          "type": "object",
+          "example": {
+            "href": "/merchant/marketplaces/v1/MLT01/E1/undeclareOffersSource",
             "method": "POST"
           }
         }
@@ -2670,7 +2914,7 @@
         {
           "type": "object",
           "example": {
-            "href": "/merchant/marketplace/v1/eprice/disable",
+            "href": "/merchant/marketplaces/v1/MLT01/E1/disable",
             "method": "POST"
           }
         }
@@ -2729,6 +2973,18 @@
         "reenableOrderImportation": {
           "$ref": "#/definitions/links.ReenableOrderImportationLink"
         },
+        "disableOfferImportation": {
+          "$ref": "#/definitions/links.DisableOfferImportationLink"
+        },
+        "reenableOfferImportation": {
+          "$ref": "#/definitions/links.ReenableOfferImportationLink"
+        },
+        "declareOffersSource": {
+          "$ref": "#/definitions/links.DeclareOffersSourceMarketplaceLink"
+        },
+        "undeclareOffersSource": {
+          "$ref": "#/definitions/links.UndeclareOffersSourceMarketplaceLink"
+        },
         "reporting": {
           "$ref": "#/definitions/links.GetMarketplaceSubscriptionReportingLink"
         }
@@ -2758,13 +3014,13 @@
         "publishableOfferCount": {
           "type": "integer",
           "format": "int32",
-          "description": "NULL - NOT AVAILABLE FOR NOW - The publishable offer count for this target marketplace (considering the product matching)",
+          "description": "The publishable offer count for this target marketplace (considering the product matching)",
           "example": 25
         },
         "publishedOfferCount": {
           "type": "integer",
           "format": "int32",
-          "description": "NULL - NOT AVAILABLE FOR NOW - The published offer count to this target marketplace",
+          "description": "The published offer count to this target marketplace",
           "example": 20
         },
         "lastPublicationUtcDate": {
@@ -2812,7 +3068,7 @@
         "importedOfferCount": {
           "type": "integer",
           "format": "int32",
-          "description": "NOT AVAILABLE FOR NOW - The imported offer count from the source marketplace",
+          "description": "The imported offer count from the source marketplace",
           "example": 52
         }
       }
@@ -3498,6 +3754,13 @@
         }
       ]
     },
+    "links.AbortOrderChangeLink": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/link3"
+        }
+      ]
+    },
     "orderTransitionLinks": {
       "description": "Contains the authorized change actions for an order",
       "type": "object",
@@ -3672,9 +3935,18 @@
       "description": "Describe the history related to an order",
       "type": "object",
       "required": [
-        "changeOrderReportings"
+        "synchronizationReportings",
+        "changeOrderReportings",
+        "links"
       ],
       "properties": {
+        "synchronizationReportings": {
+          "description": "The list of order synchronization operation",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/orderSynchronizationReporting"
+          }
+        },
         "changeOrderReportings": {
           "description": "The list of change order operation",
           "type": "array",
@@ -3685,6 +3957,47 @@
         "lastModificationUtcDate": {
           "format": "date-time",
           "type": "string"
+        },
+        "links": {
+          "$ref": "#/definitions/orderHistoryLinks"
+        }
+      }
+    },
+    "orderHistoryLinks": {
+      "type": "object",
+      "properties": {
+        "abortCurrentOrderChange": {
+          "$ref": "#/definitions/links.AbortOrderChangeLink"
+        }
+      }
+    },
+    "orderSynchronizationReporting": {
+      "description": "The reporting related to a order synchronization operation",
+      "type": "object",
+      "required": [
+        "correlationId",
+        "imnOrderStatus",
+        "marketplaceOrderStatus",
+        "imnLastModificationUtcDate",
+        "marketplaceLastModificationUtcDate"
+      ],
+      "properties": {
+        "correlationId": {
+          "$ref": "#/definitions/correlationId"
+        },
+        "imnOrderStatus": {
+          "$ref": "#/definitions/imnOrderStatus"
+        },
+        "marketplaceOrderStatus": {
+          "$ref": "#/definitions/marketplaceOrderStatus"
+        },
+        "imnLastModificationUtcDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "marketplaceLastModificationUtcDate": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },
@@ -3736,10 +4049,8 @@
           "type": "string",
           "example": "2017-04-01T13:10:05Z"
         },
-        "errorMessage": {
-          "description": "The error message during the execution",
-          "type": "string",
-          "example": "This is an error message"
+        "error": {
+          "$ref": "#/definitions/userErrorMessage"
         },
         "sourceUserIPAddress": {
           "description": "The IP address who request this operation",
@@ -3966,6 +4277,19 @@
         "Active",
         "Inactive"
       ]
+    },
+    "orderChangeRequestBase": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "Optional. Sometimes the user in the e-commerce application is not the same as user associated with the current subscription key. We recommend providing your application's user login. Default value is the connected user's email address."
+        },
+        "useTest": {
+          "type": "boolean",
+          "description": "Optional. If true, the operation will be not be sent to marketplace. But the validation will be taken in account. Default value is false."
+        }
+      }
     },
     "shipOrderListRequest": {
       "type": "object",
@@ -4738,6 +5062,17 @@
         },
         "error": {
           "$ref": "#/definitions/userErrorMessage"
+        },
+        "userId": {
+          "$ref": "#/definitions/userId"
+        },
+        "userEmail": {
+          "$ref": "#/definitions/email"
+        },
+        "userIPAddress": {
+          "description": "The IP address who request this operation",
+          "type": "string",
+          "example": "127.0.0.1"
         }
       }
     },
@@ -5056,6 +5391,29 @@
         }
       ]
     },
+    "abortOrderChange": {
+      "x-format": "Command",
+      "type": "object",
+      "required": [
+        "order"
+      ],
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/orderIdentifier"
+        },
+        "userId": {
+          "$ref": "#/definitions/userId"
+        },
+        "userEmail": {
+          "$ref": "#/definitions/email"
+        },
+        "userIPAddress": {
+          "description": "The IP address who request this operation",
+          "type": "string",
+          "example": "127.0.0.1"
+        }
+      }
+    },
     "orderManagementDisabledException": {
       "x-format": "Exception",
       "x-transient": false,
@@ -5232,6 +5590,35 @@
           "properties": {
             "currentCorrelationId": {
               "$ref": "#/definitions/correlationId"
+            }
+          }
+        }
+      ]
+    },
+    "orderChangeTimeoutException": {
+      "x-format": "Exception",
+      "x-transient": false,
+      "x-technical": false,
+      "description": "The order change '{correlationId}': '{orderChangeType}' has received no response from the marketplace. The operation has timed out.\n",
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderExceptionsBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "marketplaceCode",
+            "merchantCode",
+            "marketplaceOrderId",
+            "correlationId",
+            "orderChangeType"
+          ],
+          "properties": {
+            "correlationId": {
+              "$ref": "#/definitions/correlationId"
+            },
+            "orderChangeType": {
+              "$ref": "#/definitions/orderChangeType"
             }
           }
         }
@@ -6431,6 +6818,9 @@
           "properties": {
             "credential": {
               "$ref": "#/definitions/marketplaceApiCredential"
+            },
+            "checkCount": {
+              "type": "integer"
             }
           }
         }
@@ -7503,6 +7893,64 @@
       ]
     },
     "disableMerchantMarketplaceOrderImportation": {
+      "x-format": "Command",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantMarketplaceBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "merchantCode",
+            "userId",
+            "userEmail",
+            "userIPAddress",
+            "marketplaceCode"
+          ],
+          "properties": {
+            "userId": {
+              "$ref": "#/definitions/userId"
+            },
+            "userEmail": {
+              "$ref": "#/definitions/email"
+            },
+            "userIPAddress": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "reenableMerchantMarketplaceOfferImportation": {
+      "x-format": "Command",
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantMarketplaceBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "merchantCode",
+            "userId",
+            "userEmail",
+            "userIPAddress",
+            "marketplaceCode"
+          ],
+          "properties": {
+            "userId": {
+              "$ref": "#/definitions/userId"
+            },
+            "userEmail": {
+              "$ref": "#/definitions/email"
+            },
+            "userIPAddress": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "disableMerchantMarketplaceOfferImportation": {
       "x-format": "Command",
       "allOf": [
         {
@@ -9402,9 +9850,10 @@
         "Merchant API - Marketplaces - Global",
         "Merchant API - Marketplaces - Marketplace",
         "Merchant API - Marketplaces - Api Credentials",
+        "Merchant API - Marketplaces - Source Marketplace Activation",
         "Merchant API - Marketplaces - Shipping Settings",
         "Merchant API - Marketplaces - Pricing Settings",
-        "Merchant API - Marketplaces - Activation"
+        "Merchant API - Marketplaces - Target Marketplace Activation"
       ]
     },
     {
