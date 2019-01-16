@@ -3548,6 +3548,18 @@
         }
       }
     },
+    "shipmentStatus": {
+      "type": "string",
+      "description": "Looking for late orders\n* all: All orders without considering the shipment status\n* lateToShip: Orders with the latestShipmentDate is passed\n* inTimeToShip: Orders in time to ship considering the earliestShipmentDate and the latestShipmentDate\n* tooEarlyToShip: Orders with earliestShipmentDate not reached\n",
+      "enum": [
+        "all",
+        "lateToShip",
+        "inTimeToShip",
+        "tooEarlyToShip"
+      ],
+      "example": "lateToShip",
+      "default": "all"
+    },
     "orderListRequestWithoutPagination": {
       "type": "object",
       "required": [
@@ -3565,10 +3577,8 @@
             "C1"
           ]
         },
-        "late": {
-          "type": "boolean",
-          "description": "Looking for late orders",
-          "example": true
+        "shipmentStatus": {
+          "$ref": "#/definitions/shipmentStatus"
         },
         "imnOrderStatuses": {
           "type": "array",
@@ -3738,6 +3748,21 @@
         "customerFullName": {
           "type": "string",
           "description": "The customer full name"
+        },
+        "merchantOrderId": {
+          "$ref": "#/definitions/merchantOrderId"
+        },
+        "earliestShipUtcDate": {
+          "description": "The UTC date of the earliest ship for this order",
+          "type": "string",
+          "example": "2017-04-02T21:30:00Z",
+          "format": "date-time"
+        },
+        "latestShipUtcDate": {
+          "description": "The UTC date of the latest ship for this order",
+          "type": "string",
+          "format": "date-time",
+          "example": "2017-04-30T21:30:00Z"
         }
       }
     },
@@ -7031,8 +7056,12 @@
             "credential": {
               "$ref": "#/definitions/marketplaceApiCredential"
             },
-            "checkCount": {
-              "type": "integer"
+            "checkedDates": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "date-time"
+              }
             }
           }
         }
