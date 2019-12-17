@@ -103,10 +103,6 @@
     {
       "name": "Merchant API - List of Values - LOV",
       "x-displayName": "LOV"
-    },
-    {
-      "name": "External API - Merchant Marketplace Subscription Request - Global",
-      "x-displayName": "Global"
     }
   ],
   "paths": {
@@ -2827,39 +2823,6 @@
             "description": "List not found",
             "schema": {
               "$ref": "#/definitions/errorResponseMessage"
-            }
-          },
-          "default": {
-            "$ref": "#/responses/GeneralError"
-          }
-        }
-      }
-    },
-    "/IMN/external_merchants_api-dev/1.0/subscriptionsRequested": {
-      "post": {
-        "tags": [
-          "External API - Merchant Marketplace Subscription Request - Global"
-        ],
-        "summary": "Notify merchant subscriptions request",
-        "operationId": "PushMerchantSubscriptionsRequested",
-        "parameters": [
-          {
-            "name": "request",
-            "in": "body",
-            "required": "true",
-            "schema": {
-              "$ref": "#/definitions/externalMerchantMarketplaceSubscriptions"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Subscriptions's request have been integrated"
-          },
-          "400": {
-            "description": "The subscription request utc date is in future",
-            "schema": {
-              "$ref": "#/definitions/userErrorMessage"
             }
           },
           "default": {
@@ -7001,47 +6964,6 @@
           "example": "1"
         }
       }
-    },
-    "externalMerchantMarketplaceSubscriptions": {
-      "type": "object",
-      "description": "When the merchant marketplace subscription has been requested",
-      "required": [
-        "merchantCode",
-        "userId",
-        "sourceMarketplaceCode",
-        "targetMarketplacesSubscriptionRequested",
-        "subscriptionRequestUtcDate",
-        "salesforceSubscriptionId"
-      ],
-      "properties": {
-        "merchantCode": {
-          "$ref": "#/definitions/merchantCode"
-        },
-        "userId": {
-          "$ref": "#/definitions/userId"
-        },
-        "sourceMarketplaceCode": {
-          "$ref": "#/definitions/marketplaceCode"
-        },
-        "targetMarketplacesSubscriptionRequested": {
-          "type": "array",
-          "minItems": "1",
-          "uniqueItems": "true",
-          "items": {
-            "$ref": "#/definitions/marketplaceCode"
-          }
-        },
-        "subscriptionRequestUtcDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The exact date time of the subscription request"
-        },
-        "salesforceSubscriptionId": {
-          "type": "string",
-          "description": "The Salesforce identifier of the subscription",
-          "example": "BLA0O00001v8aNuQAI"
-        }
-      }
     }
   },
   "parameters": {
@@ -7394,12 +7316,6 @@
       "name": "Merchant API - List of Values",
       "tags": [
         "Merchant API - List of Values - LOV"
-      ]
-    },
-    {
-      "name": "External API - Merchant Marketplace Subscription Request",
-      "tags": [
-        "External API - Merchant Marketplace Subscription Request - Global"
       ]
     }
   ],
