@@ -73,6 +73,10 @@
       "x-displayName": "Api Token"
     },
     {
+      "name": "Merchant - Account API - Last Login",
+      "x-displayName": "Last Login"
+    },
+    {
       "name": "Merchant - Orders - Global",
       "x-displayName": "Global"
     },
@@ -971,6 +975,31 @@
           },
           "400": {
             "$ref": "#/responses/invalidMerchantCode"
+          },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/account/v1/{merchantCode}/lastLogin": {
+      "post": {
+        "tags": [
+          "Merchant - Account API - Last Login"
+        ],
+        "summary": "Update the last login date for the merchant",
+        "operationId": "UpdateLastLoginDate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Update has been accepted"
           },
           "404": {
             "$ref": "#/responses/merchantNotFound"
@@ -7307,7 +7336,8 @@
       "tags": [
         "Merchant - Account API - Global",
         "Merchant - Account API - Account",
-        "Merchant - Account API - Api Token"
+        "Merchant - Account API - Api Token",
+        "Merchant - Account API - Last Login"
       ]
     },
     {
