@@ -2565,17 +2565,75 @@
             "$ref": "#/parameters/merchantCodeParameter"
           },
           {
-            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
+            "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/pageSizeQueryStringParameter"
+            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/skuQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/gtinQueryParameter"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": "false",
+            "description": "The minimum price",
+            "type": "integer",
+            "x-example": "10.12"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": "false",
+            "type": "integer",
+            "description": "The max price",
+            "x-example": "10.34"
+          },
+          {
+            "name": "minInventoryLevel",
+            "in": "query",
+            "required": "false",
+            "type": "integer",
+            "description": "The minimum inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "maxInventoryLevel",
+            "required": "false",
+            "in": "query",
+            "type": "integer",
+            "description": "The max inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": "false",
+            "type": "string",
+            "format": "OfferListSortBy?"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "required": "false",
+            "type": "string",
+            "format": "Sort?"
           }
         ],
         "responses": {
           "200": {
             "description": "The merchant offer list",
             "schema": {
-              "$ref": "#/definitions/merchantOfferPaginatedList"
+              "$ref": "#/definitions/merchantOfferPaginatedList2"
+            }
+          },
+          "400": {
+            "description": "Invalid pagination continution token",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
             }
           },
           "default": {
@@ -6777,17 +6835,17 @@
       "description": "Global Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
       "maxLength": "50"
     },
-    "merchantOfferPaginatedList": {
+    "merchantOfferPaginatedList2": {
       "type": "object",
       "properties": {
-        "paginationContinuationToken": {
-          "$ref": "#/definitions/paginationContinuationToken"
-        },
         "merchantOffers": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/merchantOffer"
           }
+        },
+        "paginationResult": {
+          "$ref": "#/definitions/paginationResult"
         }
       }
     },
@@ -6883,10 +6941,6 @@
           "$ref": "#/definitions/feedPublicationStatus"
         }
       }
-    },
-    "paginationContinuationToken": {
-      "type": "string",
-      "description": "Just a string value that will help to get the next page"
     },
     "merchantOfferIdentifier": {
       "type": "object",
@@ -7162,19 +7216,11 @@
       "required": "true",
       "description": "It's the guid corresponding to the operation.\n"
     },
-    "paginationContinuationTokenQueryStringParameter": {
-      "name": "paginationContinuationToken",
-      "description": "The pagination continuation token you want to get next page.",
-      "in": "query",
-      "required": "false",
-      "type": "string",
-      "format": "PaginationContinuationToken"
-    },
-    "pageSizeQueryStringParameter": {
+    "pageSizeQueryStringOptinalParameter": {
       "name": "pageSize",
       "description": "The entry count you want to get",
       "in": "query",
-      "required": "true",
+      "required": "false",
       "type": "integer",
       "format": "PageSize",
       "minimum": "25",
@@ -7183,12 +7229,43 @@
       "x-maximum": "1000",
       "x-example": "25"
     },
+    "pageNumberQueryStringOptinalParameter": {
+      "name": "pageNumber",
+      "description": "The page number you want to get",
+      "in": "query",
+      "required": "false",
+      "type": "integer",
+      "format": "PageNumber",
+      "minimum": "1",
+      "x-minimum": "1",
+      "x-example": "1"
+    },
+    "skuQueryParameter": {
+      "name": "sku",
+      "in": "query",
+      "type": "string",
+      "format": "Sku",
+      "required": "false",
+      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
+      "maxLength": "50"
+    },
+    "gtinQueryParameter": {
+      "name": "gtin",
+      "in": "query",
+      "type": "string",
+      "format": "Gtin",
+      "required": "false",
+      "description": "Global Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
+      "maxLength": "50"
+    },
     "skuPathParameter": {
       "name": "sku",
       "in": "path",
       "type": "string",
       "format": "Sku",
-      "required": "true"
+      "required": "true",
+      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
+      "maxLength": "50"
     },
     "acceptLanguageParameter": {
       "name": "Accept-Language",
