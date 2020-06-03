@@ -124,7 +124,7 @@
           {
             "name": "operationId",
             "in": "path",
-            "required": "true",
+            "required": true,
             "type": "string",
             "format": "CorrelationId"
           }
@@ -293,7 +293,7 @@
             "schema": {
               "$ref": "#/definitions/marketplaceApiCredential"
             },
-            "required": "true"
+            "required": true
           }
         ],
         "responses": {
@@ -370,7 +370,7 @@
             "schema": {
               "$ref": "#/definitions/marketplaceShippingSettings"
             },
-            "required": "true"
+            "required": true
           }
         ],
         "responses": {
@@ -441,7 +441,7 @@
             "schema": {
               "$ref": "#/definitions/marketplacePricingSetting"
             },
-            "required": "true"
+            "required": true
           }
         ],
         "responses": {
@@ -820,7 +820,7 @@
           {
             "name": "merchantCode",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/merchantCode"
             }
@@ -853,7 +853,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/createMerchantAccountRequest"
             }
@@ -924,7 +924,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "description": "The merchant account info update request",
             "schema": {
               "$ref": "#/definitions/updateMerchantAccountRequest"
@@ -1148,13 +1148,13 @@
             "name": "Accept-Encoding",
             "description": "Allows the client to indicate wether it accepts a compressed encoding to reduce traffic size",
             "in": "header",
-            "required": "true",
+            "required": true,
             "type": "string"
           },
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/merchantOrderListRequest"
             }
@@ -1194,7 +1194,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/merchantOrderListRequest"
             }
@@ -1234,7 +1234,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/setMerchantOrderInfoListRequest"
             }
@@ -1268,7 +1268,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/clearMerchantOrderInfoListRequest"
             }
@@ -1308,7 +1308,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/shipOrderListRequest"
             }
@@ -1348,7 +1348,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/shipOrderWithTrackingUrlListRequest"
             }
@@ -1388,7 +1388,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/refundOrderListRequest"
             }
@@ -1428,7 +1428,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/acceptOrderListRequest"
             }
@@ -1468,7 +1468,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/refuseOrderListRequest"
             }
@@ -1508,7 +1508,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/cancelOrderListRequest"
             }
@@ -1726,7 +1726,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/setMerchantOrderInfoRequest"
             }
@@ -1945,7 +1945,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/cancelOrderRequest"
             }
@@ -2008,7 +2008,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/shipOrderRequest"
             }
@@ -2074,7 +2074,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/shipOrderWithTrackingUrlRequest"
             }
@@ -2140,7 +2140,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/refundOrderRequest"
             }
@@ -2244,7 +2244,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/createSubscriptionRequest"
             }
@@ -2327,13 +2327,13 @@
           {
             "name": "id",
             "in": "path",
-            "required": "true",
+            "required": true,
             "type": "string"
           },
           {
             "name": "X-Hook-Secret",
             "in": "header",
-            "required": "true",
+            "required": true,
             "type": "string",
             "x-example": "blablabla"
           }
@@ -2366,13 +2366,13 @@
           {
             "name": "id",
             "in": "path",
-            "required": "true",
+            "required": true,
             "type": "string"
           },
           {
             "name": "X-Hook-Secret",
             "in": "header",
-            "required": "true",
+            "required": true,
             "type": "string",
             "x-example": "blablabla"
           }
@@ -2407,13 +2407,13 @@
           {
             "name": "id",
             "in": "path",
-            "required": "true",
+            "required": true,
             "type": "string"
           },
           {
             "name": "X-Hook-Secret",
             "in": "header",
-            "required": "true",
+            "required": true,
             "type": "string",
             "x-example": "blablabla"
           }
@@ -2448,13 +2448,13 @@
           {
             "name": "id",
             "in": "path",
-            "required": "true",
+            "required": true,
             "type": "string"
           },
           {
             "name": "X-Hook-Secret",
             "in": "header",
-            "required": "true",
+            "required": true,
             "type": "string",
             "x-example": "blablabla"
           }
@@ -2528,7 +2528,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/reportByDayRequest"
             }
@@ -2579,7 +2579,7 @@
           {
             "name": "minPrice",
             "in": "query",
-            "required": "false",
+            "required": false,
             "description": "The minimum price",
             "type": "integer",
             "x-example": "10.12"
@@ -2587,7 +2587,7 @@
           {
             "name": "maxPrice",
             "in": "query",
-            "required": "false",
+            "required": false,
             "type": "integer",
             "description": "The max price",
             "x-example": "10.34"
@@ -2595,14 +2595,14 @@
           {
             "name": "minInventoryLevel",
             "in": "query",
-            "required": "false",
+            "required": false,
             "type": "integer",
             "description": "The minimum inventory level",
             "x-example": "10"
           },
           {
             "name": "maxInventoryLevel",
-            "required": "false",
+            "required": false,
             "in": "query",
             "type": "integer",
             "description": "The max inventory level",
@@ -2611,14 +2611,14 @@
           {
             "name": "sortBy",
             "in": "query",
-            "required": "false",
+            "required": false,
             "type": "string",
             "format": "OfferListSortBy?"
           },
           {
             "name": "sortDirection",
             "in": "query",
-            "required": "false",
+            "required": false,
             "type": "string",
             "format": "Sort?"
           }
@@ -2718,7 +2718,7 @@
           {
             "name": "request",
             "in": "body",
-            "required": "true",
+            "required": true,
             "schema": {
               "type": "array",
               "minItems": "1",
@@ -2823,7 +2823,7 @@
                 "$ref": "#/definitions/merchantOfferEventBase"
               }
             },
-            "required": "true"
+            "required": true
           }
         ],
         "responses": {
@@ -2901,7 +2901,7 @@
           {
             "name": "listName",
             "in": "path",
-            "required": "true",
+            "required": true,
             "description": "The list of value name your want to get",
             "type": "string"
           },
@@ -3097,7 +3097,7 @@
       }
     },
     "errorResponseMessage": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "required": [
         "errors"
@@ -3113,7 +3113,7 @@
       }
     },
     "userErrorMessage": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "required": [
         "code",
@@ -3140,27 +3140,27 @@
       }
     },
     "docUrl": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "string",
       "format": "uri",
       "description": "The documentation related to this operation.",
       "example": "https://api-docs.imn.io/#operation/EnableChannelCatalog"
     },
     "errorCode": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "string",
       "description": "the error code. The error code can be a pattern containing the argument's name",
       "example": "CatalogImportationAlreadyInProgress(ExecutionId currentCatalogImportationId)"
     },
     "cultureName": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "string",
       "description": "If the error is translated, the culture name will be indicated",
       "example": "en",
       "x-lov": "Go2CultureName"
     },
     "userErrorMessageArguments": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "description": "a dictionary string/object",
       "additionalProperties": {
@@ -3645,7 +3645,7 @@
       "example": "42.01"
     },
     "LOVLink3": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "Describe the way you have to follow to get access to the LOV",
       "type": "object",
       "required": [
@@ -3699,7 +3699,7 @@
       ]
     },
     "httpMethod": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "string",
       "enum": [
         "GET",
@@ -3769,7 +3769,7 @@
       "example": "C1"
     },
     "httpUrl": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "The URL <a href=\"https://en.wikipedia.org/wiki/URL\">https://en.wikipedia.org/wiki/URL</a>",
       "type": "string",
       "pattern": "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$",
@@ -3803,7 +3803,7 @@
       ]
     },
     "link3": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "required": [
         "href"
@@ -3852,19 +3852,19 @@
       }
     },
     "href": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "string",
       "example": "/merchant/orders/v1/{marketplaceCode}/{IMNOrderId}",
       "description": "Indicate the relative uri for this link"
     },
     "operationId": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "string",
       "description": "The operationId to call.",
       "example": "GetOrder"
     },
     "linkParameter3Types": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "additionalProperties": {
         "$ref": "#/definitions/linkParameter3"
@@ -3900,7 +3900,7 @@
       }
     },
     "linkParameter3": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "required": [
         "in"
@@ -4074,7 +4074,7 @@
       }
     },
     "parameterIn": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "string",
       "description": "* path: if the parameter must be pass in the path uri\n* header: if the parameter must be passed in http header\n* query: if the parameter must be passed in querystring\n* body: if the parameter must be passed in the body\n* file: if the parameter must be passed in a multipart/form-data (https://swagger.io/docs/specification/2-0/file-upload/)\n",
       "example": "path",
@@ -4092,7 +4092,7 @@
       "example": "*.-api$"
     },
     "linkParameterProperty3": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "required": [
         "type"
@@ -4156,7 +4156,7 @@
       }
     },
     "parameterType": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "The value type of the parameter",
       "type": "string",
       "enum": [
@@ -4576,7 +4576,7 @@
       "description": "Merchant's company name"
     },
     "currencyCode": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "The currency code <a href=\"https://en.wikipedia.org/wiki/ISO_4217\">(ISO 4217)</a>\n",
       "type": "string",
       "pattern": "^[A-Z]{3}$",
@@ -4589,7 +4589,7 @@
       "example": "Prestashop"
     },
     "email": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "The email",
       "type": "string",
       "format": "email",
@@ -4977,13 +4977,13 @@
             "properties": {
               "Accept-Encoding": {
                 "in": "header",
-                "required": "true",
+                "required": true,
                 "type": "​string",
                 "schema": "string"
               },
               "request": {
                 "in": "body",
-                "required": "false",
+                "required": false,
                 "type": "object",
                 "schema": "merchantOrderListRequest"
               }
@@ -5004,7 +5004,7 @@
             "properties": {
               "request": {
                 "in": "body",
-                "required": "false",
+                "required": false,
                 "type": "object",
                 "schema": "merchantOrderListRequest"
               }
@@ -5065,7 +5065,7 @@
             "parameters": {
               "request": {
                 "in": "body",
-                "required": "true",
+                "required": true,
                 "type": "object",
                 "schema": "setMerchantOrderInfoRequest"
               }
@@ -5101,7 +5101,7 @@
         "fullInfoNotSynchronized": {
           "type": "array",
           "description": "The order index list light in case there is some issue during the synchronization of the full info. This list should be empty or null most of the time. It has been developed for sanity check and explain the order count which is based on the order light info.",
-          "minimum": "0",
+          "minimum": 0,
           "items": {
             "$ref": "#/definitions/orderLightIndex"
           }
@@ -5109,7 +5109,7 @@
         "orders": {
           "type": "array",
           "description": "The order index list, this list can be empty if there is no result",
-          "minimum": "0",
+          "minimum": 0,
           "items": {
             "$ref": "#/definitions/orderIndex"
           }
@@ -5133,7 +5133,7 @@
         "orders": {
           "type": "array",
           "description": "The order index list, this list can be empty if there is no result",
-          "minimum": "0",
+          "minimum": 0,
           "items": {
             "$ref": "#/definitions/orderLightIndex"
           }
@@ -5927,24 +5927,24 @@
       "example": "MyOrderMerchantId"
     },
     "pageSize": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "Indicate the item count per page",
       "type": "integer",
       "format": "int32",
       "default": "1000",
-      "minimum": "25",
+      "minimum": 25,
       "x-minimum": "25",
       "maximum": "1000",
       "x-maximum": "1000",
       "example": "100"
     },
     "pageNumber": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "Indicates the page number",
       "format": "int32",
       "type": "integer",
       "example": "1",
-      "minimum": "1",
+      "minimum": 1,
       "x-minimum": "1",
       "default": "1"
     },
@@ -5964,7 +5964,7 @@
       }
     },
     "paginationResult": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "required": [
         "entryCount",
@@ -5977,19 +5977,19 @@
           "type": "integer",
           "description": "The entry count currently returned",
           "example": "25",
-          "minimum": "0"
+          "minimum": 0
         },
         "pageCount": {
           "type": "integer",
           "description": "The page count",
           "example": "38",
-          "minimum": "0"
+          "minimum": 0
         },
         "totalEntryCount": {
           "type": "integer",
           "description": "The total entry count",
           "example": "943",
-          "minimum": "0"
+          "minimum": 0
         },
         "links": {
           "$ref": "#/definitions/paginationResultLinks"
@@ -6082,7 +6082,7 @@
       }
     },
     "correlationId": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "The correlation identifier. It's a guid.",
       "format": "CorrelationId",
       "type": "string",
@@ -6108,7 +6108,7 @@
       "default": "Descending"
     },
     "paginationResultLinks": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "The navigation links 'first', 'last', 'next', 'previous'",
       "type": "object",
       "required": [
@@ -6255,7 +6255,7 @@
       "example": "\"ca071a4580129f932a03971968ffef69\""
     },
     "messageId": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "The message identifier. It's a guid.",
       "format": "MessageId",
       "type": "string",
@@ -6291,14 +6291,14 @@
       "example": "api"
     },
     "userId": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "format": "guid",
       "description": "The user identifier",
       "type": "string",
       "example": "8a7fbdec-9e71-472e-9974-27d5c1d57cf8"
     },
     "processingStatus": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "description": "The processing status of an operation",
       "type": "string",
       "enum": [
@@ -6918,7 +6918,7 @@
       ]
     },
     "merchantOfferEventBase": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "object",
       "discriminator": "eventType",
       "required": [
@@ -6973,7 +6973,7 @@
       "description": "The marketplace in charge of the delivery on this offer."
     },
     "price": {
-      "x-exclude": "true",
+      "x-exclude": true,
       "type": "number",
       "format": "decimal",
       "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. http://schema.org/price"
@@ -7157,7 +7157,7 @@
       "format": "MerchantCode",
       "name": "merchantCode",
       "in": "path",
-      "required": "true",
+      "required": true,
       "type": "string",
       "description": "The merchant code"
     },
@@ -7165,7 +7165,7 @@
       "format": "MarketplaceCode",
       "name": "marketplaceCode",
       "in": "path",
-      "required": "true",
+      "required": true,
       "type": "string",
       "description": "The marketplace code"
     },
@@ -7173,21 +7173,21 @@
       "name": "If-None-Match",
       "type": "string",
       "in": "header",
-      "required": "false",
+      "required": false,
       "description": "ETag value to identify the last known version of requested resource.\\\nTo avoid useless exchange, we recommend you to indicate the ETag you previously got from this operation.\\\nIf the ETag value does not match the response will be 200 to give you a new content, otherwise the response will be: 304 Not Modified, without any content.\\\nFor more details go to this link: http://tools.ietf.org/html/rfc7232#section-2.3\n"
     },
     "userNameInQueryParameter": {
       "name": "userName",
       "description": "Optional. Sometimes the user in the e-commerce application is not the same as user associated with the current subscription key. We recommend providing your application's user login.",
       "in": "query",
-      "required": "false",
+      "required": false,
       "type": "string"
     },
     "testModeInQueryParameter": {
       "name": "testMode",
       "description": "If true, the operation will be not be sent to marketplace. But the validation will be taken in account.",
       "in": "query",
-      "required": "false",
+      "required": false,
       "type": "boolean",
       "default": "false",
       "x-example": "false"
@@ -7196,7 +7196,7 @@
       "description": "The MKP Order identifier",
       "name": "marketplaceOrderId",
       "in": "path",
-      "required": "true",
+      "required": true,
       "type": "string",
       "format": "MarketplaceOrderId",
       "x-example": "CDISCOUNT12345"
@@ -7205,7 +7205,7 @@
       "name": "If-Match",
       "in": "header",
       "type": "string",
-      "required": "true",
+      "required": true,
       "description": "ETag value to identify the last known version of requested resource.\\\nTo ensure that you are making a change on the lastest version of the resource.\\\nFor more details go to this link: http://tools.ietf.org/html/rfc7232#section-2.3\n"
     },
     "correlationIdParameter": {
@@ -7213,17 +7213,17 @@
       "in": "path",
       "type": "string",
       "format": "CorrelationId",
-      "required": "true",
+      "required": true,
       "description": "It's the guid corresponding to the operation.\n"
     },
     "pageSizeQueryStringOptinalParameter": {
       "name": "pageSize",
       "description": "The entry count you want to get",
       "in": "query",
-      "required": "false",
+      "required": false,
       "type": "integer",
       "format": "PageSize",
-      "minimum": "25",
+      "minimum": 25,
       "x-minimum": "25",
       "maximum": "1000",
       "x-maximum": "1000",
@@ -7233,10 +7233,10 @@
       "name": "pageNumber",
       "description": "The page number you want to get",
       "in": "query",
-      "required": "false",
+      "required": false,
       "type": "integer",
       "format": "PageNumber",
-      "minimum": "1",
+      "minimum": 1,
       "x-minimum": "1",
       "x-example": "1"
     },
@@ -7245,7 +7245,7 @@
       "in": "query",
       "type": "string",
       "format": "Sku",
-      "required": "false",
+      "required": false,
       "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
       "maxLength": "50"
     },
@@ -7254,7 +7254,7 @@
       "in": "query",
       "type": "string",
       "format": "Gtin",
-      "required": "false",
+      "required": false,
       "description": "Global Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
       "maxLength": "50"
     },
@@ -7263,7 +7263,7 @@
       "in": "path",
       "type": "string",
       "format": "Sku",
-      "required": "true",
+      "required": true,
       "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
       "maxLength": "50"
     },
@@ -7271,7 +7271,7 @@
       "name": "Accept-Language",
       "description": "Indicates that the client accepts the following languages.",
       "in": "header",
-      "required": "false",
+      "required": false,
       "type": "array",
       "collectionFormat": "csv",
       "items": {
