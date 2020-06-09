@@ -2631,7 +2631,7 @@
             }
           },
           "400": {
-            "description": "Invalid pagination continution token",
+            "description": "Invalid search criteria",
             "schema": {
               "$ref": "#/definitions/errorResponseMessage"
             }
@@ -2666,6 +2666,92 @@
           },
           "404": {
             "$ref": "#/responses/offerNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/offers/v1/{merchantCode}/history": {
+      "get": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Get merchant offer history",
+        "operationId": "GetMerchantOfferHistory",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "description": "The minimum price",
+            "type": "integer",
+            "x-example": "10.12"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The max price",
+            "x-example": "10.34"
+          },
+          {
+            "name": "minInventoryLevel",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The minimum inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "maxInventoryLevel",
+            "required": false,
+            "in": "query",
+            "type": "integer",
+            "description": "The max inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "OfferListSortBy?"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "Sort?"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer history",
+            "schema": {
+              "$ref": "#/definitions/merchantOfferChangePaginatedList"
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -6917,6 +7003,20 @@
         }
       ]
     },
+    "merchantOfferChangePaginatedList": {
+      "type": "object",
+      "properties": {
+        "merchantOfferChanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/merchantOfferChange"
+          }
+        },
+        "paginationResult": {
+          "$ref": "#/definitions/paginationResult"
+        }
+      }
+    },
     "merchantOfferEventBase": {
       "x-exclude": true,
       "type": "object",
@@ -7029,6 +7129,54 @@
         }
       }
     },
+    "merchantOfferChange": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferIdentifier"
+        },
+        {
+          "type": "object",
+          "description": "The defaultDeliveryMethod is required if the deliverySpecifications is fulfilled",
+          "required": [
+            "merchantCode",
+            "sku",
+            "operationType",
+            "lastUpdateUtcDate",
+            "messageId",
+            "correlationId"
+          ],
+          "properties": {
+            "operationType": {
+              "$ref": "#/definitions/merchantOfferOperationType"
+            },
+            "lastUpdateUtcDate": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2018-02-24T14:24:35"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/correlationId"
+            },
+            "messageId": {
+              "$ref": "#/definitions/messageId"
+            },
+            "price": {
+              "$ref": "#/definitions/price"
+            },
+            "minPrice": {
+              "$ref": "#/definitions/minPrice"
+            },
+            "inventoryLevel": {
+              "$ref": "#/definitions/inventoryLevel"
+            },
+            "etag": {
+              "type": "string",
+              "description": "The new etag based on the offer information"
+            }
+          }
+        }
+      ]
+    },
     "feedPublicationStatus": {
       "type": "string",
       "enum": [
@@ -7048,6 +7196,14 @@
       "type": "string",
       "format": "date-time",
       "description": "The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours. http://schema.org/validThrough"
+    },
+    "merchantOfferOperationType": {
+      "type": "string",
+      "enum": [
+        "Received",
+        "Deleted",
+        "Unpublished"
+      ]
     },
     "userLovIndex": {
       "type": "object",
