@@ -2571,10 +2571,10 @@
             "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/skuQueryParameter"
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
           },
           {
-            "$ref": "#/parameters/gtinQueryParameter"
+            "$ref": "#/parameters/gtinListQueryOptionalParameter"
           },
           {
             "name": "minPrice",
@@ -7240,23 +7240,27 @@
       "x-minimum": "1",
       "x-example": "1"
     },
-    "skuQueryParameter": {
-      "name": "sku",
+    "skuListQueryOptionalParameter": {
+      "name": "skus",
       "in": "query",
-      "type": "string",
-      "format": "Sku",
+      "type": "array",
+      "collectionFormat": "csv",
+      "items": {
+        "type": "string"
+      },
       "required": false,
-      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
-      "maxLength": "50"
+      "description": "Collection format: csv\nThe Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku\n"
     },
-    "gtinQueryParameter": {
-      "name": "gtin",
+    "gtinListQueryOptionalParameter": {
+      "name": "gtins",
       "in": "query",
-      "type": "string",
-      "format": "Gtin",
+      "type": "array",
+      "collectionFormat": "csv",
+      "items": {
+        "type": "string"
+      },
       "required": false,
-      "description": "Global Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
-      "maxLength": "50"
+      "description": "Collection format: csv\n\nGlobal Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n"
     },
     "skuPathParameter": {
       "name": "sku",
