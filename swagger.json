@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "IMN Merchant API  - DEV",
-    "description": "# The REST API of IMN system\r\n## Overview\r\nThe REST APIs provide programmatic access to read and write IMN data. \r\nBasically, with this API you will be able to do everything like you were with your browser on https://go.imn.io !\r\n\r\nThe main features are:\r\n- Register and manage your merchant account\r\n- Declare your source marketplace to get your offers\r\n- Configure your marketplace api credential\r\n- Define the target marketplaces you want to go to, then you will be able to configure:\r\n\t- the pricing setting \r\n\t- the shipping settings\r\n- ...and more!\r\n\r\n\r\n## Things to keep in mind\r\n### API Rate Limits\r\n- The IMN REST API is limited to 100 calls/minute.\r\n\r\n### Media type\r\nThe default media type for requests and responses is application/json. Where noted, some operations support other content types. If no additional content type is mentioned for a specific operation, then the media type is application/json.\r\n\r\n### Required content type\r\nThe required and default encoding for the request and responses is UTF8.\r\n\r\n### Required date time format\r\nAll our date time are formatted in ISO 8601 format: 2014-06-24T16:25:00Z.\r\n\r\n### Base URL\r\nThe Base URL of the IMN API Order Management REST API conforms to the following template.\r\n\r\nhttps://api.imn.io\r\n\r\nAll URLs returned by the IMN API are relative to this base URL, and all requests to the REST API must use this base URL template.\r\n\r\nYou can test our API on https://api-docs.imn.io/swagger-ui\r\nYou can contact us on [gitter, #IMN/API](https://gitter.im/IMN/API)\r\n\r\n",
+    "description": "# The REST API of IMN system\n## Overview\nThe REST APIs provide programmatic access to read and write IMN data. \nBasically, with this API you will be able to do everything like you were with your browser on https://go.imn.io !\n\nThe main features are:\n- Register and manage your merchant account\n- Declare your source marketplace to get your offers\n- Configure your marketplace api credential\n- Define the target marketplaces you want to go to, then you will be able to configure:\n\t- the pricing setting \n\t- the shipping settings\n- ...and more!\n\n\n## Things to keep in mind\n### API Rate Limits\n- The IMN REST API is limited to 100 calls/minute.\n\n### Media type\nThe default media type for requests and responses is application/json. Where noted, some operations support other content types. If no additional content type is mentioned for a specific operation, then the media type is application/json.\n\n### Required content type\nThe required and default encoding for the request and responses is UTF8.\n\n### Required date time format\nAll our date time are formatted in ISO 8601 format: 2014-06-24T16:25:00Z.\n\n### Base URL\nThe Base URL of the IMN API Order Management REST API conforms to the following template.\n\nhttps://api.imn.io\n\nAll URLs returned by the IMN API are relative to this base URL, and all requests to the REST API must use this base URL template.\n\nYou can test our API on https://api-docs.imn.io/swagger-ui\nYou can contact us on [gitter, #IMN/API](https://gitter.im/IMN/API)\n\n",
     "version": "1.0",
     "x-logo": {
       "url": "https://imngo.blob.core.windows.net/imngo/images/imn-logo.png",
@@ -758,6 +758,86 @@
         "responses": {
           "202": {
             "description": "The marketplace order importation has been reenabled",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "400": {
+            "$ref": "#/responses/invalidMerchantCode"
+          },
+          "403": {
+            "$ref": "#/responses/subscriptionNotAccepted"
+          },
+          "412": {
+            "$ref": "#/responses/credentialNotConfigured"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/disableOfferPublication": {
+      "post": {
+        "tags": [
+          "Merchant API - Marketplaces - Target Marketplace Activation"
+        ],
+        "summary": "Disable offer publication for this marketplace",
+        "operationId": "DisableOfferPublication",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The marketplace offer publication has been disabled",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system"
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "400": {
+            "$ref": "#/responses/invalidMerchantCode"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}/reenableOfferPublication": {
+      "post": {
+        "tags": [
+          "Merchant API - Marketplaces - Target Marketplace Activation"
+        ],
+        "summary": "Reenable offer publication for this marketplace",
+        "operationId": "ReenableOfferPublication",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The marketplace offer publication has been reenabled",
             "headers": {
               "Location": {
                 "type": "string",
@@ -2726,18 +2806,22 @@
             "x-example": "10"
           },
           {
-            "name": "sortBy",
-            "in": "query",
+            "name": "minLastUpdateUtcDate",
             "required": false,
+            "in": "query",
             "type": "string",
-            "format": "OfferListSortBy?"
+            "format": "DateTime?",
+            "description": "The min last update utc date",
+            "x-example": "2020-06-10T19:26:42Z"
           },
           {
-            "name": "sortDirection",
-            "in": "query",
+            "name": "maxLastUpdateUtcDate",
             "required": false,
+            "in": "query",
             "type": "string",
-            "format": "Sort?"
+            "format": "DateTime?",
+            "description": "The max last update utc date",
+            "x-example": "2020-06-11T15:31:00Z"
           }
         ],
         "responses": {
@@ -2880,6 +2964,225 @@
           },
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/list": {
+      "get": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Get merchant marketplace offer list",
+        "operationId": "GetMerchantMarketplaceOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          },
+          {
+            "$ref": "#/parameters/gtinListQueryOptionalParameter"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "description": "The minimum price",
+            "type": "integer",
+            "x-example": "10.12"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The max price",
+            "x-example": "10.34"
+          },
+          {
+            "name": "minInventoryLevel",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The minimum inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "maxInventoryLevel",
+            "required": false,
+            "in": "query",
+            "type": "integer",
+            "description": "The max inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "OfferListSortBy?"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "Sort?"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer list",
+            "schema": {
+              "$ref": "#/definitions/merchantOfferPaginatedList2"
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/{sku}": {
+      "get": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Get merchant marketplace offer",
+        "operationId": "GetMerchantMarketplaceOffer",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/skuPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer",
+            "schema": {
+              "$ref": "#/definitions/merchantOffer"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/offerNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/history": {
+      "get": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Get merchant marketplace offer history",
+        "operationId": "GetMerchantMarketplaceOfferHistory",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "description": "The minimum price",
+            "type": "integer",
+            "x-example": "10.12"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The max price",
+            "x-example": "10.34"
+          },
+          {
+            "name": "minInventoryLevel",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The minimum inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "maxInventoryLevel",
+            "required": false,
+            "in": "query",
+            "type": "integer",
+            "description": "The max inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "minLastUpdateUtcDate",
+            "required": false,
+            "in": "query",
+            "type": "string",
+            "format": "DateTime?",
+            "description": "The min last update utc date",
+            "x-example": "2020-06-10T19:26:42Z"
+          },
+          {
+            "name": "maxLastUpdateUtcDate",
+            "required": false,
+            "in": "query",
+            "type": "string",
+            "format": "DateTime?",
+            "description": "The max last update utc date",
+            "x-example": "2020-06-11T15:31:00Z"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer history",
+            "schema": {
+              "$ref": "#/definitions/merchantOfferChangePaginatedList"
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -3407,6 +3710,34 @@
         }
       ]
     },
+    "links.DisableOfferPublicationLink": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/link3"
+        },
+        {
+          "type": "object",
+          "example": {
+            "href": "/merchant/marketplaces/v1/MLT01/E1/disableOfferPublication",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    "links.ReenableOfferPublicationLink": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/link3"
+        },
+        {
+          "type": "object",
+          "example": {
+            "href": "/merchant/marketplaces/v1/MLT01/E1/reenableOfferPublication",
+            "method": "POST"
+          }
+        }
+      ]
+    },
     "links.GetMarketplaceSubscriptionReportingLink": {
       "allOf": [
         {
@@ -3488,6 +3819,12 @@
         },
         "reporting": {
           "$ref": "#/definitions/links.GetMarketplaceSubscriptionReportingLink"
+        },
+        "disableOfferPublication": {
+          "$ref": "#/definitions/links.DisableOfferPublicationLink"
+        },
+        "reenableOfferPublication": {
+          "$ref": "#/definitions/links.ReenableOfferPublicationLink"
         }
       }
     },
@@ -3506,9 +3843,14 @@
       "type": "object",
       "description": "The status of the offer publication to the target marketplace",
       "required": [
+        "enabled",
         "apiIntegrationStatus"
       ],
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "example": "true"
+        },
         "apiIntegrationStatus": {
           "$ref": "#/definitions/marketplaceApiIntegrationStatus"
         },
@@ -3518,16 +3860,28 @@
           "description": "The publishable offer count for this target marketplace (considering the product matching)",
           "example": "25"
         },
+        "pushedOfferCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The pushed offer count to this target marketplace",
+          "example": "20"
+        },
+        "pushedOfferCountLastSynchronizationUtcDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The push offer count last synchronization to the target marketplace",
+          "example": "2018-12-25T23:39:00Z"
+        },
         "publishedOfferCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The published offer count to this target marketplace",
+          "description": "The published offer count to this target marketplace - PREVIEW",
           "example": "20"
         },
         "lastPublicationUtcDate": {
           "type": "string",
           "format": "date-time",
-          "description": "The last synchronization of the offers from the source marketplace",
+          "description": "The last synchronization of the offers from the target marketplace - PREVIEW",
           "example": "2018-12-25T23:39:00Z"
         }
       }
@@ -3540,9 +3894,6 @@
         {
           "type": "object",
           "properties": {
-            "offersPublicationStatus": {
-              "$ref": "#/definitions/offersPublicationStatus"
-            },
             "offersSourceStatus": {
               "$ref": "#/definitions/offersSourceStatus"
             }
@@ -3550,13 +3901,47 @@
         }
       ]
     },
+    "ordersImportationStatus": {
+      "type": "object",
+      "description": "The status of the order importation from the marketplace",
+      "required": [
+        "enabled",
+        "apiIntegrationStatus"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "example": "true"
+        },
+        "apiIntegrationStatus": {
+          "$ref": "#/definitions/marketplaceApiIntegrationStatus"
+        },
+        "lastSynchronizationUtcDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The last synchronization of the orders from the marketplace",
+          "example": "2018-12-24T23:39:00Z"
+        },
+        "importedOrderCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The imported order count from the marketplace",
+          "example": "52"
+        }
+      }
+    },
     "offersSourceStatus": {
       "type": "object",
       "description": "The status of the offer importation from the source marketplace",
       "required": [
+        "enabled",
         "apiIntegrationStatus"
       ],
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "example": "true"
+        },
         "apiIntegrationStatus": {
           "$ref": "#/definitions/marketplaceApiIntegrationStatus"
         },
@@ -3634,6 +4019,14 @@
           "$ref": "#/definitions/marketplacePricingValue"
         }
       }
+    },
+    "marketplaceApiIntegrationStatus": {
+      "type": "string",
+      "enum": [
+        "Up",
+        "Down",
+        "Paused"
+      ]
     },
     "marketplaceSubscriptionStatus": {
       "description": "The subscription status",
@@ -3878,14 +4271,6 @@
       "enum": [
         "NotConfigured",
         "Configured"
-      ]
-    },
-    "marketplaceApiIntegrationStatus": {
-      "type": "string",
-      "enum": [
-        "Up",
-        "Down",
-        "Paused"
       ]
     },
     "link3": {
@@ -7140,19 +7525,19 @@
           "required": [
             "merchantCode",
             "sku",
-            "operationType",
+            "merchantOfferOperationType",
             "lastUpdateUtcDate",
             "messageId",
             "correlationId"
           ],
           "properties": {
-            "operationType": {
-              "$ref": "#/definitions/merchantOfferOperationType"
-            },
             "lastUpdateUtcDate": {
               "type": "string",
               "format": "date-time",
               "example": "2018-02-24T14:24:35"
+            },
+            "merchantOfferOperationType": {
+              "$ref": "#/definitions/merchantOfferOperationType"
             },
             "correlationId": {
               "$ref": "#/definitions/correlationId"
@@ -7162,9 +7547,6 @@
             },
             "price": {
               "$ref": "#/definitions/price"
-            },
-            "minPrice": {
-              "$ref": "#/definitions/minPrice"
             },
             "inventoryLevel": {
               "$ref": "#/definitions/inventoryLevel"
