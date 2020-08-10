@@ -182,6 +182,97 @@
         }
       }
     },
+    "/merchant/marketplaces/v1/{merchantCode}/customRules": {
+      "get": {
+        "tags": [
+          "Merchant API - Marketplaces - Global"
+        ],
+        "summary": "Get the marketplace custom rules",
+        "operationId": "GetMarketplaceCustomRules",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The marketplace custom rules",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/marketplaceCustomRule"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Merchant API - Marketplaces - Global"
+        ],
+        "summary": "Save the marketplace custom rules",
+        "operationId": "SaveMarketplaceCustomRules",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/marketplaceCustomRule"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The marketplace custom rules"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Merchant API - Marketplaces - Global"
+        ],
+        "summary": "Delete the marketplace custom rules",
+        "operationId": "DeleteMarketplaceCustomRules",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "description": "T",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The marketplace custom rules"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/marketplaces/v1/{merchantCode}/{marketplaceCode}": {
       "get": {
         "tags": [
@@ -3063,6 +3154,244 @@
         }
       }
     },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/disableList": {
+      "get": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Get merchant marketplace disabled offer list",
+        "operationId": "GetMerchantMarketplaceDisabledOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant marketplace disabled offer sku list",
+            "schema": {
+              "$ref": "#/definitions/merchantOfferDisabledPaginatedList"
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Disable merchant marketplace offer list",
+        "operationId": "DisableMerchantMarketplaceOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "description": "The merchant offer sku list you want to disable",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/sku"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The merchant marektplace offers disabling have been received!"
+          },
+          "400": {
+            "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Reenable merchant marketplace offer list",
+        "operationId": "ReenableMerchantMarketplaceOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "description": "The merchant offer sku list you want to reenable",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/sku"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The merchant marektplace offers reenabling have been received!"
+          },
+          "400": {
+            "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/editions": {
+      "get": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Get merchant marketplace edited offer list",
+        "operationId": "GetMerchantMarketplaceEditedOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant marketplace edited offer list",
+            "schema": {
+              "$ref": "#/definitions/merchantOfferEditedPaginatedList"
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Edit merchant marketplace offer list",
+        "operationId": "EditMerchantMarketplaceOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "description": "The merchant offer sku list you want to edit",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/merchantOfferEdition"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The merchant marektplace offers edit have been received!"
+          },
+          "400": {
+            "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Delete merchant marketplace edited offer list",
+        "operationId": "DeleteMerchantMarketplaceEditedOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "description": "The merchant offer sku list you want to delete edit",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/sku"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The merchant marektplace offers reenabling have been received!"
+          },
+          "400": {
+            "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/{sku}": {
       "get": {
         "tags": [
@@ -3959,6 +4288,37 @@
         }
       }
     },
+    "marketplaceCustomRule": {
+      "type": "object",
+      "required": [
+        "position",
+        "name",
+        "type",
+        "conditions",
+        "marketplaceCodes"
+      ],
+      "discriminator": "type",
+      "properties": {
+        "position": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "conditions": {
+          "$ref": "#/definitions/merchantMarketplaceOfferFilterConditions"
+        },
+        "type": {
+          "type": "string"
+        },
+        "marketplaceCodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceCode"
+          }
+        }
+      }
+    },
     "marketplaceSubscriptionReporting": {
       "type": "object",
       "required": [
@@ -4027,6 +4387,48 @@
         "Down",
         "Paused"
       ]
+    },
+    "merchantMarketplaceOfferFilterConditions": {
+      "type": "object",
+      "properties": {
+        "skus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sku"
+          }
+        },
+        "gtins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/gtin"
+          }
+        },
+        "minPrice": {
+          "type": "number",
+          "format": "decimal",
+          "description": "The minimum price"
+        },
+        "maxPrice": {
+          "type": "number",
+          "format": "decimal",
+          "description": "The max price"
+        },
+        "minInventoryLevel": {
+          "type": "integer",
+          "description": "The minimum inventory level"
+        },
+        "maxInventoryLevel": {
+          "type": "integer",
+          "description": "The max inventory level"
+        }
+      }
+    },
+    "marketplaceCode": {
+      "type": "string",
+      "description": "The marketplace code identifier in IMN.\nFor now we have:\n- C1 for Cdiscount\n- E1 for ePrice\n- R1 for Real.DE\n- B1 for BOL\n- E2 for eMAG\n",
+      "pattern": "^([A-Z]|[0-9]){2}$",
+      "x-pattern": "^([A-Z]|[0-9]){2}$",
+      "example": "C1"
     },
     "marketplaceSubscriptionStatus": {
       "description": "The subscription status",
@@ -4142,6 +4544,16 @@
         }
       }
     },
+    "sku": {
+      "type": "string",
+      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
+      "maxLength": "50"
+    },
+    "gtin": {
+      "type": "string",
+      "description": "Global Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
+      "maxLength": "50"
+    },
     "marketplaceSubscriptionMessageSenderType": {
       "type": "string",
       "enum": [
@@ -4239,13 +4651,6 @@
           "example": "false"
         }
       }
-    },
-    "marketplaceCode": {
-      "type": "string",
-      "description": "The marketplace code identifier in IMN.\nFor now we have:\n- C1 for Cdiscount\n- E1 for ePrice\n- R1 for Real.DE\n- B1 for BOL\n- E2 for eMAG\n",
-      "pattern": "^([A-Z]|[0-9]){2}$",
-      "x-pattern": "^([A-Z]|[0-9]){2}$",
-      "example": "C1"
     },
     "httpUrl": {
       "x-exclude": true,
@@ -7296,16 +7701,6 @@
       "description": "The telephone number",
       "example": "+33000000042"
     },
-    "sku": {
-      "type": "string",
-      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
-      "maxLength": "50"
-    },
-    "gtin": {
-      "type": "string",
-      "description": "Global Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
-      "maxLength": "50"
-    },
     "merchantOfferPaginatedList2": {
       "type": "object",
       "properties": {
@@ -7426,6 +7821,87 @@
           "$ref": "#/definitions/feedPublicationStatus"
         }
       }
+    },
+    "merchantOfferDisabledPaginatedList": {
+      "type": "object",
+      "properties": {
+        "merchantOfferSkus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sku"
+          }
+        },
+        "paginationResult": {
+          "$ref": "#/definitions/paginationResult"
+        }
+      }
+    },
+    "merchantOfferEditedPaginatedList": {
+      "type": "object",
+      "properties": {
+        "merchantOfferEditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/merchantOfferEdition"
+          }
+        },
+        "paginationResult": {
+          "$ref": "#/definitions/paginationResult"
+        }
+      }
+    },
+    "merchantOfferEdition": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferIdentifier"
+        },
+        {
+          "type": "object",
+          "description": "Merchant offer edition",
+          "required": [
+            "merchantCode",
+            "sku"
+          ],
+          "properties": {
+            "gtin": {
+              "$ref": "#/definitions/gtin"
+            },
+            "itemCondition": {
+              "$ref": "#/definitions/itemCondition"
+            },
+            "fulfilledBy": {
+              "$ref": "#/definitions/fulfilledBy"
+            },
+            "price": {
+              "$ref": "#/definitions/price"
+            },
+            "priceCurrency": {
+              "$ref": "#/definitions/priceCurrency"
+            },
+            "minPrice": {
+              "$ref": "#/definitions/minPrice"
+            },
+            "discount": {
+              "$ref": "#/definitions/priceSpecificationEdition"
+            },
+            "deliveryLeadTime": {
+              "$ref": "#/definitions/deliveryLeadTime"
+            },
+            "inventoryLevel": {
+              "$ref": "#/definitions/inventoryLevel"
+            },
+            "defaultDeliveryMethod": {
+              "$ref": "#/definitions/deliveryMethod"
+            },
+            "deliverySpecifications": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/deliverySpecificationEdition"
+              }
+            }
+          }
+        }
+      ]
     },
     "merchantOfferIdentifier": {
       "type": "object",
@@ -7568,6 +8044,35 @@
         "Failed"
       ],
       "default": "NotStarted"
+    },
+    "priceSpecificationEdition": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "validFrom": {
+          "$ref": "#/definitions/validFrom"
+        },
+        "validThrough": {
+          "$ref": "#/definitions/validThrough"
+        }
+      }
+    },
+    "deliverySpecificationEdition": {
+      "type": "object",
+      "description": "Define the pricing for the delivery method if not specify default will be used",
+      "properties": {
+        "deliveryMethod": {
+          "$ref": "#/definitions/deliveryMethod"
+        },
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "additionalPrice": {
+          "$ref": "#/definitions/price"
+        }
+      }
     },
     "validFrom": {
       "type": "string",
