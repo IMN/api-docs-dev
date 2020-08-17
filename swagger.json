@@ -2807,6 +2807,9 @@
               "$ref": "#/definitions/errorResponseMessage"
             }
           },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
+          },
           "default": {
             "$ref": "#/responses/GeneralError"
           }
@@ -2928,6 +2931,9 @@
               "$ref": "#/definitions/errorResponseMessage"
             }
           },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
+          },
           "default": {
             "$ref": "#/responses/GeneralError"
           }
@@ -2955,6 +2961,9 @@
           },
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -2997,6 +3006,9 @@
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
           },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
+          },
           "default": {
             "$ref": "#/responses/GeneralError"
           }
@@ -3024,6 +3036,9 @@
           },
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -3055,6 +3070,9 @@
           },
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -3148,13 +3166,56 @@
               "$ref": "#/definitions/errorResponseMessage"
             }
           },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
           "default": {
             "$ref": "#/responses/GeneralError"
           }
         }
       }
     },
-    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/disableList": {
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/disabled": {
+      "head": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Get merchant marketplace disabled offer list ETag",
+        "operationId": "GetMerchantMarketplaceDisabledOfferListEtag",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant marketplace disabled offer sku list ETag",
+            "headers": {
+              "Last-Modified": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last modification UTC date of the disabled offer list\\\nFor more details go to this link: https://tools.ietf.org/html/rfc7232#section-2.2\n"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "ETag value to identify the current version of disabled offer list\\\nFor more details go to this link: http://tools.ietf.org/html/rfc7232#section-2.3\n"
+              }
+            }
+          },
+          "304": {
+            "$ref": "#/responses/304_NotModified"
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
       "get": {
         "tags": [
           "Merchant API - Offers - Global"
@@ -3182,7 +3243,7 @@
           "200": {
             "description": "The merchant marketplace disabled offer sku list",
             "schema": {
-              "$ref": "#/definitions/merchantOfferDisabledPaginatedList"
+              "$ref": "#/definitions/merchantMarketplaceOfferDisabledPaginatedList"
             }
           },
           "400": {
@@ -3190,6 +3251,9 @@
             "schema": {
               "$ref": "#/definitions/errorResponseMessage"
             }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -3210,12 +3274,17 @@
             "$ref": "#/parameters/marketplaceCodeParameter"
           },
           {
+            "$ref": "#/parameters/ifMatchParameter"
+          },
+          {
             "name": "request",
             "in": "body",
             "required": true,
             "description": "The merchant offer sku list you want to disable",
             "schema": {
               "type": "array",
+              "minItems": "1",
+              "maxItems": "1000",
               "items": {
                 "$ref": "#/definitions/sku"
               }
@@ -3228,6 +3297,12 @@
           },
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "412": {
+            "$ref": "#/responses/412_PreConditionFailed"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -3248,12 +3323,17 @@
             "$ref": "#/parameters/marketplaceCodeParameter"
           },
           {
+            "$ref": "#/parameters/ifMatchParameter"
+          },
+          {
             "name": "request",
             "in": "body",
             "required": true,
             "description": "The merchant offer sku list you want to reenable",
             "schema": {
               "type": "array",
+              "minItems": "1",
+              "maxItems": "1000",
               "items": {
                 "$ref": "#/definitions/sku"
               }
@@ -3267,13 +3347,59 @@
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
           },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "412": {
+            "$ref": "#/responses/412_PreConditionFailed"
+          },
           "default": {
             "$ref": "#/responses/GeneralError"
           }
         }
       }
     },
-    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/editions": {
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/edited": {
+      "head": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Get merchant marketplace edited offer list ETag",
+        "operationId": "GetMerchantMarketplaceEditedOfferListEtag",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant marketplace edited offer list etag",
+            "headers": {
+              "Last-Modified": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last modification UTC date of the edited offer list\\\nFor more details go to this link: https://tools.ietf.org/html/rfc7232#section-2.2\n"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "ETag value to identify the current version of edited offer list\\\nFor more details go to this link: http://tools.ietf.org/html/rfc7232#section-2.3\n"
+              }
+            }
+          },
+          "304": {
+            "$ref": "#/responses/304_NotModified"
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
       "get": {
         "tags": [
           "Merchant API - Offers - Global"
@@ -3301,7 +3427,7 @@
           "200": {
             "description": "The merchant marketplace edited offer list",
             "schema": {
-              "$ref": "#/definitions/merchantOfferEditedPaginatedList"
+              "$ref": "#/definitions/merchantMarketplaceOfferEditedPaginatedList"
             }
           },
           "400": {
@@ -3309,6 +3435,9 @@
             "schema": {
               "$ref": "#/definitions/errorResponseMessage"
             }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -3329,14 +3458,19 @@
             "$ref": "#/parameters/marketplaceCodeParameter"
           },
           {
+            "$ref": "#/parameters/ifMatchParameter"
+          },
+          {
             "name": "request",
             "in": "body",
             "required": true,
             "description": "The merchant offer sku list you want to edit",
             "schema": {
               "type": "array",
+              "minItems": "1",
+              "maxItems": "1000",
               "items": {
-                "$ref": "#/definitions/merchantOfferEdition"
+                "$ref": "#/definitions/merchantMarketplaceOfferEdition"
               }
             }
           }
@@ -3347,6 +3481,12 @@
           },
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "412": {
+            "$ref": "#/responses/412_PreConditionFailed"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -3367,12 +3507,17 @@
             "$ref": "#/parameters/marketplaceCodeParameter"
           },
           {
+            "$ref": "#/parameters/ifMatchParameter"
+          },
+          {
             "name": "request",
             "in": "body",
             "required": true,
             "description": "The merchant offer sku list you want to delete edit",
             "schema": {
               "type": "array",
+              "minItems": "1",
+              "maxItems": "1000",
               "items": {
                 "$ref": "#/definitions/sku"
               }
@@ -3385,6 +3530,12 @@
           },
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "412": {
+            "$ref": "#/responses/412_PreConditionFailed"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -4309,7 +4460,7 @@
           "$ref": "#/definitions/merchantMarketplaceOfferFilterConditions"
         },
         "type": {
-          "type": "string"
+          "$ref": "#/definitions/marketplaceCustomRuleType"
         },
         "marketplaceCodes": {
           "type": "array",
@@ -4422,6 +4573,13 @@
           "description": "The max inventory level"
         }
       }
+    },
+    "marketplaceCustomRuleType": {
+      "type": "string",
+      "enum": [
+        "shipping",
+        "pricing"
+      ]
     },
     "marketplaceCode": {
       "type": "string",
@@ -7822,10 +7980,10 @@
         }
       }
     },
-    "merchantOfferDisabledPaginatedList": {
+    "merchantMarketplaceOfferDisabledPaginatedList": {
       "type": "object",
       "properties": {
-        "merchantOfferSkus": {
+        "skus": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/sku"
@@ -7836,13 +7994,13 @@
         }
       }
     },
-    "merchantOfferEditedPaginatedList": {
+    "merchantMarketplaceOfferEditedPaginatedList": {
       "type": "object",
       "properties": {
-        "merchantOfferEditions": {
+        "editions": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/merchantOfferEdition"
+            "$ref": "#/definitions/merchantMarketplaceOfferEdition"
           }
         },
         "paginationResult": {
@@ -7850,58 +8008,61 @@
         }
       }
     },
-    "merchantOfferEdition": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferIdentifier"
+    "merchantMarketplaceOfferEdition": {
+      "type": "object",
+      "description": "Merchant offer edition",
+      "required": [
+        "merchantCode",
+        "marketplaceCode",
+        "sku"
+      ],
+      "properties": {
+        "merchantCode": {
+          "$ref": "#/definitions/merchantCode"
         },
-        {
-          "type": "object",
-          "description": "Merchant offer edition",
-          "required": [
-            "merchantCode",
-            "sku"
-          ],
-          "properties": {
-            "gtin": {
-              "$ref": "#/definitions/gtin"
-            },
-            "itemCondition": {
-              "$ref": "#/definitions/itemCondition"
-            },
-            "fulfilledBy": {
-              "$ref": "#/definitions/fulfilledBy"
-            },
-            "price": {
-              "$ref": "#/definitions/price"
-            },
-            "priceCurrency": {
-              "$ref": "#/definitions/priceCurrency"
-            },
-            "minPrice": {
-              "$ref": "#/definitions/minPrice"
-            },
-            "discount": {
-              "$ref": "#/definitions/priceSpecificationEdition"
-            },
-            "deliveryLeadTime": {
-              "$ref": "#/definitions/deliveryLeadTime"
-            },
-            "inventoryLevel": {
-              "$ref": "#/definitions/inventoryLevel"
-            },
-            "defaultDeliveryMethod": {
-              "$ref": "#/definitions/deliveryMethod"
-            },
-            "deliverySpecifications": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/deliverySpecificationEdition"
-              }
-            }
+        "marketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
+        },
+        "sku": {
+          "$ref": "#/definitions/sku"
+        },
+        "gtin": {
+          "$ref": "#/definitions/gtin"
+        },
+        "itemCondition": {
+          "$ref": "#/definitions/itemCondition"
+        },
+        "fulfilledBy": {
+          "$ref": "#/definitions/fulfilledBy"
+        },
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "priceCurrency": {
+          "$ref": "#/definitions/priceCurrency"
+        },
+        "minPrice": {
+          "$ref": "#/definitions/minPrice"
+        },
+        "discount": {
+          "$ref": "#/definitions/priceSpecificationEdition"
+        },
+        "deliveryLeadTime": {
+          "$ref": "#/definitions/deliveryLeadTime"
+        },
+        "inventoryLevel": {
+          "$ref": "#/definitions/inventoryLevel"
+        },
+        "defaultDeliveryMethod": {
+          "$ref": "#/definitions/deliveryMethod"
+        },
+        "deliverySpecifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/deliverySpecificationEdition"
           }
         }
-      ]
+      }
     },
     "merchantOfferIdentifier": {
       "type": "object",
@@ -8047,6 +8208,11 @@
     },
     "priceSpecificationEdition": {
       "type": "object",
+      "required": [
+        "price",
+        "validFrom",
+        "validThrough"
+      ],
       "properties": {
         "price": {
           "$ref": "#/definitions/price"
@@ -8062,6 +8228,11 @@
     "deliverySpecificationEdition": {
       "type": "object",
       "description": "Define the pricing for the delivery method if not specify default will be used",
+      "required": [
+        "deliveryMethod",
+        "price",
+        "additionalPrice"
+      ],
       "properties": {
         "deliveryMethod": {
           "$ref": "#/definitions/deliveryMethod"
