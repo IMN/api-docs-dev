@@ -61,6 +61,10 @@
       "x-displayName": "Target Marketplace Activation"
     },
     {
+      "name": "Merchant API - Marketplaces - DRAFT - Custom rules",
+      "x-displayName": "DRAFT - Custom rules"
+    },
+    {
       "name": "Merchant - Account API - Global",
       "x-displayName": "Global"
     },
@@ -101,8 +105,28 @@
       "x-displayName": "Statistics"
     },
     {
-      "name": "Merchant API - Offers - Global",
-      "x-displayName": "Global"
+      "name": "Merchant API - Offers - Imported",
+      "x-displayName": "Imported"
+    },
+    {
+      "name": "Merchant API - Offers - Exported",
+      "x-displayName": "Exported"
+    },
+    {
+      "name": "Merchant API - Offers - Editions",
+      "x-displayName": "Editions"
+    },
+    {
+      "name": "Merchant API - Offers - Deactivation",
+      "x-displayName": "Deactivation"
+    },
+    {
+      "name": "Merchant API - Offers - Publication",
+      "x-displayName": "Publication"
+    },
+    {
+      "name": "Merchant API - Offers - Push",
+      "x-displayName": "Push"
     },
     {
       "name": "Merchant API - List of Values - LOV",
@@ -185,9 +209,9 @@
     "/merchant/marketplaces/v1/{merchantCode}/customRules": {
       "get": {
         "tags": [
-          "Merchant API - Marketplaces - Global"
+          "Merchant API - Marketplaces - DRAFT - Custom rules"
         ],
-        "summary": "Get the marketplace custom rules",
+        "summary": "DRAFT: Get the marketplace custom rules\n",
         "operationId": "GetMarketplaceCustomRules",
         "parameters": [
           {
@@ -211,9 +235,9 @@
       },
       "post": {
         "tags": [
-          "Merchant API - Marketplaces - Global"
+          "Merchant API - Marketplaces - DRAFT - Custom rules"
         ],
-        "summary": "Save the marketplace custom rules",
+        "summary": "DRAFT: Save the marketplace custom rules\n",
         "operationId": "SaveMarketplaceCustomRules",
         "parameters": [
           {
@@ -242,9 +266,9 @@
       },
       "delete": {
         "tags": [
-          "Merchant API - Marketplaces - Global"
+          "Merchant API - Marketplaces - DRAFT - Custom rules"
         ],
-        "summary": "Delete the marketplace custom rules",
+        "summary": "DRAFT: Delete the marketplace custom rules\n",
         "operationId": "DeleteMarketplaceCustomRules",
         "parameters": [
           {
@@ -2727,7 +2751,7 @@
     "/merchant/offers/v1/{merchantCode}/list": {
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Imported"
         ],
         "summary": "Get merchant offer list",
         "operationId": "GetMerchantOfferList",
@@ -2819,7 +2843,7 @@
     "/merchant/offers/v1/{merchantCode}/{sku}": {
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Imported"
         ],
         "summary": "Get merchant offer",
         "operationId": "GetMerchantOffer",
@@ -2850,7 +2874,7 @@
     "/merchant/offers/v1/{merchantCode}/history": {
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Imported"
         ],
         "summary": "Get merchant offer history",
         "operationId": "GetMerchantOfferHistory",
@@ -2943,7 +2967,7 @@
     "/merchant/offers/v1/{merchantCode}/publications/{correlationId}/start": {
       "post": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Publication"
         ],
         "summary": "Start the publication of merchant offers",
         "operationId": "StartMerchantOffersPublication",
@@ -2974,7 +2998,7 @@
     "/merchant/offers/v1/{merchantCode}/publications/{correlationId}/events": {
       "post": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Publication"
         ],
         "summary": "Publish merchant offers",
         "operationId": "PublishMerchantOffers",
@@ -3018,7 +3042,7 @@
     "/merchant/offers/v1/{merchantCode}/publications/{correlationId}/complete": {
       "post": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Publication"
         ],
         "summary": "Complete the publication of the merchant offers",
         "operationId": "CompleteMerchantOffersPublication",
@@ -3049,7 +3073,7 @@
     "/merchant/offers/v1/{merchantCode}/publications/{correlationId}/status": {
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Publication"
         ],
         "summary": "Get merchant offers publication status",
         "operationId": "GetMerchantOffersPublicationStatus",
@@ -3083,7 +3107,7 @@
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/list": {
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Exported"
         ],
         "summary": "Get merchant marketplace offer list",
         "operationId": "GetMerchantMarketplaceOfferList",
@@ -3178,7 +3202,7 @@
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/disabled": {
       "head": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Deactivation"
         ],
         "summary": "Get merchant marketplace disabled offer list ETag",
         "operationId": "GetMerchantMarketplaceDisabledOfferListEtag",
@@ -3218,7 +3242,7 @@
       },
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Deactivation"
         ],
         "summary": "Get merchant marketplace disabled offer list",
         "operationId": "GetMerchantMarketplaceDisabledOfferList",
@@ -3262,7 +3286,7 @@
       },
       "post": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Deactivation"
         ],
         "summary": "Disable merchant marketplace offer list",
         "operationId": "DisableMerchantMarketplaceOfferList",
@@ -3311,7 +3335,7 @@
       },
       "delete": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Deactivation"
         ],
         "summary": "Reenable merchant marketplace offer list",
         "operationId": "ReenableMerchantMarketplaceOfferList",
@@ -3362,7 +3386,7 @@
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/edited": {
       "head": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Editions"
         ],
         "summary": "Get merchant marketplace edited offer list ETag",
         "operationId": "GetMerchantMarketplaceEditedOfferListEtag",
@@ -3402,7 +3426,7 @@
       },
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Editions"
         ],
         "summary": "Get merchant marketplace edited offer list",
         "operationId": "GetMerchantMarketplaceEditedOfferList",
@@ -3446,7 +3470,7 @@
       },
       "post": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Editions"
         ],
         "summary": "Edit merchant marketplace offer list",
         "operationId": "EditMerchantMarketplaceOfferList",
@@ -3495,7 +3519,7 @@
       },
       "delete": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Editions"
         ],
         "summary": "Delete merchant marketplace edited offer list",
         "operationId": "DeleteMerchantMarketplaceEditedOfferList",
@@ -3546,7 +3570,7 @@
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/{sku}": {
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Exported"
         ],
         "summary": "Get merchant marketplace offer",
         "operationId": "GetMerchantMarketplaceOffer",
@@ -3580,7 +3604,7 @@
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/history": {
       "get": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Exported"
         ],
         "summary": "Get merchant marketplace offer history",
         "operationId": "GetMerchantMarketplaceOfferHistory",
@@ -3673,7 +3697,7 @@
     "/merchant/offers/v1/{merchantCode}/events": {
       "post": {
         "tags": [
-          "Merchant API - Offers - Global"
+          "Merchant API - Offers - Push"
         ],
         "summary": "Save a batch of merchant offers",
         "operationId": "SaveMerchantOfferBatch",
@@ -8711,7 +8735,8 @@
         "Merchant API - Marketplaces - Source Marketplace Activation",
         "Merchant API - Marketplaces - Shipping Settings",
         "Merchant API - Marketplaces - Pricing Settings",
-        "Merchant API - Marketplaces - Target Marketplace Activation"
+        "Merchant API - Marketplaces - Target Marketplace Activation",
+        "Merchant API - Marketplaces - DRAFT - Custom rules"
       ]
     },
     {
@@ -8737,7 +8762,12 @@
     {
       "name": "Merchant API - Offers",
       "tags": [
-        "Merchant API - Offers - Global"
+        "Merchant API - Offers - Imported",
+        "Merchant API - Offers - Exported",
+        "Merchant API - Offers - Editions",
+        "Merchant API - Offers - Deactivation",
+        "Merchant API - Offers - Publication",
+        "Merchant API - Offers - Push"
       ]
     },
     {
