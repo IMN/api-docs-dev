@@ -2840,37 +2840,6 @@
         }
       }
     },
-    "/merchant/offers/v1/{merchantCode}/{sku}": {
-      "get": {
-        "tags": [
-          "Merchant API - Offers - Imported"
-        ],
-        "summary": "Get merchant offer",
-        "operationId": "GetMerchantOffer",
-        "parameters": [
-          {
-            "$ref": "#/parameters/merchantCodeParameter"
-          },
-          {
-            "$ref": "#/parameters/skuPathParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The merchant offer",
-            "schema": {
-              "$ref": "#/definitions/merchantOffer"
-            }
-          },
-          "404": {
-            "$ref": "#/responses/offerNotFound"
-          },
-          "default": {
-            "$ref": "#/responses/GeneralError"
-          }
-        }
-      }
-    },
     "/merchant/offers/v1/{merchantCode}/history": {
       "get": {
         "tags": [
@@ -3560,40 +3529,6 @@
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
-          },
-          "default": {
-            "$ref": "#/responses/GeneralError"
-          }
-        }
-      }
-    },
-    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/{sku}": {
-      "get": {
-        "tags": [
-          "Merchant API - Offers - Exported"
-        ],
-        "summary": "Get merchant marketplace offer",
-        "operationId": "GetMerchantMarketplaceOffer",
-        "parameters": [
-          {
-            "$ref": "#/parameters/merchantCodeParameter"
-          },
-          {
-            "$ref": "#/parameters/marketplaceCodeParameter"
-          },
-          {
-            "$ref": "#/parameters/skuPathParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The merchant offer",
-            "schema": {
-              "$ref": "#/definitions/merchantOffer"
-            }
-          },
-          "404": {
-            "$ref": "#/responses/offerNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -7897,74 +7832,6 @@
         }
       }
     },
-    "merchantOffer": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/merchantOfferIdentifier"
-        },
-        {
-          "type": "object",
-          "description": "The defaultDeliveryMethod is required if the deliverySpecifications is fulfilled",
-          "required": [
-            "merchantCode",
-            "sku",
-            "gtin",
-            "itemCondition",
-            "price",
-            "priceCurrency",
-            "deliveryLeadTime",
-            "inventoryLevel",
-            "lastUpdateUtcDate"
-          ],
-          "properties": {
-            "gtin": {
-              "$ref": "#/definitions/gtin"
-            },
-            "itemCondition": {
-              "$ref": "#/definitions/itemCondition"
-            },
-            "fulfilledBy": {
-              "$ref": "#/definitions/fulfilledBy"
-            },
-            "price": {
-              "$ref": "#/definitions/price"
-            },
-            "priceCurrency": {
-              "$ref": "#/definitions/priceCurrency"
-            },
-            "minPrice": {
-              "$ref": "#/definitions/minPrice"
-            },
-            "discount": {
-              "$ref": "#/definitions/priceSpecification"
-            },
-            "deliveryLeadTime": {
-              "$ref": "#/definitions/deliveryLeadTime"
-            },
-            "inventoryLevel": {
-              "$ref": "#/definitions/inventoryLevel"
-            },
-            "defaultDeliveryMethod": {
-              "$ref": "#/definitions/deliveryMethod"
-            },
-            "deliverySpecifications": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/deliverySpecification"
-              }
-            },
-            "lastUpdateUtcDate": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2018-02-24T14:24:35"
-            },
-            "sourceMarketplaceCode": {
-              "$ref": "#/definitions/marketplaceCode"
-            }
-          }
-        }
-      ]
-    },
     "merchantOfferChangePaginatedList": {
       "type": "object",
       "properties": {
@@ -8088,92 +7955,73 @@
         }
       }
     },
-    "merchantOfferIdentifier": {
-      "type": "object",
-      "required": [
-        "merchantCode",
-        "sku"
-      ],
-      "properties": {
-        "merchantCode": {
-          "$ref": "#/definitions/merchantCode"
+    "merchantOffer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/merchantOfferIdentifier"
         },
-        "sku": {
-          "$ref": "#/definitions/sku"
+        {
+          "type": "object",
+          "description": "The defaultDeliveryMethod is required if the deliverySpecifications is fulfilled",
+          "required": [
+            "merchantCode",
+            "sku",
+            "gtin",
+            "itemCondition",
+            "price",
+            "priceCurrency",
+            "deliveryLeadTime",
+            "inventoryLevel",
+            "lastUpdateUtcDate"
+          ],
+          "properties": {
+            "gtin": {
+              "$ref": "#/definitions/gtin"
+            },
+            "itemCondition": {
+              "$ref": "#/definitions/itemCondition"
+            },
+            "fulfilledBy": {
+              "$ref": "#/definitions/fulfilledBy"
+            },
+            "price": {
+              "$ref": "#/definitions/price"
+            },
+            "priceCurrency": {
+              "$ref": "#/definitions/priceCurrency"
+            },
+            "minPrice": {
+              "$ref": "#/definitions/minPrice"
+            },
+            "discount": {
+              "$ref": "#/definitions/priceSpecification"
+            },
+            "deliveryLeadTime": {
+              "$ref": "#/definitions/deliveryLeadTime"
+            },
+            "inventoryLevel": {
+              "$ref": "#/definitions/inventoryLevel"
+            },
+            "defaultDeliveryMethod": {
+              "$ref": "#/definitions/deliveryMethod"
+            },
+            "deliverySpecifications": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/deliverySpecification"
+              }
+            },
+            "lastUpdateUtcDate": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2018-02-24T14:24:35"
+            },
+            "sourceMarketplaceCode": {
+              "$ref": "#/definitions/marketplaceCode"
+            }
+          }
         }
-      }
-    },
-    "itemCondition": {
-      "type": "string",
-      "enum": [
-        "NewCondition",
-        "RefurbishedCondition",
-        "UsedAsNewCondition",
-        "UsedVeryGoodCondition",
-        "UsedGoodCondition",
-        "UsedAcceptableCondition"
       ]
-    },
-    "fulfilledBy": {
-      "type": "string",
-      "description": "The marketplace in charge of the delivery on this offer."
-    },
-    "price": {
-      "x-exclude": true,
-      "type": "number",
-      "format": "decimal",
-      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. http://schema.org/price"
-    },
-    "priceCurrency": {
-      "type": "string",
-      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.\nUsage guidelines:\nUse the priceCurrency property (with ISO 4217 codes e.g. USD) instead of including ambiguous symbols such as $ in the value. http://schema.org/priceCurrency\n"
-    },
-    "minPrice": {
-      "type": "number",
-      "format": "decimal",
-      "description": "The lowest price if the price is a range. http://schema.org/minPrice"
-    },
-    "priceSpecification": {
-      "type": "object",
-      "properties": {
-        "price": {
-          "$ref": "#/definitions/price"
-        },
-        "validFrom": {
-          "$ref": "#/definitions/validFrom"
-        },
-        "validThrough": {
-          "$ref": "#/definitions/validThrough"
-        }
-      }
-    },
-    "deliveryLeadTime": {
-      "type": "number",
-      "format": "int16",
-      "description": "The typical delay between the receipt of the order and the goods either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup. http://schema.org/deliveryLeadTime"
-    },
-    "inventoryLevel": {
-      "type": "number",
-      "format": "decimal",
-      "description": "The current approximate inventory level for the item or items. http://schema.org/inventoryLevel"
-    },
-    "deliverySpecification": {
-      "type": "object",
-      "description": "Define the pricing for the delivery method if not specify default will be used",
-      "required": [
-        "price"
-      ],
-      "properties": {
-        "deliveryMethod": {
-          "$ref": "#/definitions/deliveryMethod"
-        },
-        "price": {
-          "$ref": "#/definitions/price"
-        },
-        "additionalPrice": {
-          "$ref": "#/definitions/price"
-        }
-      }
     },
     "merchantOfferChange": {
       "allOf": [
@@ -8269,6 +8117,101 @@
         }
       }
     },
+    "merchantOfferIdentifier": {
+      "type": "object",
+      "required": [
+        "merchantCode",
+        "sku"
+      ],
+      "properties": {
+        "merchantCode": {
+          "$ref": "#/definitions/merchantCode"
+        },
+        "sku": {
+          "$ref": "#/definitions/sku"
+        }
+      }
+    },
+    "itemCondition": {
+      "type": "string",
+      "enum": [
+        "NewCondition",
+        "RefurbishedCondition",
+        "UsedAsNewCondition",
+        "UsedVeryGoodCondition",
+        "UsedGoodCondition",
+        "UsedAcceptableCondition"
+      ]
+    },
+    "fulfilledBy": {
+      "type": "string",
+      "description": "The marketplace in charge of the delivery on this offer."
+    },
+    "price": {
+      "x-exclude": true,
+      "type": "number",
+      "format": "decimal",
+      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. http://schema.org/price"
+    },
+    "priceCurrency": {
+      "type": "string",
+      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.\nUsage guidelines:\nUse the priceCurrency property (with ISO 4217 codes e.g. USD) instead of including ambiguous symbols such as $ in the value. http://schema.org/priceCurrency\n"
+    },
+    "minPrice": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The lowest price if the price is a range. http://schema.org/minPrice"
+    },
+    "priceSpecification": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "validFrom": {
+          "$ref": "#/definitions/validFrom"
+        },
+        "validThrough": {
+          "$ref": "#/definitions/validThrough"
+        }
+      }
+    },
+    "deliveryLeadTime": {
+      "type": "number",
+      "format": "int16",
+      "description": "The typical delay between the receipt of the order and the goods either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup. http://schema.org/deliveryLeadTime"
+    },
+    "inventoryLevel": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The current approximate inventory level for the item or items. http://schema.org/inventoryLevel"
+    },
+    "deliverySpecification": {
+      "type": "object",
+      "description": "Define the pricing for the delivery method if not specify default will be used",
+      "required": [
+        "price"
+      ],
+      "properties": {
+        "deliveryMethod": {
+          "$ref": "#/definitions/deliveryMethod"
+        },
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "additionalPrice": {
+          "$ref": "#/definitions/price"
+        }
+      }
+    },
+    "merchantOfferOperationType": {
+      "type": "string",
+      "enum": [
+        "Received",
+        "Deleted",
+        "Unpublished"
+      ]
+    },
     "validFrom": {
       "type": "string",
       "format": "date-time",
@@ -8278,14 +8221,6 @@
       "type": "string",
       "format": "date-time",
       "description": "The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours. http://schema.org/validThrough"
-    },
-    "merchantOfferOperationType": {
-      "type": "string",
-      "enum": [
-        "Received",
-        "Deleted",
-        "Unpublished"
-      ]
     },
     "userLovIndex": {
       "type": "object",
@@ -8500,15 +8435,6 @@
       "required": false,
       "description": "Collection format: csv\n\nGlobal Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n"
     },
-    "skuPathParameter": {
-      "name": "sku",
-      "in": "path",
-      "type": "string",
-      "format": "Sku",
-      "required": true,
-      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
-      "maxLength": "50"
-    },
     "acceptLanguageParameter": {
       "name": "Accept-Language",
       "description": "Indicates that the client accepts the following languages.",
@@ -8691,12 +8617,6 @@
         "OrderNotFoundException",
         "OrderChangeNotFoundException"
       ],
-      "schema": {
-        "$ref": "#/definitions/errorResponseMessage"
-      }
-    },
-    "offerNotFound": {
-      "description": "When the requested offer is not found",
       "schema": {
         "$ref": "#/definitions/errorResponseMessage"
       }
