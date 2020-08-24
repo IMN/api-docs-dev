@@ -3201,6 +3201,12 @@
           "304": {
             "$ref": "#/responses/304_NotModified"
           },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
           },
@@ -3384,6 +3390,12 @@
           },
           "304": {
             "$ref": "#/responses/304_NotModified"
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
@@ -3622,6 +3634,9 @@
             "schema": {
               "$ref": "#/definitions/errorResponseMessage"
             }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
