@@ -2909,6 +2909,14 @@
             "format": "DateTime?",
             "description": "The max last update utc date",
             "x-example": "2020-06-11T15:31:00Z"
+          },
+          {
+            "name": "lastChangeOnly",
+            "required": false,
+            "in": "query",
+            "type": "boolean",
+            "description": "Get only the latest changed",
+            "x-example": "true"
           }
         ],
         "responses": {
@@ -3620,6 +3628,14 @@
             "format": "DateTime?",
             "description": "The max last update utc date",
             "x-example": "2020-06-11T15:31:00Z"
+          },
+          {
+            "name": "lastChangeOnly",
+            "required": false,
+            "in": "query",
+            "type": "boolean",
+            "description": "Get only the latest changed",
+            "x-example": "true"
           }
         ],
         "responses": {
@@ -8078,6 +8094,9 @@
             "etag": {
               "type": "string",
               "description": "The new etag based on the offer information"
+            },
+            "unpublicationReasonCode": {
+              "$ref": "#/definitions/merchantOfferUnpublicationReasonCode"
             }
           }
         }
@@ -8225,6 +8244,15 @@
         "Received",
         "Deleted",
         "Unpublished"
+      ]
+    },
+    "merchantOfferUnpublicationReasonCode": {
+      "type": "string",
+      "description": "The reason of the unpublication of an offer",
+      "enum": [
+        "MerchantMarketplaceOfferPublicationDisabled",
+        "Excluded",
+        "OfferDisabled"
       ]
     },
     "validFrom": {
