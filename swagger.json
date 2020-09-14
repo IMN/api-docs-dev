@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "IMN Merchant API  - DEV",
-    "description": "# The REST API of IMN system\n## Overview\nThe REST APIs provide programmatic access to read and write IMN data. \nBasically, with this API you will be able to do everything like you were with your browser on https://go.imn.io !\n\nThe main features are:\n- Register and manage your merchant account\n- Declare your source marketplace to get your offers\n- Configure your marketplace api credential\n- Define the target marketplaces you want to go to, then you will be able to configure:\n\t- the pricing setting \n\t- the shipping settings\n- ...and more!\n\n\n## Things to keep in mind\n### API Rate Limits\n- The IMN REST API is limited to 100 calls/minute.\n\n### Media type\nThe default media type for requests and responses is application/json. Where noted, some operations support other content types. If no additional content type is mentioned for a specific operation, then the media type is application/json.\n\n### Required content type\nThe required and default encoding for the request and responses is UTF8.\n\n### Required date time format\nAll our date time are formatted in ISO 8601 format: 2014-06-24T16:25:00Z.\n\n### Base URL\nThe Base URL of the IMN API Order Management REST API conforms to the following template.\n\nhttps://api.imn.io\n\nAll URLs returned by the IMN API are relative to this base URL, and all requests to the REST API must use this base URL template.\n\nYou can test our API on https://api-docs.imn.io/swagger-ui\nYou can contact us on [gitter, #IMN/API](https://gitter.im/IMN/API)\n\n",
+    "description": "# The REST API of IMN system\r\n## Overview\r\nThe REST APIs provide programmatic access to read and write IMN data. \r\nBasically, with this API you will be able to do everything like you were with your browser on https://go.imn.io !\r\n\r\nThe main features are:\r\n- Register and manage your merchant account\r\n- Declare your source marketplace to get your offers\r\n- Configure your marketplace api credential\r\n- Define the target marketplaces you want to go to, then you will be able to configure:\r\n\t- the pricing setting \r\n\t- the shipping settings\r\n- ...and more!\r\n\r\n\r\n## Things to keep in mind\r\n### API Rate Limits\r\n- The IMN REST API is limited to 100 calls/minute.\r\n\r\n### Media type\r\nThe default media type for requests and responses is application/json. Where noted, some operations support other content types. If no additional content type is mentioned for a specific operation, then the media type is application/json.\r\n\r\n### Required content type\r\nThe required and default encoding for the request and responses is UTF8.\r\n\r\n### Required date time format\r\nAll our date time are formatted in ISO 8601 format: 2014-06-24T16:25:00Z.\r\n\r\n### Base URL\r\nThe Base URL of the IMN API Order Management REST API conforms to the following template.\r\n\r\nhttps://api.imn.io\r\n\r\nAll URLs returned by the IMN API are relative to this base URL, and all requests to the REST API must use this base URL template.\r\n\r\nYou can test our API on https://api-docs.imn.io/swagger-ui\r\nYou can contact us on [gitter, #IMN/API](https://gitter.im/IMN/API)\r\n\r\n",
     "version": "1.0",
     "x-logo": {
       "url": "https://imngo.blob.core.windows.net/imngo/images/imn-logo.png",
@@ -2992,8 +2992,8 @@
             "required": true,
             "schema": {
               "type": "array",
-              "minItems": "1",
-              "maxItems": "1000",
+              "minItems": 1,
+              "maxItems": 1000,
               "items": {
                 "$ref": "#/definitions/merchantOfferEventBase"
               }
@@ -3290,8 +3290,8 @@
             "description": "The merchant offer sku list you want to disable",
             "schema": {
               "type": "array",
-              "minItems": "1",
-              "maxItems": "1000",
+              "minItems": 1,
+              "maxItems": 1000,
               "items": {
                 "$ref": "#/definitions/sku"
               }
@@ -3339,8 +3339,8 @@
             "description": "The merchant offer sku list you want to reenable",
             "schema": {
               "type": "array",
-              "minItems": "1",
-              "maxItems": "1000",
+              "minItems": 1,
+              "maxItems": 1000,
               "items": {
                 "$ref": "#/definitions/sku"
               }
@@ -3480,8 +3480,8 @@
             "description": "The merchant offer sku list you want to edit",
             "schema": {
               "type": "array",
-              "minItems": "1",
-              "maxItems": "1000",
+              "minItems": 1,
+              "maxItems": 1000,
               "items": {
                 "$ref": "#/definitions/merchantMarketplaceOfferEdition"
               }
@@ -3529,8 +3529,8 @@
             "description": "The merchant offer sku list you want to delete edit",
             "schema": {
               "type": "array",
-              "minItems": "1",
-              "maxItems": "1000",
+              "minItems": 1,
+              "maxItems": 1000,
               "items": {
                 "$ref": "#/definitions/sku"
               }
@@ -3676,8 +3676,8 @@
             "in": "body",
             "schema": {
               "type": "array",
-              "minItems": "1",
-              "maxItems": "1000",
+              "minItems": 1,
+              "maxItems": 1000,
               "items": {
                 "$ref": "#/definitions/merchantOfferEventBase"
               }
@@ -3886,7 +3886,7 @@
         },
         "tenantApps": {
           "type": "array",
-          "minItems": "1",
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/tenantApp"
           }
@@ -3964,7 +3964,7 @@
       "properties": {
         "errors": {
           "type": "array",
-          "uniqueItems": "false",
+          "uniqueItems": false,
           "items": {
             "$ref": "#/definitions/userErrorMessage"
           }
@@ -4695,12 +4695,12 @@
     "sku": {
       "type": "string",
       "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
-      "maxLength": "50"
+      "maxLength": 50
     },
     "gtin": {
       "type": "string",
       "description": "Global Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n",
-      "maxLength": "50"
+      "maxLength": 50
     },
     "marketplaceSubscriptionMessageSenderType": {
       "type": "string",
@@ -5593,9 +5593,9 @@
     },
     "merchantCompanyName": {
       "type": "string",
-      "minLength": "2",
+      "minLength": 2,
       "x-minLength": "2",
-      "maxLength": "100",
+      "maxLength": 100,
       "x-maxLength": "100",
       "description": "Merchant's company name"
     },
@@ -5661,7 +5661,7 @@
         "marketplaceCodes": {
           "description": "Indicate the marketplace identifier list",
           "type": "array",
-          "minItems": "1",
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/marketplaceCode"
           },
@@ -6520,9 +6520,9 @@
       "properties": {
         "orders": {
           "type": "array",
-          "maxItems": "100",
-          "minItems": "1",
-          "uniqueItems": "true",
+          "maxItems": 100,
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/shipOrderListRequestItem"
           }
@@ -6556,9 +6556,9 @@
       "properties": {
         "orders": {
           "type": "array",
-          "maxItems": "100",
-          "minItems": "1",
-          "uniqueItems": "true",
+          "maxItems": 100,
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/shipOrderWithTrackingUrlListRequestItem"
           }
@@ -6592,9 +6592,9 @@
       "properties": {
         "orders": {
           "type": "array",
-          "maxItems": "100",
-          "minItems": "1",
-          "uniqueItems": "true",
+          "maxItems": 100,
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/refundOrderListRequestItem"
           }
@@ -6628,9 +6628,9 @@
       "properties": {
         "orders": {
           "type": "array",
-          "maxItems": "100",
-          "minItems": "1",
-          "uniqueItems": "true",
+          "maxItems": 100,
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/cancelOrderListRequestItem"
           }
@@ -6664,9 +6664,9 @@
       "properties": {
         "orders": {
           "type": "array",
-          "maxItems": "100",
-          "minItems": "1",
-          "uniqueItems": "true",
+          "maxItems": 100,
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/acceptOrderListRequestItem"
           }
@@ -6696,9 +6696,9 @@
       "properties": {
         "orders": {
           "type": "array",
-          "maxItems": "100",
-          "minItems": "1",
-          "uniqueItems": "true",
+          "maxItems": 100,
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/refuseOrderListRequestItem"
           }
@@ -6728,9 +6728,9 @@
       "properties": {
         "orders": {
           "type": "array",
-          "maxItems": "100",
-          "minItems": "1",
-          "uniqueItems": "true",
+          "maxItems": 100,
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/clearMerchantOrderInfoListRequestItem"
           }
@@ -6767,9 +6767,9 @@
           "items": {
             "$ref": "#/definitions/setMerchantOrderInfoListRequestItem"
           },
-          "maxItems": "100",
-          "uniqueItems": "true",
-          "minItems": "1",
+          "maxItems": 100,
+          "uniqueItems": true,
+          "minItems": 1,
           "example": [
             {
               "order": {
@@ -6958,7 +6958,7 @@
       "default": "1000",
       "minimum": 25,
       "x-minimum": "25",
-      "maximum": "1000",
+      "maximum": 1000,
       "x-maximum": "1000",
       "example": "100"
     },
@@ -8441,7 +8441,7 @@
       "format": "PageSize",
       "minimum": 25,
       "x-minimum": "25",
-      "maximum": "1000",
+      "maximum": 1000,
       "x-maximum": "1000",
       "x-example": "25"
     },
