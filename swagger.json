@@ -158,6 +158,12 @@
             "description": "The operation status",
             "schema": {
               "$ref": "#/definitions/operationStatusIndex"
+            },
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "A non-negative decimal integer indicating the seconds to delay after the response is received."
+              }
             }
           },
           "303": {
