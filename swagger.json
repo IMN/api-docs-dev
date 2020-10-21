@@ -4021,8 +4021,7 @@
       "x-exclude": true,
       "type": "string",
       "description": "If the error is translated, the culture name will be indicated",
-      "example": "en",
-      "x-lov": "Go2CultureName"
+      "example": "en"
     },
     "userErrorMessageArguments": {
       "x-exclude": true,
@@ -5594,7 +5593,6 @@
       "type": "string",
       "pattern": "^[A-Z]{3}$",
       "x-pattern": "^[A-Z]{3}$",
-      "x-lov": "Country",
       "example": "FRA"
     },
     "merchantCompanyName": {
