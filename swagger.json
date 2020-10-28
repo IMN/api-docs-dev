@@ -3087,6 +3087,102 @@
         }
       }
     },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/simulation": {
+      "get": {
+        "tags": [
+          "Merchant API - Offers - Exported"
+        ],
+        "summary": "Get simulated merchant marketplace offer list",
+        "description": "Get the imported offers with marketplace busines rules applied",
+        "operationId": "GetSimulatedMerchantMarketplaceOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          },
+          {
+            "$ref": "#/parameters/gtinListQueryOptionalParameter"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "description": "The minimum price",
+            "type": "integer",
+            "x-example": "10.12"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The max price",
+            "x-example": "10.34"
+          },
+          {
+            "name": "minInventoryLevel",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The minimum inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "maxInventoryLevel",
+            "required": false,
+            "in": "query",
+            "type": "integer",
+            "description": "The max inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "OfferListSortBy?"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "Sort?"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer list",
+            "schema": {
+              "$ref": "#/definitions/merchantOfferPaginatedList2"
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/list": {
       "get": {
         "tags": [
