@@ -380,6 +380,11 @@
             "$ref": "#/parameters/marketplaceCodeParameter"
           }
         ],
+        "x-dependencies": [
+          {
+            "name": "imndb"
+          }
+        ],
         "responses": {
           "200": {
             "description": "The marketplace API credential",
@@ -423,9 +428,11 @@
             "headers": {
               "Location": {
                 "type": "string",
-                "description": "The location to monitor the progression of the operation in the IMN system"
+                "description": "The location to monitor the progression of the operation in the IMN system",
+                "x-bamBusinessKey": "merchantCode"
               }
-            }
+            },
+            "x-readOperationId": "GetMarketplaceApiCredential"
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
