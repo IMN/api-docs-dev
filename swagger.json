@@ -2776,7 +2776,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -2835,7 +2835,7 @@
           "200": {
             "description": "The merchant offer list",
             "schema": {
-              "$ref": "#/definitions/merchantOfferPaginatedList2"
+              "$ref": "#/definitions/merchantOfferPaginatedList"
             }
           },
           "400": {
@@ -2868,7 +2868,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -3046,7 +3046,15 @@
         ],
         "responses": {
           "204": {
-            "description": "The merchant offers publication have been completed!"
+            "description": "The merchant offers publication have been completed!",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location to monitor the progression of the operation in the IMN system",
+                "x-bamBusinessKey": "merchantCode"
+              }
+            },
+            "x-readOperationId": "GetMarketplaceApiCredential"
           },
           "400": {
             "$ref": "#/responses/offerBatchBadRequest"
@@ -3113,7 +3121,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -3172,7 +3180,7 @@
           "200": {
             "description": "The merchant offer list",
             "schema": {
-              "$ref": "#/definitions/merchantOfferPaginatedList2"
+              "$ref": "#/definitions/merchantOfferPaginatedList"
             }
           },
           "400": {
@@ -3208,7 +3216,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -3267,7 +3275,7 @@
           "200": {
             "description": "The merchant offer list",
             "schema": {
-              "$ref": "#/definitions/merchantOfferPaginatedList2"
+              "$ref": "#/definitions/merchantOfferPaginatedList"
             }
           },
           "400": {
@@ -3539,7 +3547,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -3683,7 +3691,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/pageNumberQueryStringOptinalParameter"
+            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -7951,7 +7959,7 @@
       "description": "The telephone number",
       "example": "+33000000042"
     },
-    "merchantOfferPaginatedList2": {
+    "merchantOfferPaginatedList": {
       "type": "object",
       "properties": {
         "merchantOffers": {
@@ -7960,8 +7968,8 @@
             "$ref": "#/definitions/merchantOffer"
           }
         },
-        "paginationResult": {
-          "$ref": "#/definitions/paginationResult"
+        "paginationContinuationToken": {
+          "$ref": "#/definitions/paginationContinuationToken"
         }
       }
     },
@@ -7974,8 +7982,8 @@
             "$ref": "#/definitions/merchantOfferChange"
           }
         },
-        "paginationResult": {
-          "$ref": "#/definitions/paginationResult"
+        "continuationToken": {
+          "$ref": "#/definitions/paginationContinuationToken"
         }
       }
     },
@@ -8027,8 +8035,8 @@
             "$ref": "#/definitions/merchantMarketplaceOfferEdition"
           }
         },
-        "paginationResult": {
-          "$ref": "#/definitions/paginationResult"
+        "continuationToken": {
+          "$ref": "#/definitions/paginationContinuationToken"
         }
       }
     },
@@ -8155,6 +8163,10 @@
           }
         }
       ]
+    },
+    "paginationContinuationToken": {
+      "type": "string",
+      "description": "Just a string value that will help to get the next page"
     },
     "merchantOfferChange": {
       "allOf": [
@@ -8547,16 +8559,13 @@
       "x-maximum": "1000",
       "x-example": "25"
     },
-    "pageNumberQueryStringOptinalParameter": {
-      "name": "pageNumber",
-      "description": "The page number you want to get",
+    "paginationContinuationTokenQueryStringParameter": {
+      "name": "paginationContinuationToken",
+      "description": "The pagination continuation token you want to get next page.",
       "in": "query",
       "required": false,
-      "type": "integer",
-      "format": "PageNumber",
-      "minimum": 1,
-      "x-minimum": "1",
-      "x-example": "1"
+      "type": "string",
+      "format": "PaginationContinuationToken"
     },
     "skuListQueryOptionalParameter": {
       "name": "skus",
@@ -8579,6 +8588,17 @@
       },
       "required": false,
       "description": "Collection format: csv\n\nGlobal Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n"
+    },
+    "pageNumberQueryStringOptinalParameter": {
+      "name": "pageNumber",
+      "description": "The page number you want to get",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "PageNumber",
+      "minimum": 1,
+      "x-minimum": "1",
+      "x-example": "1"
     },
     "acceptLanguageParameter": {
       "name": "Accept-Language",
