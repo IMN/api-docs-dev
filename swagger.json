@@ -2776,7 +2776,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
+            "$ref": "#/parameters/paginationContinuationTokenHeaderOptionalParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -2868,7 +2868,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
+            "$ref": "#/parameters/paginationContinuationTokenHeaderOptionalParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -3121,7 +3121,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
+            "$ref": "#/parameters/paginationContinuationTokenHeaderOptionalParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -3216,7 +3216,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
+            "$ref": "#/parameters/paginationContinuationTokenHeaderOptionalParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -3547,7 +3547,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
+            "$ref": "#/parameters/paginationContinuationTokenHeaderOptionalParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -3691,7 +3691,7 @@
             "$ref": "#/parameters/pageSizeQueryStringOptinalParameter"
           },
           {
-            "$ref": "#/parameters/paginationContinuationTokenQueryStringParameter"
+            "$ref": "#/parameters/paginationContinuationTokenHeaderOptionalParameter"
           },
           {
             "$ref": "#/parameters/skuListQueryOptionalParameter"
@@ -8559,13 +8559,12 @@
       "x-maximum": "1000",
       "x-example": "25"
     },
-    "paginationContinuationTokenQueryStringParameter": {
-      "name": "paginationContinuationToken",
+    "paginationContinuationTokenHeaderOptionalParameter": {
+      "name": "X-ContinuationToken",
       "description": "The pagination continuation token you want to get next page.",
-      "in": "query",
+      "in": "header",
       "required": false,
-      "type": "string",
-      "format": "PaginationContinuationToken"
+      "type": "string"
     },
     "skuListQueryOptionalParameter": {
       "name": "skus",
