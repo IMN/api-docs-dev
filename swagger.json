@@ -2762,6 +2762,93 @@
       }
     },
     "/merchant/offers/v1/{merchantCode}/list": {
+      "head": {
+        "tags": [
+          "Merchant API - Offers - Imported"
+        ],
+        "summary": "Get merchant offer list count",
+        "operationId": "GetMerchantOfferCount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          },
+          {
+            "$ref": "#/parameters/gtinListQueryOptionalParameter"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "description": "The minimum price",
+            "type": "integer",
+            "x-example": "10.12"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The max price",
+            "x-example": "10.34"
+          },
+          {
+            "name": "minInventoryLevel",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The minimum inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "maxInventoryLevel",
+            "required": false,
+            "in": "query",
+            "type": "integer",
+            "description": "The max inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "OfferListSortBy?"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "Sort?"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer list count",
+            "headers": {
+              "X-Total-Count": {
+                "type": "integer",
+                "description": "The merchant offer list count"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
       "get": {
         "tags": [
           "Merchant API - Offers - Imported"
@@ -3103,13 +3190,104 @@
       }
     },
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/simulation": {
-      "get": {
+      "head": {
         "tags": [
           "Merchant API - Offers - Exported"
         ],
         "summary": "Get simulated merchant marketplace offer list",
         "description": "Get the imported offers with marketplace busines rules applied",
         "operationId": "GetSimulatedMerchantMarketplaceOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          },
+          {
+            "$ref": "#/parameters/gtinListQueryOptionalParameter"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "description": "The minimum price",
+            "type": "integer",
+            "x-example": "10.12"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The max price",
+            "x-example": "10.34"
+          },
+          {
+            "name": "minInventoryLevel",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The minimum inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "maxInventoryLevel",
+            "required": false,
+            "in": "query",
+            "type": "integer",
+            "description": "The max inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "OfferListSortBy?"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "Sort?"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer list count",
+            "headers": {
+              "X-Total-Count": {
+                "type": "integer",
+                "description": "The merchant offer list count"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Merchant API - Offers - Exported"
+        ],
+        "summary": "Get simulated merchant marketplace offer list",
+        "description": "Get the imported offers with marketplace busines rules applied",
+        "operationId": "GetSimulatedMerchantMarketplaceOfferCount",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -8546,26 +8724,6 @@
       "required": true,
       "description": "It's the guid corresponding to the operation.\n"
     },
-    "pageSizeQueryStringOptinalParameter": {
-      "name": "pageSize",
-      "description": "The entry count you want to get",
-      "in": "query",
-      "required": false,
-      "type": "integer",
-      "format": "PageSize",
-      "minimum": 25,
-      "x-minimum": "25",
-      "maximum": 1000,
-      "x-maximum": "1000",
-      "x-example": "25"
-    },
-    "paginationContinuationTokenHeaderOptionalParameter": {
-      "name": "X-ContinuationToken",
-      "description": "The pagination continuation token you want to get next page.",
-      "in": "header",
-      "required": false,
-      "type": "string"
-    },
     "skuListQueryOptionalParameter": {
       "name": "skus",
       "in": "query",
@@ -8587,6 +8745,26 @@
       },
       "required": false,
       "description": "Collection format: csv\n\nGlobal Trade Item Number (GTIN) of the item.\nSupported values:\n\n- UPC (in North America / GTIN-12)\n12-digit number like 323456789012\n8-digit UPC-E codes should be converted to 12-digit codes\n- EAN (in Europe / GTIN-13)\n13-digit number like 3001234567892\n- JAN (in Japan / GTIN-13)\n8 or 13-digit number like 49123456 or 4901234567894\n- ISBN (for books)\n10 or 13-digit number like 1455582344 or 978-1455582341. If you have both, only include the 13-digit number. ISBN-10 are deprecated and should be converted to ISBN-13\n- ITF-14 (for multipacks / GTIN-14)\n14-digit number like 10856435001702\n\nSchema.org property:\n- [Offer.gtin8](http://schema.org/gtin8)\n- [Offer.gtin12](http://schema.org/gtin12)\n- [Offer.gtin13](http://schema.org/gtin13)\n- [Offer.gtin14](http://schema.org/gtin14)\n- [Offer.isbn](http://schema.org/isbn)\n"
+    },
+    "pageSizeQueryStringOptinalParameter": {
+      "name": "pageSize",
+      "description": "The entry count you want to get",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "PageSize",
+      "minimum": 25,
+      "x-minimum": "25",
+      "maximum": 1000,
+      "x-maximum": "1000",
+      "x-example": "25"
+    },
+    "paginationContinuationTokenHeaderOptionalParameter": {
+      "name": "X-ContinuationToken",
+      "description": "The pagination continuation token you want to get next page.",
+      "in": "header",
+      "required": false,
+      "type": "string"
     },
     "pageNumberQueryStringOptinalParameter": {
       "name": "pageNumber",
