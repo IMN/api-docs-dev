@@ -2809,20 +2809,6 @@
             "type": "integer",
             "description": "The max inventory level",
             "x-example": "10"
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "OfferListSortBy?"
-          },
-          {
-            "name": "sortDirection",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "Sort?"
           }
         ],
         "responses": {
@@ -3190,97 +3176,6 @@
       }
     },
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/simulation": {
-      "head": {
-        "tags": [
-          "Merchant API - Offers - Exported"
-        ],
-        "summary": "Get simulated merchant marketplace offer list",
-        "description": "Get the imported offers with marketplace busines rules applied",
-        "operationId": "GetSimulatedMerchantMarketplaceOfferList",
-        "parameters": [
-          {
-            "$ref": "#/parameters/merchantCodeParameter"
-          },
-          {
-            "$ref": "#/parameters/marketplaceCodeParameter"
-          },
-          {
-            "$ref": "#/parameters/skuListQueryOptionalParameter"
-          },
-          {
-            "$ref": "#/parameters/gtinListQueryOptionalParameter"
-          },
-          {
-            "name": "minPrice",
-            "in": "query",
-            "required": false,
-            "description": "The minimum price",
-            "type": "integer",
-            "x-example": "10.12"
-          },
-          {
-            "name": "maxPrice",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "description": "The max price",
-            "x-example": "10.34"
-          },
-          {
-            "name": "minInventoryLevel",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "description": "The minimum inventory level",
-            "x-example": "10"
-          },
-          {
-            "name": "maxInventoryLevel",
-            "required": false,
-            "in": "query",
-            "type": "integer",
-            "description": "The max inventory level",
-            "x-example": "10"
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "OfferListSortBy?"
-          },
-          {
-            "name": "sortDirection",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "Sort?"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The merchant offer list count",
-            "headers": {
-              "X-Total-Count": {
-                "type": "integer",
-                "description": "The merchant offer list count"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid search criteria",
-            "schema": {
-              "$ref": "#/definitions/errorResponseMessage"
-            }
-          },
-          "404": {
-            "$ref": "#/responses/merchantOrMarketplaceNotFound"
-          },
-          "default": {
-            "$ref": "#/responses/GeneralError"
-          }
-        }
-      },
       "get": {
         "tags": [
           "Merchant API - Offers - Exported"
@@ -3338,20 +3233,6 @@
             "type": "integer",
             "description": "The max inventory level",
             "x-example": "10"
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "OfferListSortBy?"
-          },
-          {
-            "name": "sortDirection",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "Sort?"
           }
         ],
         "responses": {
@@ -3377,6 +3258,82 @@
       }
     },
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/list": {
+      "head": {
+        "tags": [
+          "Merchant API - Offers - Exported"
+        ],
+        "summary": "Get merchant marketplace offer count",
+        "operationId": "GetMerchantMarketplaceOfferCount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          },
+          {
+            "$ref": "#/parameters/gtinListQueryOptionalParameter"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "description": "The minimum price",
+            "type": "integer",
+            "x-example": "10.12"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The max price",
+            "x-example": "10.34"
+          },
+          {
+            "name": "minInventoryLevel",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The minimum inventory level",
+            "x-example": "10"
+          },
+          {
+            "name": "maxInventoryLevel",
+            "required": false,
+            "in": "query",
+            "type": "integer",
+            "description": "The max inventory level",
+            "x-example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer count",
+            "headers": {
+              "X-Total-Count": {
+                "type": "integer",
+                "description": "The merchant offer count"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      },
       "get": {
         "tags": [
           "Merchant API - Offers - Exported"
