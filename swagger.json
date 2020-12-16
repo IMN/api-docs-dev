@@ -2926,7 +2926,7 @@
         }
       }
     },
-    "/merchant/offers/v1/{merchantCode}/history": {
+    "/merchant/offers/v1/{merchantCode}/history/{sku}": {
       "get": {
         "tags": [
           "Merchant API - Offers - Imported"
@@ -2944,65 +2944,7 @@
             "$ref": "#/parameters/paginationContinuationTokenHeaderOptionalParameter"
           },
           {
-            "$ref": "#/parameters/skuListQueryOptionalParameter"
-          },
-          {
-            "name": "minPrice",
-            "in": "query",
-            "required": false,
-            "description": "The minimum price",
-            "type": "integer",
-            "x-example": "10.12"
-          },
-          {
-            "name": "maxPrice",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "description": "The max price",
-            "x-example": "10.34"
-          },
-          {
-            "name": "minInventoryLevel",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "description": "The minimum inventory level",
-            "x-example": "10"
-          },
-          {
-            "name": "maxInventoryLevel",
-            "required": false,
-            "in": "query",
-            "type": "integer",
-            "description": "The max inventory level",
-            "x-example": "10"
-          },
-          {
-            "name": "minLastUpdateUtcDate",
-            "required": false,
-            "in": "query",
-            "type": "string",
-            "format": "DateTime?",
-            "description": "The min last update utc date",
-            "x-example": "2020-06-10T19:26:42Z"
-          },
-          {
-            "name": "maxLastUpdateUtcDate",
-            "required": false,
-            "in": "query",
-            "type": "string",
-            "format": "DateTime?",
-            "description": "The max last update utc date",
-            "x-example": "2020-06-11T15:31:00Z"
-          },
-          {
-            "name": "lastChangeOnly",
-            "required": false,
-            "in": "query",
-            "type": "boolean",
-            "description": "Get only the latest changed",
-            "x-example": "true"
+            "$ref": "#/parameters/skuPathParameter"
           }
         ],
         "responses": {
@@ -3182,7 +3124,7 @@
         ],
         "summary": "Get simulated merchant marketplace offer list",
         "description": "Get the imported offers with marketplace busines rules applied",
-        "operationId": "GetSimulatedMerchantMarketplaceOfferCount",
+        "operationId": "GetSimulatedMerchantMarketplaceOfferList",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -3808,7 +3750,7 @@
         }
       }
     },
-    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/history": {
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/history/{sku}": {
       "get": {
         "tags": [
           "Merchant API - Offers - Exported"
@@ -3829,65 +3771,7 @@
             "$ref": "#/parameters/paginationContinuationTokenHeaderOptionalParameter"
           },
           {
-            "$ref": "#/parameters/skuListQueryOptionalParameter"
-          },
-          {
-            "name": "minPrice",
-            "in": "query",
-            "required": false,
-            "description": "The minimum price",
-            "type": "integer",
-            "x-example": "10.12"
-          },
-          {
-            "name": "maxPrice",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "description": "The max price",
-            "x-example": "10.34"
-          },
-          {
-            "name": "minInventoryLevel",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "description": "The minimum inventory level",
-            "x-example": "10"
-          },
-          {
-            "name": "maxInventoryLevel",
-            "required": false,
-            "in": "query",
-            "type": "integer",
-            "description": "The max inventory level",
-            "x-example": "10"
-          },
-          {
-            "name": "minLastUpdateUtcDate",
-            "required": false,
-            "in": "query",
-            "type": "string",
-            "format": "DateTime?",
-            "description": "The min last update utc date",
-            "x-example": "2020-06-10T19:26:42Z"
-          },
-          {
-            "name": "maxLastUpdateUtcDate",
-            "required": false,
-            "in": "query",
-            "type": "string",
-            "format": "DateTime?",
-            "description": "The max last update utc date",
-            "x-example": "2020-06-11T15:31:00Z"
-          },
-          {
-            "name": "lastChangeOnly",
-            "required": false,
-            "in": "query",
-            "type": "boolean",
-            "description": "Get only the latest changed",
-            "x-example": "true"
+            "$ref": "#/parameters/skuPathParameter"
           }
         ],
         "responses": {
@@ -4106,6 +3990,22 @@
         }
       }
     },
+    "errorResponseMessage": {
+      "x-exclude": true,
+      "type": "object",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "array",
+          "uniqueItems": false,
+          "items": {
+            "$ref": "#/definitions/userErrorMessage"
+          }
+        }
+      }
+    },
     "operationStatusInfo": {
       "type": "object",
       "required": [
@@ -4145,21 +4045,6 @@
         }
       }
     },
-    "tenantApp": {
-      "type": "object",
-      "required": [
-        "tenant",
-        "app"
-      ],
-      "properties": {
-        "tenant": {
-          "type": "string"
-        },
-        "app": {
-          "type": "string"
-        }
-      }
-    },
     "operationProjectionStatusInfo": {
       "type": "object",
       "required": [
@@ -4188,41 +4073,6 @@
         }
       }
     },
-    "operationTransactionInfo": {
-      "type": "object",
-      "required": [
-        "id",
-        "messageNumber",
-        "messageCount"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "messageNumber": {
-          "type": "integer"
-        },
-        "messageCount": {
-          "type": "integer"
-        }
-      }
-    },
-    "errorResponseMessage": {
-      "x-exclude": true,
-      "type": "object",
-      "required": [
-        "errors"
-      ],
-      "properties": {
-        "errors": {
-          "type": "array",
-          "uniqueItems": false,
-          "items": {
-            "$ref": "#/definitions/userErrorMessage"
-          }
-        }
-      }
-    },
     "userErrorMessage": {
       "x-exclude": true,
       "type": "object",
@@ -4247,6 +4097,40 @@
         },
         "arguments": {
           "$ref": "#/definitions/userErrorMessageArguments"
+        }
+      }
+    },
+    "tenantApp": {
+      "type": "object",
+      "required": [
+        "tenant",
+        "app"
+      ],
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "app": {
+          "type": "string"
+        }
+      }
+    },
+    "operationTransactionInfo": {
+      "type": "object",
+      "required": [
+        "id",
+        "messageNumber",
+        "messageCount"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "messageNumber": {
+          "type": "integer"
+        },
+        "messageCount": {
+          "type": "integer"
         }
       }
     },
@@ -8722,6 +8606,15 @@
       "in": "header",
       "required": false,
       "type": "string"
+    },
+    "skuPathParameter": {
+      "name": "sku",
+      "in": "path",
+      "type": "string",
+      "format": "Sku",
+      "required": true,
+      "description": "The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers. http://schema.org/sku",
+      "maxLength": 50
     },
     "pageNumberQueryStringOptinalParameter": {
       "name": "pageNumber",
