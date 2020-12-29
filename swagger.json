@@ -8230,6 +8230,9 @@
             },
             "unpublicationReasonCode": {
               "$ref": "#/definitions/merchantOfferUnpublicationReasonCode"
+            },
+            "eventOrigin": {
+              "type": "string"
             }
           }
         }
