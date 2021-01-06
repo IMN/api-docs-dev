@@ -3370,6 +3370,86 @@
         }
       }
     },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/disableAll": {
+      "post": {
+        "tags": [
+          "Merchant API - Offers - Deactivation"
+        ],
+        "summary": "Disable all merchant marketplace offers",
+        "operationId": "DisableAllMerchantMarketplaceOffers",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/ifMatchParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The merchant marektplace offers disabling all have been accepted!"
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "412": {
+            "$ref": "#/responses/412_PreConditionFailed"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/reenableAll": {
+      "post": {
+        "tags": [
+          "Merchant API - Offers - Deactivation"
+        ],
+        "summary": "Reenable all merchant marketplace offers",
+        "operationId": "ReenableAllMerchantMarketplaceOffers",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/ifMatchParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The merchant marektplace offers reenable all have been accepted!"
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "412": {
+            "$ref": "#/responses/412_PreConditionFailed"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/disabled": {
       "head": {
         "tags": [
