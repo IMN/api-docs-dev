@@ -17,7 +17,6 @@
     }
   },
   "host": "api.imn.io",
-  "basePath": "",
   "schemes": [
     "https"
   ],
@@ -3866,6 +3865,31 @@
             "schema": {
               "$ref": "#/definitions/errorResponseMessage"
             }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/offers/v1/{merchantCode}/purge": {
+      "post": {
+        "tags": [
+          "Merchant API - Offers - Global"
+        ],
+        "summary": "Purge all merchant offers",
+        "operationId": "PurgeMerchantOfferEvents",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The merchant offers purge request have been accepted"
           },
           "404": {
             "$ref": "#/responses/merchantOrMarketplaceNotFound"
