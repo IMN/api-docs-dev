@@ -2437,6 +2437,95 @@
         }
       }
     },
+    "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{marketplaceOrderId}/reharvest": {
+      "post": {
+        "tags": [
+          "Merchant - Orders - Global"
+        ],
+        "summary": "Reharvest order",
+        "description": "This operation should be called to temporarily resolve a synchronization issue between the marketplace an IMN",
+        "operationId": "ReharvestOrder",
+        "parameters": [
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceOrderIdParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The reharvest order request has been accepted"
+          },
+          "404": {
+            "$ref": "#/responses/orderNotFound"
+          },
+          "429": {
+            "$ref": "#/responses/429_TooManyRequests"
+          },
+          "502": {
+            "$ref": "#/responses/GeneralError"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/reharvest": {
+      "post": {
+        "tags": [
+          "Merchant - Orders - Global"
+        ],
+        "summary": "Reharvest orders",
+        "description": "This operation should be called to temporarily resolve a synchronization issue between the marketplace an IMN. This operation will automatically push to IMN the orders related to a merchant since",
+        "operationId": "ReharvestOrders",
+        "parameters": [
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "If implemented, will allow IMN to indicate since which order purchase utc date we will like to be synchronized. Default is 30 days ago.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "If implemented, will allow IMN to indicate until which order purchase utc date we will like to be synchronized. Default is utcnow",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The reharvest orders request has been accepted"
+          },
+          "404": {
+            "$ref": "#/responses/orderNotFound"
+          },
+          "429": {
+            "$ref": "#/responses/429_TooManyRequests"
+          },
+          "502": {
+            "$ref": "#/responses/GeneralError"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/orders/v1/{merchantCode}/subscriptions": {
       "post": {
         "tags": [
@@ -8896,6 +8985,15 @@
       ],
       "schema": {
         "$ref": "#/definitions/errorResponseMessage"
+      }
+    },
+    "429_TooManyRequests": {
+      "description": "Occurs when the server received too many requests",
+      "headers": {
+        "Retry-After": {
+          "description": "indicates the remaining time until the server will accept new requests. For more details, please follow this link https://tools.ietf.org/html/rfc7231#section-7.1.3",
+          "type": "string"
+        }
       }
     },
     "offerBatchBadRequest": {
