@@ -2439,10 +2439,11 @@
     },
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{marketplaceOrderId}/reharvest": {
       "post": {
+        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Global"
         ],
-        "summary": "Reharvest order",
+        "summary": "[DRAFT] Reharvest order",
         "description": "This operation should be called to temporarily resolve a synchronization issue between the marketplace an IMN",
         "operationId": "ReharvestOrder",
         "parameters": [
@@ -2477,10 +2478,11 @@
     },
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/reharvest": {
       "post": {
+        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Global"
         ],
-        "summary": "Reharvest orders",
+        "summary": "[DRAFT] Reharvest orders",
         "description": "This operation should be called to temporarily resolve a synchronization issue between the marketplace an IMN. This operation will automatically push to IMN the orders related to a merchant since",
         "operationId": "ReharvestOrders",
         "parameters": [
@@ -2528,11 +2530,12 @@
     },
     "/merchant/orders/v1/{merchantCode}/subscriptions": {
       "post": {
+        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "CreateSubscription",
-        "summary": "Creates a subscription to the orders",
+        "summary": "[DRAFT] Creates a subscription to the orders",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -2571,11 +2574,12 @@
         }
       },
       "get": {
+        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "GetSubscriptionList",
-        "summary": "Get the subscription list",
+        "summary": "[DRAFT] Get the subscription list",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -2611,11 +2615,12 @@
     },
     "/merchant/orders/v1/{merchantCode}/subscriptions/{id}": {
       "get": {
+        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "GetSubscription",
-        "summary": "Get a subscription to the orders",
+        "summary": "[DRAFT] Get a subscription to the orders",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -2650,11 +2655,12 @@
         }
       },
       "delete": {
+        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "DeleteSubscription",
-        "summary": "Delete a subscription to the orders",
+        "summary": "[DRAFT] Delete a subscription to the orders",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -2691,11 +2697,12 @@
     },
     "/merchant/orders/v1/{merchantCode}/subscriptions/{id}/activate": {
       "post": {
+        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "ActivateSubscription",
-        "summary": "Activate a subscription to the orders",
+        "summary": "[DRAFT] Activate a subscription to the orders",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
@@ -2732,11 +2739,12 @@
     },
     "/merchant/orders/v1/{merchantCode}/subscriptions/{id}/deactivate": {
       "post": {
+        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Subscriptions - DRAFT"
         ],
         "operationId": "DeactivateSubscription",
-        "summary": "Deactivate a subscription to the orders",
+        "summary": "[DRAFT] Deactivate a subscription to the orders",
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
