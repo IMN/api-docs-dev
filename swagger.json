@@ -2857,6 +2857,46 @@
         }
       }
     },
+    "/merchant/orders/v1/{merchantCode}/reports/byProduct": {
+      "post": {
+        "tags": [
+          "Merchant - Orders - Statistics"
+        ],
+        "summary": "Get the report by product",
+        "description": "Get the report by product",
+        "operationId": "GetMerchantReportByProduct",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByProductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by product",
+            "schema": {
+              "$ref": "#/definitions/reportByProductResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/GeneralError"
+          },
+          "404": {
+            "$ref": "#/responses/merchantNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/offers/v1/{merchantCode}/list": {
       "head": {
         "tags": [
@@ -5955,6 +5995,99 @@
         }
       }
     },
+    "reportByProductRequest": {
+      "required": [
+        "beginPeriodUtcDate",
+        "endPeriodUtcDate"
+      ],
+      "type": "object",
+      "description": "Request report top products",
+      "properties": {
+        "beginPeriodUtcDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The begin date of the period for the report",
+          "example": "2006-11-20T00:00:00Z"
+        },
+        "endPeriodUtcDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The end date of the period for the report. Period max: 360 days\n",
+          "example": "2006-12-20T00:00:00Z"
+        },
+        "pageSize": {
+          "$ref": "#/definitions/pageSize"
+        },
+        "pageNumber": {
+          "$ref": "#/definitions/pageNumber"
+        }
+      }
+    },
+    "reportByProductResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportByProductItemWithLinks"
+          }
+        },
+        "paginationResult": {
+          "$ref": "#/definitions/paginationResult"
+        }
+      }
+    },
+    "reportByProductItemWithLinks": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/reportByProductItem"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "links": {
+              "$ref": "#/definitions/reportByProductItemLinks"
+            }
+          }
+        }
+      ]
+    },
+    "reportByProductItemLinks": {
+      "type": "object",
+      "properties": {
+        "orders": {
+          "$ref": "#/definitions/links.GetOrderListFullLink"
+        }
+      }
+    },
+    "reportByProductItem": {
+      "type": "object",
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/sku"
+        },
+        "title": {
+          "type": "string",
+          "description": "Product title"
+        },
+        "imageUrl": {
+          "$ref": "#/definitions/httpUrl"
+        },
+        "currencyCode": {
+          "$ref": "#/definitions/currencyCode"
+        },
+        "orderCount": {
+          "type": "integer",
+          "description": "The order count",
+          "example": "42"
+        },
+        "turnover": {
+          "type": "number",
+          "description": "The turnover",
+          "example": "234.42"
+        }
+      }
+    },
     "reportByDayRequest": {
       "required": [
         "beginPeriodUtcDate",
@@ -7195,6 +7328,12 @@
         },
         "sort": {
           "$ref": "#/definitions/orderListSort"
+        },
+        "merchantOfferSkus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sku"
+          }
         }
       }
     },
