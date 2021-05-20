@@ -7765,9 +7765,13 @@
     "reportByProductItem": {
       "type": "object",
       "required": [
+        "marketplaceCode",
         "sku"
       ],
       "properties": {
+        "marketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
+        },
         "sku": {
           "$ref": "#/definitions/sku"
         },
