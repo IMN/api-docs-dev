@@ -2439,11 +2439,10 @@
     },
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/{marketplaceOrderId}/reharvest": {
       "post": {
-        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Global"
         ],
-        "summary": "[DRAFT] Reharvest order",
+        "summary": "Reharvest order",
         "description": "This operation should be called to temporarily resolve a synchronization issue between the marketplace an IMN",
         "operationId": "ReharvestOrder",
         "parameters": [
@@ -2478,11 +2477,10 @@
     },
     "/merchant/orders/v1/{merchantCode}/{marketplaceCode}/reharvest": {
       "post": {
-        "x-releaseStatus": "DRAFT",
         "tags": [
           "Merchant - Orders - Global"
         ],
-        "summary": "[DRAFT] Reharvest orders",
+        "summary": "Reharvest orders",
         "description": "This operation should be called to temporarily resolve a synchronization issue between the marketplace an IMN. This operation will automatically push to IMN the orders related to a merchant since",
         "operationId": "ReharvestOrders",
         "parameters": [
@@ -3579,6 +3577,47 @@
           },
           "412": {
             "$ref": "#/responses/412_PreConditionFailed"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/marketplacePublicationStatus": {
+      "get": {
+        "x-releaseStatus": "DRAFT",
+        "tags": [
+          "Merchant API - Offers - Publication Status"
+        ],
+        "summary": "[DRAFT] Get merchant marketplace publication status offer list",
+        "operationId": "GetMerchantMarketplacePublicationStatusOfferList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/skuListQueryOptionalParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant marketplace publication status offer list",
+            "schema": {
+              "$ref": "#/definitions/offerPublicationStatusList"
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
           },
           "default": {
             "$ref": "#/responses/GeneralError"
@@ -8369,6 +8408,17 @@
         }
       }
     },
+    "offerPublicationStatusList": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/offerPublicationStatusBase"
+          }
+        }
+      }
+    },
     "merchantMarketplaceOfferDisabledPaginatedList": {
       "type": "object",
       "properties": {
@@ -8456,7 +8506,7 @@
     "merchantOffer": {
       "allOf": [
         {
-          "$ref": "#/definitions/merchantOfferIdentifier"
+          "$ref": "#/definitions/offer"
         },
         {
           "type": "object",
@@ -8473,49 +8523,8 @@
             "lastUpdateUtcDate"
           ],
           "properties": {
-            "gtin": {
-              "$ref": "#/definitions/gtin"
-            },
-            "itemCondition": {
-              "$ref": "#/definitions/itemCondition"
-            },
-            "fulfilledBy": {
-              "$ref": "#/definitions/fulfilledBy"
-            },
-            "price": {
-              "$ref": "#/definitions/price"
-            },
-            "priceCurrency": {
-              "$ref": "#/definitions/priceCurrency"
-            },
-            "minPrice": {
-              "$ref": "#/definitions/minPrice"
-            },
-            "discount": {
-              "$ref": "#/definitions/priceSpecification"
-            },
-            "deliveryLeadTime": {
-              "$ref": "#/definitions/deliveryLeadTime"
-            },
-            "inventoryLevel": {
-              "$ref": "#/definitions/inventoryLevel"
-            },
-            "defaultDeliveryMethod": {
-              "$ref": "#/definitions/deliveryMethod"
-            },
-            "deliverySpecifications": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/deliverySpecification"
-              }
-            },
-            "lastUpdateUtcDate": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2018-02-24T14:24:35"
-            },
-            "sourceMarketplaceCode": {
-              "$ref": "#/definitions/marketplaceCode"
+            "merchantCode": {
+              "$ref": "#/definitions/merchantCode"
             }
           }
         }
@@ -8586,6 +8595,29 @@
       ],
       "default": "NotStarted"
     },
+    "offerPublicationStatusBase": {
+      "x-exclude": true,
+      "type": "object",
+      "discriminator": "type",
+      "required": [
+        "type",
+        "sku",
+        "utcDate"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "sku": {
+          "$ref": "#/definitions/sku"
+        },
+        "utcDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the status has changed"
+        }
+      }
+    },
     "priceSpecificationEdition": {
       "type": "object",
       "required": [
@@ -8625,6 +8657,69 @@
         }
       }
     },
+    "offer": {
+      "type": "object",
+      "description": "The defaultDeliveryMethod is required if the deliverySpecifications is fulfilled",
+      "required": [
+        "sku",
+        "gtin",
+        "itemCondition",
+        "price",
+        "priceCurrency",
+        "deliveryLeadTime",
+        "inventoryLevel",
+        "lastUpdateUtcDate"
+      ],
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/sku"
+        },
+        "gtin": {
+          "$ref": "#/definitions/gtin"
+        },
+        "itemCondition": {
+          "$ref": "#/definitions/itemCondition"
+        },
+        "fulfilledBy": {
+          "$ref": "#/definitions/fulfilledBy"
+        },
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "priceCurrency": {
+          "$ref": "#/definitions/priceCurrency"
+        },
+        "minPrice": {
+          "$ref": "#/definitions/minPrice"
+        },
+        "discount": {
+          "$ref": "#/definitions/priceSpecification"
+        },
+        "deliveryLeadTime": {
+          "$ref": "#/definitions/deliveryLeadTime"
+        },
+        "inventoryLevel": {
+          "$ref": "#/definitions/inventoryLevel"
+        },
+        "defaultDeliveryMethod": {
+          "$ref": "#/definitions/deliveryMethod"
+        },
+        "deliverySpecifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/deliverySpecification"
+          }
+        },
+        "lastUpdateUtcDate": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2018-02-24T14:24:35"
+        },
+        "sourceMarketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
+        }
+      }
+    },
     "merchantOfferIdentifier": {
       "type": "object",
       "required": [
@@ -8639,6 +8734,34 @@
           "$ref": "#/definitions/sku"
         }
       }
+    },
+    "merchantOfferOperationType": {
+      "type": "string",
+      "enum": [
+        "Received",
+        "Deleted",
+        "Unpublished"
+      ]
+    },
+    "price": {
+      "x-exclude": true,
+      "type": "number",
+      "format": "decimal",
+      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. http://schema.org/price"
+    },
+    "inventoryLevel": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The current approximate inventory level for the item or items. http://schema.org/inventoryLevel"
+    },
+    "merchantOfferUnpublicationReasonCode": {
+      "type": "string",
+      "description": "The reason of the unpublication of an offer",
+      "enum": [
+        "MerchantMarketplaceOfferPublicationDisabled",
+        "Excluded",
+        "OfferDisabled"
+      ]
     },
     "itemCondition": {
       "type": "string",
@@ -8655,12 +8778,6 @@
       "type": "string",
       "description": "The marketplace in charge of the delivery on this offer."
     },
-    "price": {
-      "x-exclude": true,
-      "type": "number",
-      "format": "decimal",
-      "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. http://schema.org/price"
-    },
     "priceCurrency": {
       "type": "string",
       "description": "The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.\nUsage guidelines:\nUse the priceCurrency property (with ISO 4217 codes e.g. USD) instead of including ambiguous symbols such as $ in the value. http://schema.org/priceCurrency\n"
@@ -8669,6 +8786,11 @@
       "type": "number",
       "format": "decimal",
       "description": "The lowest price if the price is a range. http://schema.org/minPrice"
+    },
+    "deliveryLeadTime": {
+      "type": "number",
+      "format": "int16",
+      "description": "The typical delay between the receipt of the order and the goods either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup. http://schema.org/deliveryLeadTime"
     },
     "priceSpecification": {
       "type": "object",
@@ -8683,16 +8805,6 @@
           "$ref": "#/definitions/validThrough"
         }
       }
-    },
-    "deliveryLeadTime": {
-      "type": "number",
-      "format": "int16",
-      "description": "The typical delay between the receipt of the order and the goods either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup. http://schema.org/deliveryLeadTime"
-    },
-    "inventoryLevel": {
-      "type": "number",
-      "format": "decimal",
-      "description": "The current approximate inventory level for the item or items. http://schema.org/inventoryLevel"
     },
     "deliverySpecification": {
       "type": "object",
@@ -8711,23 +8823,6 @@
           "$ref": "#/definitions/price"
         }
       }
-    },
-    "merchantOfferOperationType": {
-      "type": "string",
-      "enum": [
-        "Received",
-        "Deleted",
-        "Unpublished"
-      ]
-    },
-    "merchantOfferUnpublicationReasonCode": {
-      "type": "string",
-      "description": "The reason of the unpublication of an offer",
-      "enum": [
-        "MerchantMarketplaceOfferPublicationDisabled",
-        "Excluded",
-        "OfferDisabled"
-      ]
     },
     "validFrom": {
       "type": "string",
