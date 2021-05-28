@@ -128,6 +128,10 @@
       "x-displayName": "Push"
     },
     {
+      "name": "Merchant API - Offers - Marketplace Publication Status",
+      "x-displayName": "Marketplace Publication Status"
+    },
+    {
       "name": "Merchant API - List of Values - LOV",
       "x-displayName": "LOV"
     }
@@ -3588,7 +3592,7 @@
       "get": {
         "x-releaseStatus": "DRAFT",
         "tags": [
-          "Merchant API - Offers - Publication Status"
+          "Merchant API - Offers - Marketplace Publication Status"
         ],
         "summary": "[DRAFT] Get merchant marketplace publication status offer list",
         "operationId": "GetMerchantMarketplacePublicationStatusOfferList",
@@ -9324,7 +9328,8 @@
         "Merchant API - Offers - Editions",
         "Merchant API - Offers - Deactivation",
         "Merchant API - Offers - Publication",
-        "Merchant API - Offers - Push"
+        "Merchant API - Offers - Push",
+        "Merchant API - Offers - Marketplace Publication Status"
       ]
     },
     {
