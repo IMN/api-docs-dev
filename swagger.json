@@ -64,6 +64,10 @@
       "x-displayName": "DRAFT - Custom rules"
     },
     {
+      "name": "Merchant API - Marketplaces - ExclusionFilters",
+      "x-displayName": "ExclusionFilters"
+    },
+    {
       "name": "Merchant - Account API - Global",
       "x-displayName": "Global"
     },
@@ -9770,7 +9774,8 @@
         "Merchant API - Marketplaces - Shipping Settings",
         "Merchant API - Marketplaces - Pricing Settings",
         "Merchant API - Marketplaces - Target Marketplace Activation",
-        "Merchant API - Marketplaces - DRAFT - Custom rules"
+        "Merchant API - Marketplaces - DRAFT - Custom rules",
+        "Merchant API - Marketplaces - ExclusionFilters"
       ]
     },
     {
