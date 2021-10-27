@@ -5911,6 +5911,9 @@
         },
         "ecommerceSoftwareName": {
           "$ref": "#/definitions/ecommerceSoftwareName"
+        },
+        "sourceMarketplaceCode": {
+          "$ref": "#/definitions/marketplaceCode"
         }
       }
     },
