@@ -8075,6 +8075,9 @@
         "sku": {
           "$ref": "#/definitions/sku"
         },
+        "gtin": {
+          "$ref": "#/definitions/gtin"
+        },
         "title": {
           "type": "string",
           "description": "Product title"
