@@ -2869,6 +2869,12 @@
         "parameters": [
           {
             "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/beginPeriodUtcDateInQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/endPeriodUtcDateInQueryParameter"
           }
         ],
         "responses": {
@@ -9538,6 +9544,22 @@
       "format": "CorrelationId",
       "required": true,
       "description": "It's the guid corresponding to the operation.\n"
+    },
+    "beginPeriodUtcDateInQueryParameter": {
+      "name": "beginPeriodUtcDate",
+      "description": "The begin date of the period for the report",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "format": "date-time"
+    },
+    "endPeriodUtcDateInQueryParameter": {
+      "name": "endPeriodUtcDate",
+      "description": "The end date of the period for the report. Period max: 360 days\n",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "format": "date-time"
     },
     "skuListQueryOptionalParameter": {
       "name": "skus",
