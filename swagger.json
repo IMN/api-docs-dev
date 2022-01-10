@@ -9549,7 +9549,7 @@
       "name": "beginPeriodUtcDate",
       "description": "The begin date of the period for the report",
       "in": "query",
-      "required": false,
+      "required": true,
       "type": "string",
       "format": "date-time"
     },
@@ -9557,7 +9557,7 @@
       "name": "endPeriodUtcDate",
       "description": "The end date of the period for the report. Period max: 360 days\n",
       "in": "query",
-      "required": false,
+      "required": true,
       "type": "string",
       "format": "date-time"
     },
