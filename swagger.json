@@ -4930,6 +4930,10 @@
           "properties": {
             "offersSourceStatus": {
               "$ref": "#/definitions/offersSourceStatus"
+            },
+            "offerPublicationEnabledUtcDate": {
+              "type": "string",
+              "format": "date-time"
             }
           }
         }
