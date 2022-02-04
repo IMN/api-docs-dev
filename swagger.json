@@ -4263,6 +4263,46 @@
         }
       }
     },
+    "/merchant/offers/v1/{merchantCode}/{marketplaceCode}/excluded/count": {
+      "head": {
+        "tags": [
+          "Merchant API - Offers - Exported"
+        ],
+        "summary": "Get merchant marketplace offer excluded count",
+        "operationId": "GetMerchantMarketplaceOfferExcludedCount",
+        "parameters": [
+          {
+            "$ref": "#/parameters/merchantCodeParameter"
+          },
+          {
+            "$ref": "#/parameters/marketplaceCodeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The merchant offer count",
+            "headers": {
+              "X-Total-Count": {
+                "type": "integer",
+                "description": "The merchant offer count"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid search criteria",
+            "schema": {
+              "$ref": "#/definitions/errorResponseMessage"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/merchantOrMarketplaceNotFound"
+          },
+          "default": {
+            "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
     "/merchant/lov/v1/": {
       "get": {
         "summary": "Get all list names",
