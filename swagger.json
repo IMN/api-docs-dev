@@ -3399,7 +3399,7 @@
           "200": {
             "description": "The merchant offer list",
             "schema": {
-              "$ref": "#/definitions/merchantOfferPaginatedList"
+              "$ref": "#/definitions/merchantOfferSimulationPaginatedList"
             }
           },
           "400": {
@@ -8736,6 +8736,50 @@
       "properties": {
         "status": {
           "$ref": "#/definitions/feedPublicationStatus"
+        }
+      }
+    },
+    "merchantOfferSimulationPaginatedList": {
+      "type": "object",
+      "properties": {
+        "merchantOffers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/merchantOffer"
+          }
+        },
+        "exportable": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/merchantOffer"
+          }
+        },
+        "merchantMarketplaceOfferPublicationDisabled": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/merchantOffer"
+          }
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/merchantOffer"
+          }
+        },
+        "offerDisabled": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/merchantOffer"
+          }
+        },
+        "marketplaceItemConditionExcluded": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/merchantOffer"
+          }
+        },
+        "paginationContinuationToken": {
+          "$ref": "#/definitions/paginationContinuationToken"
         }
       }
     },
