@@ -6024,7 +6024,8 @@
         "companyName",
         "phoneNumber",
         "currencyCode",
-        "links"
+        "links",
+        "creationUtcDate"
       ],
       "properties": {
         "merchantCode": {
@@ -6068,6 +6069,10 @@
         },
         "links": {
           "$ref": "#/definitions/merchantAccountInfoLinks"
+        },
+        "creationUtcDate": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },
