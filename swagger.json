@@ -3700,6 +3700,15 @@
             "collectionFormat": "csv",
             "items": {
               "$ref": "#/definitions/offerPublicationStatus"
+            }
+          },
+          {
+            "name": "publicationFailureReasonList",
+            "in": "query",
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "$ref": "#/definitions/offerPublicationFailureReason"
             },
             "required": false,
             "description": "Collection format: csv\nFilter on a publication status list\n"
@@ -8797,6 +8806,26 @@
         "UnpublicationFailed"
       ]
     },
+    "offerPublicationFailureReason": {
+      "type": "string",
+      "enum": [
+        "Undefined",
+        "MarketplaceUndefinedReason",
+        "UnknownEAN",
+        "PriceTooHigh",
+        "PriceTooLow",
+        "PriceTooLowOrTooHigh",
+        "InconsistentDeliveryMethod",
+        "InconsistentEANAndSkuCouple",
+        "VariationCreationRequired",
+        "ForbiddenProduct",
+        "IncorrectEAN",
+        "IncorrectSKU",
+        "InconsistentInventoryLevelVsCurrentOrders",
+        "TemporaryErrorOnMarketplaceSide",
+        "InvalidPreparationTime"
+      ]
+    },
     "offerPublicationStatusList": {
       "type": "object",
       "properties": {
@@ -9183,26 +9212,6 @@
         "Excluded",
         "OfferDisabled",
         "MarketplaceItemConditionExcluded"
-      ]
-    },
-    "offerPublicationFailureReason": {
-      "type": "string",
-      "enum": [
-        "Undefined",
-        "MarketplaceUndefinedReason",
-        "UnknownEAN",
-        "PriceTooHigh",
-        "PriceTooLow",
-        "PriceTooLowOrTooHigh",
-        "InconsistentDeliveryMethod",
-        "InconsistentEANAndSkuCouple",
-        "VariationCreationRequired",
-        "ForbiddenProduct",
-        "IncorrectEAN",
-        "IncorrectSKU",
-        "InconsistentInventoryLevelVsCurrentOrders",
-        "TemporaryErrorOnMarketplaceSide",
-        "InvalidPreparationTime"
       ]
     },
     "itemCondition": {
