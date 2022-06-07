@@ -138,6 +138,10 @@
     {
       "name": "Merchant API - List of Values - LOV",
       "x-displayName": "LOV"
+    },
+    {
+      "name": "Merchant - Share catalog file - Share catalog file",
+      "x-displayName": "Share catalog file"
     }
   ],
   "paths": {
@@ -4439,6 +4443,99 @@
           },
           "default": {
             "$ref": "#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/merchant/sharedcatalogfiles/v1/{merchantCode}/{filename}": {
+      "put": {
+        "tags": [
+          "Merchant - Share catalog file - Share catalog file"
+        ],
+        "operationId": "SaveSharedCatalogFile",
+        "summary": "Save file",
+        "parameters": [
+          {
+            "name": "merchantCode",
+            "in": "path",
+            "description": "Your merchant code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filename",
+            "in": "path",
+            "description": "The filename you want to save",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Optional. The MIME content type of the blob. The default type is application/octet-stream.",
+            "type": "string"
+          },
+          {
+            "name": "Content-Language",
+            "in": "header",
+            "description": "Optional. Specifies the natural languages used by this resource.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The file has been shared"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Merchant - Share catalog file - Share catalog file"
+        ],
+        "operationId": "DeleteSharedCatalogFile",
+        "summary": "Delete file",
+        "parameters": [
+          {
+            "name": "merchantCode",
+            "in": "path",
+            "description": "Your merchant code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filename",
+            "in": "path",
+            "description": "The filename you want to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The file has been deleted"
+          }
+        }
+      }
+    },
+    "/merchant/sharedcatalogfiles/v1/{merchantCode}": {
+      "get": {
+        "tags": [
+          "Merchant - Share catalog file - Share catalog file"
+        ],
+        "operationId": "ListSharedCatalogFiles",
+        "summary": "List",
+        "parameters": [
+          {
+            "name": "merchantCode",
+            "in": "path",
+            "description": "Your merchant code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The shared catalog file list. \nThe specification of the response is here: https://docs.microsoft.com/en-us/rest/api/storageservices/list-blobs\n"
           }
         }
       }
@@ -10003,6 +10100,12 @@
       "name": "Merchant API - List of Values",
       "tags": [
         "Merchant API - List of Values - LOV"
+      ]
+    },
+    {
+      "name": "Merchant - Share catalog file",
+      "tags": [
+        "Merchant - Share catalog file - Share catalog file"
       ]
     }
   ],
