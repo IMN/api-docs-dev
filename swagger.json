@@ -9308,7 +9308,8 @@
         "MerchantMarketplaceOfferPublicationDisabled",
         "Excluded",
         "OfferDisabled",
-        "MarketplaceItemConditionExcluded"
+        "MarketplaceItemConditionExcluded",
+        "MarketplaceSkuTooLongExcluded"
       ]
     },
     "itemCondition": {
